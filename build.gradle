@@ -32,4 +32,5 @@ ext {
     compat_version = "1.0.2"
     dagger_version = "2.14.1"
     acrh_components_version = "1.1.1"
+    room_version = "1.0.0"
 }

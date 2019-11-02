@@ -11,11 +11,12 @@ class MApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+
         daggerAppComponent = DaggerAppComponent
             .builder()
             .appContext(this.applicationContext)
             .build()
-        daggerAppComponent.inject(this)
+//        daggerAppComponent.inject(this)
     }
 
     companion object {
