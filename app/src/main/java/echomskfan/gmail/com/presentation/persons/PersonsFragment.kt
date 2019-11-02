@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
 import echomskfan.gmail.com.di.persons.DaggerPersonsComponent
 import echomskfan.gmail.com.di.persons.PersonsScope
@@ -20,7 +21,10 @@ class PersonsFragment : Fragment() {
     private lateinit var viewModel: PersonsViewModel
 
     init {
-        DaggerPersonsComponent.builder().build().inject(this)
+        DaggerPersonsComponent.builder()
+            .appComponent(MApplication.getAppComponent())
+            .build()
+            .inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

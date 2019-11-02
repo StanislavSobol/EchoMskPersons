@@ -7,6 +7,6 @@ import echomskfan.gmail.com.domain.interactor.IPersonsInteractor
 class PersonsViewModelFactory(private val interactor: IPersonsInteractor) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return PersonsViewModelFactory(interactor) as T
+        return PersonsViewModel(interactor) as T
     }
 }

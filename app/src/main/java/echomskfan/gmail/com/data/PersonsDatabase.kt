@@ -7,8 +7,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import echomskfan.gmail.com.entity.PersonEntity
 
-@Database(entities = [(PersonEntity::class)], version = 1)
+@Database(entities = [(PersonEntity::class)], version = 2)
 abstract class PersonsDatabase : RoomDatabase() {
+
+//   abstract fun getPersonsDao():PersonsDao
 
     companion object {
         private const val DB_NAME = "db"

@@ -1,7 +1,8 @@
 package echomskfan.gmail.com.presentation.persons
 
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModel
+import echomskfan.gmail.com.domain.interactor.IPersonsInteractor
 
-class PersonsViewModel : ViewModel() {
+class PersonsViewModel(private val interactor: IPersonsInteractor) : ViewModel() {
     // TODO: Implement the ViewModel
 }

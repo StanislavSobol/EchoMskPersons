@@ -16,13 +16,14 @@ class MApplication : Application() {
             .builder()
             .appContext(this.applicationContext)
             .build()
-//        daggerAppComponent.inject(this)
+
+        //     daggerAppComponent.inject(this)
     }
 
     companion object {
         lateinit var instance: MApplication
 
-        fun getDaggerComponents(): AppComponent {
+        fun getAppComponent(): AppComponent {
             return instance.daggerAppComponent
         }
     }
