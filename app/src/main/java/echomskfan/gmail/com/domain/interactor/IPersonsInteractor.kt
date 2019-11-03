@@ -8,4 +8,5 @@ interface IPersonsInteractor {
     fun transferPersonsFromXmlToDb()
     fun personIdNotificationClicked(id: Int)
     fun personIdFavClicked(id: Int)
+    fun clear()
 }

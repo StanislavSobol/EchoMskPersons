@@ -11,7 +11,7 @@ class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewMod
         return Transformations.map(interactor.getPersonsLiveData()) { list -> PersonListItem.from(list) }
     }
 
-    fun created() {
+    fun firstAttach() {
         interactor.transferPersonsFromXmlToDb()
     }
 
@@ -21,5 +21,10 @@ class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewMod
 
     fun itemIdFavClicked(id: Int) {
         interactor.personIdFavClicked(id)
+    }
+
+    override fun onCleared() {
+        interactor.clear()
+        super.onCleared()
     }
 }
