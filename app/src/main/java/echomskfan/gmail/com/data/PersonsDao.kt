@@ -11,7 +11,7 @@ import echomskfan.gmail.com.entity.PersonEntity
 interface PersonsDao {
 
     @Query("SELECT * FROM PersonEntity")
-    fun getAll(): List<PersonEntity>
+    fun getAllLiveData(): LiveData<List<PersonEntity>>
 
     @Query("SELECT * FROM PersonEntity WHERE id = :id")
     fun getById(id: Int): PersonEntity?
@@ -30,7 +30,4 @@ interface PersonsDao {
 
     @Query("UPDATE PersonEntity SET fav = :fav WHERE id=:id")
     fun setFavById(fav: Boolean, id: Int)
-
-    @Query("SELECT * FROM PersonEntity")
-    fun getAllLd(): LiveData<List<PersonEntity>>
 }

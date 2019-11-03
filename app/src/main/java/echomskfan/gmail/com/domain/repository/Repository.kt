@@ -25,7 +25,7 @@ class Repository(private val appContext: Context, private val database: PersonsD
     private val personIdFavClickedCompositeDDisposable: CompositeDisposable = CompositeDisposable()
 
     override fun getPersonsLiveData(): LiveData<List<PersonEntity>> {
-        return _personsLiveData
+        return personsDao.getAllLiveData()
     }
 
     override fun transferPersonsFromXmlToDb() {
@@ -52,7 +52,7 @@ class Repository(private val appContext: Context, private val database: PersonsD
                 xmlList.forEach { ids.add(it.id) }
                 personsDao.deleteNotIn(ids)
 
-                _personsLiveData.postValue(personsDao.getAll())
+//                _personsLiveData.postValue(personsDao.getAll())
             }
         }
             .fromIoToMain()
@@ -66,7 +66,7 @@ class Repository(private val appContext: Context, private val database: PersonsD
 
         Completable.create {
             personsDao.getById(id)?.let { personsDao.setNotificationById(!it.notification, id) }
-            _personsLiveData.postValue(personsDao.getAll())
+            //        _personsLiveData.postValue(personsDao.getAll())
         }.doOnError { e -> catchThrowable(e) }
             .fromIoToMain()
             .subscribe()
@@ -78,7 +78,7 @@ class Repository(private val appContext: Context, private val database: PersonsD
 
         Completable.create {
             personsDao.getById(id)?.let { personsDao.setFavById(!it.fav, id) }
-            _personsLiveData.postValue(personsDao.getAll())
+            //          _personsLiveData.postValue(personsDao.getAll())
         }.doOnError { e -> catchThrowable(e) }
             .fromIoToMain()
             .subscribe()
