@@ -23,7 +23,7 @@ class PersonsFragment : Fragment() {
 
     private lateinit var viewModel: PersonsViewModel
 
-    private val adapter = PersonsAdapter()
+    private val adapter: PersonsAdapter by lazy { PersonsAdapter(viewModel) }
 
     init {
         DaggerPersonsComponent.builder()
@@ -39,13 +39,13 @@ class PersonsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-        recyclerView.adapter = adapter
-
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(PersonsViewModel::class.java)
         viewModel.personsLiveData.observe(this, Observer { list -> adapter.addItems(list) })
         viewModel.progressLiveData.observe(this, Observer { b -> showProgress(b) })
         viewModel.created(savedInstanceState == null)
+
+        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        recyclerView.adapter = adapter
     }
 
     private fun showProgress(visible: Boolean) {

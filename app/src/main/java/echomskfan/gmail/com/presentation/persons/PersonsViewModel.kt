@@ -21,4 +21,19 @@ class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewMod
             .unsubscribeOnDestroy()
     }
 
+    fun itemIdNotificationClicked(id: Int) {
+        interactor.personIdNotificationClicked(id).subscribe()
+//        interactor.getPersons(false)
+//            .subscribe({ list ->
+//                personsLiveData.postValue(PersonListItem.from(list))
+//            }, { t ->
+//                catchThrowable(t)
+//            })
+//            .unsubscribeOnDestroy()
+    }
+
+    private fun loadAll(firstAttach: Boolean = false) {
+
+    }
+
 }

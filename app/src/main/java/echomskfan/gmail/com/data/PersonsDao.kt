@@ -17,4 +17,10 @@ interface PersonsDao {
 
     @Query("DELETE FROM PersonEntity WHERE id NOT IN (:list) ")
     fun deleteNotIn(list: List<Int>)
+
+    @Query("SELECT * FROM PersonEntity WHERE id = :id")
+    fun get(id: Int): PersonEntity
+
+    @Query("UPDATE PersonEntity SET notification = :notification WHERE id=:id")
+    fun setNotificationById(notification: Boolean, id: Int)
 }
