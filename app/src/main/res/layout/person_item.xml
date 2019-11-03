@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content"
+                                                   android:padding="@dimen/small_margin">
+
+    <TextView
+            android:id="@+id/vipItemNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/title_text_size"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:text="Александр Невзоров"/>
+
+    <TextView
+            android:id="@+id/vipItemProfessionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/subtitle_text_size"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vipItemNameTextView"
+            tools:text="публицист"/>
+
+    <RelativeLayout
+            android:id="@+id/vipItemCentralLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            app:layout_constraintTop_toBottomOf="@+id/vipItemProfessionTextView">
+
+        <ImageView
+                android:id="@+id/vipItemImageView"
+                android:layout_width="@dimen/vip_image_size"
+                android:layout_height="@dimen/vip_image_size"
+                tools:ignore="ContentDescription"/>
+
+        <TextView
+                android:id="@+id/vipItemInfoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/small_margin"
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_toEndOf="@+id/vipItemImageView"
+                android:layout_toRightOf="@+id/vipItemImageView"
+                android:ellipsize="end"
+                android:maxLines="5"
+                android:textSize="@dimen/regular_text_size"
+                tools:text="23 декабря 1987 года вышла в эфир и просуществовала шесть лет информационная программа Ленинградского телевидения «600 секунд», шеф-редактором и ведущим которой стал Александр Невзоров. Передача стала культовой и вошла в Книгу рекордов Гиннеса как самый рейтинговый телепроект.Как репортер и как солдат был участником войн в Югославии, Приднестровье, Карабахе, Прибалтике, Ираке и Чечне, одним из первых, вместе с генералом Рохлиным вошел в Грозный.О чеченской войне Невзоровым сняты документальный фильм «Ад» (1995) и художественная лента «Чистилище» (1997)."/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:orientation="horizontal"
+
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vipItemCentralLayout">
+
+        <ImageView
+                android:id="@+id/vipItemNotificationImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_baseline_notifications_24px"
+                tools:ignore="ContentDescription"/>
+
+        <ImageView
+                android:id="@+id/vipItemFavImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/small_margin"
+                android:layout_marginStart="@dimen/small_margin"
+                app:srcCompat="@drawable/ic_baseline_favorite_24px"
+                tools:ignore="ContentDescription"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

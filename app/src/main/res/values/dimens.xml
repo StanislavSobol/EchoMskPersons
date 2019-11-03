@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="photo_card_view_elevation">3dp</dimen>
+    <dimen name="media_player_button_card_view_elevation">3dp</dimen>
+    <dimen name="quote_card_view_elevation">1dp</dimen>
+    <dimen name="header_card_view_elevation">2dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines -->
+    <dimen name="nav_header_vertical_spacing">6dp</dimen>
+    <dimen name="nav_header_height">110dp</dimen>
+
+    <!--Images-->
+    <dimen name="vip_image_size">75dp</dimen>
+
+    <!--Margins-->
+    <dimen name="small_margin">8dp</dimen>
+
+    <!--Text-->
+    <dimen name="title_text_size">16sp</dimen>
+    <dimen name="subtitle_text_size">14sp</dimen>
+    <dimen name="regular_text_size">12sp</dimen>
+
+
+    <dimen name="progress_bar_size">16sp</dimen>
+
+</resources>

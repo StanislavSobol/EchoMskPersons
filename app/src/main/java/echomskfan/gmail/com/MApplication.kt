@@ -16,8 +16,6 @@ class MApplication : Application() {
             .builder()
             .appContext(this.applicationContext)
             .build()
-
-        //     daggerAppComponent.inject(this)
     }
 
     companion object {

@@ -7,27 +7,27 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import echomskfan.gmail.com.entity.PersonEntity
 
-@Database(entities = [(PersonEntity::class)], version = 2)
+@Database(entities = [(PersonEntity::class)], version = 5)
 abstract class PersonsDatabase : RoomDatabase() {
 
-//   abstract fun getPersonsDao():PersonsDao
+    abstract fun getPersonsDao(): PersonsDao
 
     companion object {
-        private const val DB_NAME = "db"
+//        private const val DB_NAME = "db"
 
         private var instance: PersonsDatabase? = null
 
-        fun getInstance(appContext: Context): PersonsDatabase {
-            if (instance == null) {
-                synchronized(PersonsDatabase::class) {
-                    instance = Room
-                        .databaseBuilder(appContext, PersonsDatabase::class.java, DB_NAME)
-                        .fallbackToDestructiveMigration()
-                        .build()
-                }
-            }
-            return instance!!
-        }
+//        fun getInstance(appContext: Context): PersonsDatabase {
+//            if (instance == null) {
+//                synchronized(PersonsDatabase::class) {
+//                    instance = Room
+//                        .databaseBuilder(appContext, PersonsDatabase::class.java, DB_NAME)
+//                        .fallbackToDestructiveMigration()
+//                        .build()
+//                }
+//            }
+//            return instance!!
+//        }
 
         @VisibleForTesting
         fun getTestInstance(appContext: Context): PersonsDatabase {
