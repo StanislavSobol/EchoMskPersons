@@ -2,15 +2,10 @@ package echomskfan.gmail.com.domain.repository
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import echomskfan.gmail.com.data.PersonsDao
 import echomskfan.gmail.com.data.PersonsDatabase
 import echomskfan.gmail.com.entity.PersonEntity
-import echomskfan.gmail.com.utils.catchThrowable
-import echomskfan.gmail.com.utils.fromIoToMain
 import io.reactivex.Completable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import org.json.JSONArray
 import java.nio.charset.Charset
 
@@ -18,20 +13,12 @@ class Repository(private val appContext: Context, private val database: PersonsD
 
     private val personsDao: PersonsDao by lazy { database.getPersonsDao() }
 
-    private val _personsLiveData = MutableLiveData<List<PersonEntity>>()
-
-    private val transferPersonsFromXmlToDbCompositeDisposable: CompositeDisposable = CompositeDisposable()
-    private val personIdNotificationClickedCompositeDisposable: CompositeDisposable = CompositeDisposable()
-    private val personIdFavClickedCompositeDDisposable: CompositeDisposable = CompositeDisposable()
-
     override fun getPersonsLiveData(): LiveData<List<PersonEntity>> {
         return personsDao.getAllLiveData()
     }
 
-    override fun transferPersonsFromXmlToDb() {
-        transferPersonsFromXmlToDbCompositeDisposable.clear()
-
-        Completable.create {
+    override fun transferPersonsFromXmlToDbCompletable(): Completable {
+        return Completable.create {
             val xmlList = getPersonsFromXml(appContext)
             xmlList.forEach { xmlItem ->
                 val dbPerson = personsDao.getById(xmlItem.id)
@@ -51,38 +38,20 @@ class Repository(private val appContext: Context, private val database: PersonsD
                 val ids = mutableListOf<Int>()
                 xmlList.forEach { ids.add(it.id) }
                 personsDao.deleteNotIn(ids)
-
-//                _personsLiveData.postValue(personsDao.getAll())
             }
         }
-            .fromIoToMain()
-            .doOnError { e -> catchThrowable(e) }
-            .subscribe()
-            .toCompositeDisposable(transferPersonsFromXmlToDbCompositeDisposable)
     }
 
-    override fun personIdNotificationClicked(id: Int) {
-        personIdNotificationClickedCompositeDisposable.clear()
-
-        Completable.create {
+    override fun personIdNotificationClickedCompletable(id: Int): Completable {
+        return Completable.create {
             personsDao.getById(id)?.let { personsDao.setNotificationById(!it.notification, id) }
-            //        _personsLiveData.postValue(personsDao.getAll())
-        }.doOnError { e -> catchThrowable(e) }
-            .fromIoToMain()
-            .subscribe()
-            .toCompositeDisposable(personIdNotificationClickedCompositeDisposable)
+        }
     }
 
-    override fun personIdFavClicked(id: Int) {
-        personIdFavClickedCompositeDDisposable.clear()
-
-        Completable.create {
+    override fun personIdFavClickedCompletable(id: Int): Completable {
+        return Completable.create {
             personsDao.getById(id)?.let { personsDao.setFavById(!it.fav, id) }
-            //          _personsLiveData.postValue(personsDao.getAll())
-        }.doOnError { e -> catchThrowable(e) }
-            .fromIoToMain()
-            .subscribe()
-            .toCompositeDisposable(personIdFavClickedCompositeDDisposable)
+        }
     }
 
     private fun getPersonsFromXml(context: Context): List<PersonEntity> {
@@ -120,9 +89,5 @@ class Repository(private val appContext: Context, private val database: PersonsD
         `is`.close()
         json = String(buffer, Charset.forName("UTF-8"))
         return json
-    }
-
-    private fun Disposable.toCompositeDisposable(compositeDisposable: CompositeDisposable) {
-        compositeDisposable.add(this)
     }
 }
