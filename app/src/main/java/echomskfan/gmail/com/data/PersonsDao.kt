@@ -28,7 +28,9 @@ interface PersonsDao {
     @Query("UPDATE PersonEntity SET notification = :notification WHERE id=:id")
     fun setNotificationById(notification: Boolean, id: Int)
 
+    @Query("UPDATE PersonEntity SET fav = :fav WHERE id=:id")
+    fun setFavById(fav: Boolean, id: Int)
+
     @Query("SELECT * FROM PersonEntity")
     fun getAllLd(): LiveData<List<PersonEntity>>
-
 }

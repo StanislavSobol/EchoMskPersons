@@ -43,13 +43,17 @@ internal class PersonsAdapter(private val viewModel: PersonsViewModel) : Recycle
                 itemView.personItemNotificationImageView.setOnClickListener {
                     viewModel.itemIdNotificationClicked(item.id)
                 }
+
+                itemView.personItemFavImageView.setImageResource(
+                    if (item.fav) R.drawable.ic_baseline_favorite_24px
+                    else R.drawable.ic_baseline_favorite_border_24px
+                )
+
+                itemView.personItemFavImageView.setOnClickListener {
+                    viewModel.itemIdFavClicked(item.id)
+                }
             }
 
-//
-//            itemView.vipItemFavImageView.setImageResource(
-//                if (vipVM.fav) R.drawable.ic_baseline_favorite_24px
-//                else R.drawable.ic_baseline_favorite_border_24px
-//            )
 //
 //            itemView.vipItemFavImageView.setOnClickListener {
 //                presenter.itemFavIconClicked(vipVM)

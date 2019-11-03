@@ -17,4 +17,8 @@ class PersonsInteractor(private val repository: IRepository) : IPersonsInteracto
     override fun personIdNotificationClicked(id: Int) {
         repository.personIdNotificationClicked(id)
     }
+
+    override fun personIdFavClicked(id: Int) {
+        repository.personIdFavClicked(id)
+    }
 }

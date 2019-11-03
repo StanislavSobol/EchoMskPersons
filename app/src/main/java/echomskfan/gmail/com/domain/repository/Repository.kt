@@ -22,6 +22,7 @@ class Repository(private val appContext: Context, private val database: PersonsD
 
     private val transferPersonsFromXmlToDbCompositeDisposable: CompositeDisposable = CompositeDisposable()
     private val personIdNotificationClickedCompositeDisposable: CompositeDisposable = CompositeDisposable()
+    private val personIdFavClickedCompositeDDisposable: CompositeDisposable = CompositeDisposable()
 
     override fun getPersonsLiveData(): LiveData<List<PersonEntity>> {
         return _personsLiveData
@@ -70,6 +71,18 @@ class Repository(private val appContext: Context, private val database: PersonsD
             .fromIoToMain()
             .subscribe()
             .toCompositeDisposable(personIdNotificationClickedCompositeDisposable)
+    }
+
+    override fun personIdFavClicked(id: Int) {
+        personIdFavClickedCompositeDDisposable.clear()
+
+        Completable.create {
+            personsDao.getById(id)?.let { personsDao.setFavById(!it.fav, id) }
+            _personsLiveData.postValue(personsDao.getAll())
+        }.doOnError { e -> catchThrowable(e) }
+            .fromIoToMain()
+            .subscribe()
+            .toCompositeDisposable(personIdFavClickedCompositeDDisposable)
     }
 
     private fun getPersonsFromXml(context: Context): List<PersonEntity> {

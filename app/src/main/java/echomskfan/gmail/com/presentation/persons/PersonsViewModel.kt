@@ -18,4 +18,10 @@ class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewMod
     fun itemIdNotificationClicked(id: Int) {
         interactor.personIdNotificationClicked(id)
     }
+
+    fun itemIdFavClicked(id: Int) {
+        interactor.personIdFavClicked(id)
+    }
+
+
 }

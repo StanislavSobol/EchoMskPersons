@@ -7,4 +7,5 @@ interface IRepository {
     fun getPersonsLiveData(): LiveData<List<PersonEntity>>
     fun transferPersonsFromXmlToDb()
     fun personIdNotificationClicked(id: Int)
+    fun personIdFavClicked(id: Int)
 }
