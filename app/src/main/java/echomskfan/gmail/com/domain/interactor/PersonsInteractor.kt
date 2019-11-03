@@ -15,6 +15,10 @@ class PersonsInteractor(private val repository: IRepository) : IPersonsInteracto
         return repository.getPersonsLiveData()
     }
 
+    override fun personIdNotificationClickedEx(id: Int) {
+        repository.personIdNotificationClickedEx(id)
+    }
+
     override fun getPersons(copyFromXml: Boolean) = repository.getPersons(copyFromXml).fromIoToMain()
     override fun personIdNotificationClicked(id: Int) = repository.personIdNotificationClicked(id).fromIoToMain()
 }

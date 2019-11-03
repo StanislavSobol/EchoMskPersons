@@ -25,6 +25,7 @@ class Repository(private val appContext: Context, private val database: PersonsD
         get() = _personsLiveData
 
     private val transferPersonsFromXmlToDbCompositeDisposable: CompositeDisposable = CompositeDisposable()
+    private val personIdNotificationClickedCompositeDisposable: CompositeDisposable = CompositeDisposable()
 
 
     override fun getPersonsLiveData(): LiveData<List<PersonEntity>> {
@@ -32,21 +33,32 @@ class Repository(private val appContext: Context, private val database: PersonsD
     }
 
     override fun transferPersonsFromXmlToDb() {
-        transferPersonsFromXmlToDbCompositeDisposable.dispose()
+        transferPersonsFromXmlToDbCompositeDisposable.clear()
 
         Completable.create {
             val list = getPersonsFromXml(appContext)
-            val dao = database.getPersonsDao()
-            dao.addAll(list)
+            personsDao.addAll(list)
             val ids = mutableListOf<Int>()
             list.forEach { ids.add(it.id) }
-            dao.deleteNotIn(ids)
-            _personsLiveData.postValue(dao.getAll())
+            personsDao.deleteNotIn(ids)
+            _personsLiveData.postValue(personsDao.getAll())
         }
+            .fromIoToMain()
             .doOnError { e -> catchThrowable(e) }
+            .subscribe()
+            .toCompositeDisposable(transferPersonsFromXmlToDbCompositeDisposable)
+    }
+
+    override fun personIdNotificationClickedEx(id: Int) {
+        personIdNotificationClickedCompositeDisposable.clear()
+
+        Completable.create {
+            personsDao.setNotificationById(!personsDao.get(id).notification, id)
+            _personsLiveData.postValue(personsDao.getAll())
+        }.doOnError { e -> catchThrowable(e) }
             .fromIoToMain()
             .subscribe()
-        //  .addToCompositeDisposable(transferPersonsFromXmlToDbCompositeDisposable)
+            .toCompositeDisposable(personIdNotificationClickedCompositeDisposable)
     }
 
     override fun getPersons(copyFromXml: Boolean): Single<List<PersonEntity>> {
@@ -135,7 +147,7 @@ class Repository(private val appContext: Context, private val database: PersonsD
         return json
     }
 
-    private fun Disposable.addToCompositeDisposable(compositeDisposable: CompositeDisposable) {
+    private fun Disposable.toCompositeDisposable(compositeDisposable: CompositeDisposable) {
         compositeDisposable.add(this)
     }
 }

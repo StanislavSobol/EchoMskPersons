@@ -34,7 +34,8 @@ class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewMod
 //    }
 
     fun itemIdNotificationClicked(id: Int) {
-        interactor.personIdNotificationClicked(id).subscribe()
+        interactor.personIdNotificationClickedEx(id)
+        //    interactor.personIdNotificationClicked(id).subscribe()
 //        interactor.getPersons(false)
 //            .subscribe({ list ->
 //                personsLiveData.postValue(PersonListItem.from(list))

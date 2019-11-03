@@ -10,4 +10,5 @@ interface IRepository {
     fun personIdNotificationClicked(id: Int): Completable
     fun getPersonsLiveData(): LiveData<List<PersonEntity>>
     fun transferPersonsFromXmlToDb()
+    fun personIdNotificationClickedEx(id: Int)
 }
