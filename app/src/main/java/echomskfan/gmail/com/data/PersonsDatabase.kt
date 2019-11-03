@@ -5,9 +5,10 @@ import androidx.annotation.VisibleForTesting
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import echomskfan.gmail.com.entity.CastEntity
 import echomskfan.gmail.com.entity.PersonEntity
 
-@Database(entities = [(PersonEntity::class)], version = 6)
+@Database(entities = [(PersonEntity::class), (CastEntity::class)], version = 7)
 abstract class PersonsDatabase : RoomDatabase() {
 
     abstract fun getPersonsDao(): PersonsDao

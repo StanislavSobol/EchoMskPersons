@@ -36,6 +36,9 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0'
     kapt "com.google.dagger:dagger-compiler:${dagger_version}"
 
+    // JSoup
+    implementation 'org.jsoup:jsoup:1.11.2'
+
     // arch components
     implementation "android.arch.lifecycle:extensions:$acrh_components_version"
     annotationProcessor "android.arch.lifecycle:compiler:$acrh_components_version"

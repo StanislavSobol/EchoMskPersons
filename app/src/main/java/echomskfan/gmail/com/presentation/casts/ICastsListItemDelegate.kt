@@ -1,0 +1,3 @@
+package echomskfan.gmail.com.presentation.casts
+
+internal interface ICastsListItemDelegate

@@ -3,11 +3,11 @@ package echomskfan.gmail.com.domain.interactor
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-abstract class BaseInteractor {
+abstract class BaseInteractor : IBaseInteractor {
 
     private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 
-    fun clear() {
+    override fun clear() {
         compositeDisposable
     }
 

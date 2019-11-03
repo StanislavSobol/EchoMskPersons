@@ -2,7 +2,7 @@ package echomskfan.gmail.com.presentation.persons
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import echomskfan.gmail.com.domain.interactor.IPersonsInteractor
+import echomskfan.gmail.com.domain.interactor.persons.IPersonsInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
 
 class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewModel() {

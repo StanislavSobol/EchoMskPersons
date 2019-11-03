@@ -2,13 +2,18 @@ package echomskfan.gmail.com.domain.repository
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import com.gmail.echomskfan.persons.interactor.parser.IEchoParser
 import echomskfan.gmail.com.data.PersonsDao
 import echomskfan.gmail.com.data.PersonsDatabase
 import echomskfan.gmail.com.entity.PersonEntity
 import echomskfan.gmail.com.utils.getPersonsFromXml
 import io.reactivex.Completable
 
-class Repository(private val appContext: Context, private val database: PersonsDatabase) : IRepository {
+class Repository(
+    private val appContext: Context,
+    private val database: PersonsDatabase,
+    private val echoParser: IEchoParser
+) : IRepository {
 
     private val personsDao: PersonsDao by lazy { database.getPersonsDao() }
 

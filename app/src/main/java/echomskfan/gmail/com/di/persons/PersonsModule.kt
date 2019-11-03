@@ -2,8 +2,8 @@ package echomskfan.gmail.com.di.persons
 
 import dagger.Module
 import dagger.Provides
-import echomskfan.gmail.com.domain.interactor.IPersonsInteractor
-import echomskfan.gmail.com.domain.interactor.PersonsInteractor
+import echomskfan.gmail.com.domain.interactor.persons.IPersonsInteractor
+import echomskfan.gmail.com.domain.interactor.persons.PersonsInteractor
 import echomskfan.gmail.com.domain.repository.IRepository
 import echomskfan.gmail.com.presentation.persons.PersonsViewModelFactory
 

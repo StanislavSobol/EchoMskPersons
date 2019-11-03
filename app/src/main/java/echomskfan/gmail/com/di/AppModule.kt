@@ -2,6 +2,8 @@ package echomskfan.gmail.com.di
 
 import android.content.Context
 import androidx.room.Room
+import com.gmail.echomskfan.persons.interactor.parser.EchoParser
+import com.gmail.echomskfan.persons.interactor.parser.IEchoParser
 import dagger.Module
 import dagger.Provides
 import echomskfan.gmail.com.data.PersonsDatabase
@@ -23,8 +25,14 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideRepository(appContext: Context, database: PersonsDatabase): IRepository {
-        return Repository(appContext, database)
+    fun provideEchoParser(): IEchoParser {
+        return EchoParser()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRepository(appContext: Context, database: PersonsDatabase, echoParser: IEchoParser): IRepository {
+        return Repository(appContext, database, echoParser)
     }
 
     companion object {

@@ -1,12 +1,14 @@
-package echomskfan.gmail.com.domain.interactor
+package echomskfan.gmail.com.domain.interactor.persons
 
 import androidx.lifecycle.LiveData
+import echomskfan.gmail.com.domain.interactor.BaseInteractor
 import echomskfan.gmail.com.domain.repository.IRepository
 import echomskfan.gmail.com.entity.PersonEntity
 import echomskfan.gmail.com.utils.catchThrowable
 import echomskfan.gmail.com.utils.fromIoToMain
 
-class PersonsInteractor(private val repository: IRepository) : BaseInteractor(), IPersonsInteractor {
+class PersonsInteractor(private val repository: IRepository) : BaseInteractor(),
+    IPersonsInteractor {
 
     override fun getPersonsLiveData(): LiveData<List<PersonEntity>> {
         return repository.getPersonsLiveData()
