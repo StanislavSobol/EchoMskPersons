@@ -6,7 +6,9 @@ data class PersonListItem(
     val id: Int,
     val fullName: String,
     val profession: String,
-    val info: String
+    val info: String,
+    val fav: Boolean,
+    val notification: Boolean
 ) : IPersonsListItemDelegate {
 
     companion object {
@@ -16,7 +18,9 @@ data class PersonListItem(
                     id = personEntity.id,
                     fullName = personEntity.firstName + " " + personEntity.lastName,
                     profession = personEntity.profession,
-                    info = personEntity.info
+                    info = personEntity.info,
+                    fav = personEntity.fav,
+                    notification = personEntity.notification
                 )
             }
 

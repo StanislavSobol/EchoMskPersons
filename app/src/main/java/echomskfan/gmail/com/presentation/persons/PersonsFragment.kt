@@ -45,7 +45,6 @@ class PersonsFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(PersonsViewModel::class.java)
         viewModel.personsLiveData.observe(this, Observer { list -> adapter.addItems(list) })
         viewModel.progressLiveData.observe(this, Observer { b -> showProgress(b) })
-//        savedInstanceState?.run { viewModel.reallyCreated() }
         viewModel.created(savedInstanceState == null)
     }
 

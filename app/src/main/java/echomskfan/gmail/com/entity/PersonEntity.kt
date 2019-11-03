@@ -11,6 +11,8 @@ data class PersonEntity(
     val lastName: String,
     val profession: String,
     val info: String,
-    val photoUrl: String
+    val photoUrl: String,
+    var fav: Boolean = false,
+    var notification: Boolean = false
 )
 

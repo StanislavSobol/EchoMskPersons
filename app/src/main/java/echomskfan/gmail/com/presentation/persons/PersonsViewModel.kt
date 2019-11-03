@@ -11,11 +11,8 @@ class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewMod
 
     val personsLiveData: MutableLiveData<List<PersonListItem>> = MutableLiveData()
 
-    fun created(reallyCreated: Boolean) {
-        if (reallyCreated) {
-            interactor.copyPersonsFromXmlToDb()
-        }
-        interactor.getPersons()
+    fun created(firstAttach: Boolean) {
+        interactor.getPersons(firstAttach)
             .subscribe({ list ->
                 personsLiveData.postValue(PersonListItem.from(list))
             }, { t ->

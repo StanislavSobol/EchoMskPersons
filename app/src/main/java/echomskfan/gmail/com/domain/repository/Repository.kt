@@ -3,20 +3,40 @@ package echomskfan.gmail.com.domain.repository
 import android.content.Context
 import echomskfan.gmail.com.data.PersonsDatabase
 import echomskfan.gmail.com.entity.PersonEntity
-import io.reactivex.Completable
+import io.reactivex.Single
 import org.json.JSONArray
 import java.nio.charset.Charset
 
 class Repository(private val appContext: Context, private val database: PersonsDatabase) : IRepository {
 
-    override fun copyPersonsFromXmlToDb(): Completable {
-        return Completable.create {
-            database.getPersonsDao().deleteAll()
-            database.getPersonsDao().addAll(getPersonsFromXml(appContext))
+    override fun getPersons(copyFromXml: Boolean): Single<List<PersonEntity>> {
+        return Single.fromCallable {
+            if (copyFromXml) {
+                val list = getPersonsFromXml(appContext)
+                val dao = database.getPersonsDao()
+                dao.addAll(list)
+                val ids = mutableListOf<Int>()
+                list.forEach { ids.add(it.id) }
+                dao.deleteNotIn(ids)
+            }
+            database.getPersonsDao().getAll()
         }
     }
 
-    override fun getPersons() = database.getPersonsDao().getAll()
+//    override fun copyPersonsFromXmlToDb(): Completable {
+//        return Completable.create {
+//            val list = getPersonsFromXml(appContext)
+//            val dao = database.getPersonsDao()
+//            dao.addAll(list)
+//            val ids = mutableListOf<Int>()
+//            list.forEach { ids.add(it.id) }
+//            dao.deleteNotIn(ids)
+//        }
+//    }
+
+    //  override fun getPersons(copyFromXml: Boolean) = database.getPersonsDao().getAll()
+
+//    override fun getPersons() = database.getPersonsDao().getAll()
 
     private fun getPersonsFromXml(context: Context): List<PersonEntity> {
         val result = mutableListOf<PersonEntity>()

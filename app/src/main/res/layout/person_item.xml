@@ -7,45 +7,46 @@
                                                    android:padding="@dimen/small_margin">
 
     <TextView
-            android:id="@+id/vipItemNameTextView"
+            android:id="@+id/personItemNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/title_text_size"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             tools:text="Александр Невзоров"/>
 
     <TextView
-            android:id="@+id/vipItemProfessionTextView"
+            android:id="@+id/personItemProfessionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/subtitle_text_size"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vipItemNameTextView"
+            app:layout_constraintTop_toBottomOf="@+id/personItemNameTextView"
             tools:text="публицист"/>
 
     <RelativeLayout
-            android:id="@+id/vipItemCentralLayout"
+            android:id="@+id/personItemCentralLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/small_margin"
-            app:layout_constraintTop_toBottomOf="@+id/vipItemProfessionTextView">
+            app:layout_constraintTop_toBottomOf="@+id/personItemProfessionTextView">
 
         <ImageView
-                android:id="@+id/vipItemImageView"
+                android:id="@+id/personItemImageView"
                 android:layout_width="@dimen/vip_image_size"
                 android:layout_height="@dimen/vip_image_size"
                 tools:ignore="ContentDescription"/>
 
         <TextView
-                android:id="@+id/vipItemInfoTextView"
+                android:id="@+id/personItemInfoTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/small_margin"
                 android:layout_marginStart="@dimen/small_margin"
-                android:layout_toEndOf="@+id/vipItemImageView"
-                android:layout_toRightOf="@+id/vipItemImageView"
+                android:layout_toEndOf="@+id/personItemImageView"
+                android:layout_toRightOf="@+id/personItemImageView"
                 android:ellipsize="end"
                 android:maxLines="5"
                 android:textSize="@dimen/regular_text_size"
@@ -60,22 +61,22 @@
             android:orientation="horizontal"
 
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vipItemCentralLayout">
+            app:layout_constraintTop_toBottomOf="@+id/personItemCentralLayout">
 
         <ImageView
-                android:id="@+id/vipItemNotificationImageView"
+                android:id="@+id/personItemNotificationImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_baseline_notifications_24px"
+                android:src="@drawable/ic_baseline_notifications_24px"
                 tools:ignore="ContentDescription"/>
 
         <ImageView
-                android:id="@+id/vipItemFavImageView"
+                android:id="@+id/personItemFavImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/small_margin"
                 android:layout_marginStart="@dimen/small_margin"
-                app:srcCompat="@drawable/ic_baseline_favorite_24px"
+                android:src="@drawable/ic_baseline_favorite_24px"
                 tools:ignore="ContentDescription"/>
 
     </LinearLayout>
