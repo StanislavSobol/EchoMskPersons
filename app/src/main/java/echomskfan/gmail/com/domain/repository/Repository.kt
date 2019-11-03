@@ -9,7 +9,6 @@ import echomskfan.gmail.com.entity.PersonEntity
 import echomskfan.gmail.com.utils.catchThrowable
 import echomskfan.gmail.com.utils.fromIoToMain
 import io.reactivex.Completable
-import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import org.json.JSONArray
@@ -21,27 +20,39 @@ class Repository(private val appContext: Context, private val database: PersonsD
 
     private val _personsLiveData = MutableLiveData<List<PersonEntity>>()
 
-    private val personsLd: LiveData<List<PersonEntity>>
-        get() = _personsLiveData
-
     private val transferPersonsFromXmlToDbCompositeDisposable: CompositeDisposable = CompositeDisposable()
     private val personIdNotificationClickedCompositeDisposable: CompositeDisposable = CompositeDisposable()
 
-
     override fun getPersonsLiveData(): LiveData<List<PersonEntity>> {
-        return personsLd
+        return _personsLiveData
     }
 
     override fun transferPersonsFromXmlToDb() {
         transferPersonsFromXmlToDbCompositeDisposable.clear()
 
         Completable.create {
-            val list = getPersonsFromXml(appContext)
-            personsDao.addAll(list)
-            val ids = mutableListOf<Int>()
-            list.forEach { ids.add(it.id) }
-            personsDao.deleteNotIn(ids)
-            _personsLiveData.postValue(personsDao.getAll())
+            val xmlList = getPersonsFromXml(appContext)
+            xmlList.forEach { xmlItem ->
+                val dbPerson = personsDao.getById(xmlItem.id)
+                dbPerson?.run {
+                    personsDao.initialUpdate(
+                        url = xmlItem.url,
+                        firstName = xmlItem.firstName,
+                        lastName = xmlItem.lastName,
+                        profession = xmlItem.profession,
+                        info = xmlItem.info,
+                        id = xmlItem.id
+                    )
+                } ?: run {
+                    personsDao.add(xmlItem)
+                }
+
+                val ids = mutableListOf<Int>()
+                xmlList.forEach { ids.add(it.id) }
+                personsDao.deleteNotIn(ids)
+
+                _personsLiveData.postValue(personsDao.getAll())
+            }
         }
             .fromIoToMain()
             .doOnError { e -> catchThrowable(e) }
@@ -49,65 +60,16 @@ class Repository(private val appContext: Context, private val database: PersonsD
             .toCompositeDisposable(transferPersonsFromXmlToDbCompositeDisposable)
     }
 
-    override fun personIdNotificationClickedEx(id: Int) {
+    override fun personIdNotificationClicked(id: Int) {
         personIdNotificationClickedCompositeDisposable.clear()
 
         Completable.create {
-            personsDao.setNotificationById(!personsDao.get(id).notification, id)
+            personsDao.getById(id)?.let { personsDao.setNotificationById(!it.notification, id) }
             _personsLiveData.postValue(personsDao.getAll())
         }.doOnError { e -> catchThrowable(e) }
             .fromIoToMain()
             .subscribe()
             .toCompositeDisposable(personIdNotificationClickedCompositeDisposable)
-    }
-
-    override fun getPersons(copyFromXml: Boolean): Single<List<PersonEntity>> {
-        return Single.fromCallable {
-            if (copyFromXml) {
-                val list = getPersonsFromXml(appContext)
-                val dao = database.getPersonsDao()
-                dao.addAll(list)
-                val ids = mutableListOf<Int>()
-                list.forEach { ids.add(it.id) }
-                dao.deleteNotIn(ids)
-            }
-            database.getPersonsDao().getAll()
-        }
-    }
-
-//    override fun getPersonLd(copyFromXml: Boolean): LiveData<List<PersonEntity>> {
-//        Completable.create {
-//            if (copyFromXml) {
-//                val list = getPersonsFromXml(appContext)
-//                val dao = database.getPersonsDao()
-//                dao.addAll(list)
-//                val ids = mutableListOf<Int>()
-//                list.forEach { ids.add(it.id) }
-//                dao.deleteNotIn(ids)
-//            }
-//
-//
-//        }.subscribe().
-//
-//
-//        return Single.fromCallable {
-//            if (copyFromXml) {
-//                val list = getPersonsFromXml(appContext)
-//                val dao = database.getPersonsDao()
-//                dao.addAll(list)
-//                val ids = mutableListOf<Int>()
-//                list.forEach { ids.add(it.id) }
-//                dao.deleteNotIn(ids)
-//            }
-//            database.getPersonsDao().getAll()
-//        }
-//    }
-
-
-    override fun personIdNotificationClicked(id: Int): Completable {
-        return Completable.create {
-            personsDao.setNotificationById(!personsDao.get(id).notification, id)
-        }
     }
 
     private fun getPersonsFromXml(context: Context): List<PersonEntity> {
