@@ -7,6 +7,7 @@ data class PersonListItem(
     val fullName: String,
     val profession: String,
     val info: String,
+    val photoUrl: String,
     val fav: Boolean,
     val notification: Boolean
 ) : IPersonsListItemDelegate {
@@ -24,6 +25,7 @@ data class PersonListItem(
                 fullName = personEntity.firstName + " " + personEntity.lastName,
                 profession = personEntity.profession,
                 info = personEntity.info,
+                photoUrl = personEntity.photoUrl,
                 fav = personEntity.fav,
                 notification = personEntity.notification
             )

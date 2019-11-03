@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import echomskfan.gmail.com.R
 import kotlinx.android.synthetic.main.person_item.view.*
 
@@ -31,6 +32,10 @@ internal class PersonsAdapter(private val viewModel: PersonsViewModel) : Recycle
 
         fun bind(item: IPersonsListItemDelegate) {
             if (item is PersonListItem) {
+                Picasso.with(itemView.context)
+                    .load(item.photoUrl)
+                    .into(itemView.personItemImageView)
+
                 itemView.personItemNameTextView.text = item.fullName
                 itemView.personItemProfessionTextView.text = item.profession
                 itemView.personItemInfoTextView.text = item.info
@@ -53,17 +58,6 @@ internal class PersonsAdapter(private val viewModel: PersonsViewModel) : Recycle
                     viewModel.itemIdFavClicked(item.id)
                 }
             }
-
-//
-//            itemView.vipItemFavImageView.setOnClickListener {
-//                presenter.itemFavIconClicked(vipVM)
-//            }
-//
-//            itemView.setOnClickListener {
-//                presenter.itemClicked(vipVM)
-//            }
         }
-
-
     }
 }
