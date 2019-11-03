@@ -15,4 +15,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
     }
+
+    fun navigateToCasts(castId: Int) {
+        val bundle = Bundle()
+        bundle.putInt("personId", castId)
+        navController.navigate(R.id.action_personsFragment_to_castsFragment, bundle)
+    }
 }

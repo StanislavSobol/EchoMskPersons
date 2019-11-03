@@ -1,6 +1,7 @@
-package echomskfan.gmail.com.presentation.persons
+package echomskfan.gmail.com.presentation.casts
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,24 +11,23 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
-import echomskfan.gmail.com.di.persons.DaggerPersonsComponent
-import echomskfan.gmail.com.di.persons.PersonsScope
-import echomskfan.gmail.com.presentation.MainActivity
+import echomskfan.gmail.com.di.casts.CastsScope
+import echomskfan.gmail.com.di.casts.DaggerCastsComponent
 import kotlinx.android.synthetic.main.persons_fragment.*
 import javax.inject.Inject
 
-class PersonsFragment : Fragment() {
+class CastsFragment : Fragment() {
 
-    @PersonsScope
+    @CastsScope
     @Inject
-    internal lateinit var viewModelFactory: PersonsViewModelFactory
+    internal lateinit var viewModelFactory: CastsViewModelFactory
 
-    private lateinit var viewModel: PersonsViewModel
+    private lateinit var viewModel: CastsViewModel
 
-    private val adapter: PersonsAdapter by lazy { PersonsAdapter(viewModel) }
+    private val adapter: CastsAdapter by lazy { CastsAdapter(viewModel) }
 
     init {
-        DaggerPersonsComponent.builder()
+        DaggerCastsComponent.builder()
             .appComponent(MApplication.getAppComponent())
             .build()
             .inject(this)
@@ -40,19 +40,15 @@ class PersonsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(PersonsViewModel::class.java)
-
-        viewModel.getPersonsLiveData().observe(viewLifecycleOwner, Observer { list -> adapter.addItems(list) })
-        viewModel.navigationLiveDate.observe(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let { id ->
-                val activity = requireActivity() as MainActivity
-                activity.navigateToCasts(id)
-            }
-        })
-
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(CastsViewModel::class.java)
+        viewModel.getCastsLiveData()?.observe(this, Observer { list -> adapter.addItems(list) })
         savedInstanceState ?: run { viewModel.firstAttach() }
 
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.adapter = adapter
+
+        val personId = arguments?.getInt("personId")
+
+        Log.d("SSS", "personId = $personId")
     }
 }

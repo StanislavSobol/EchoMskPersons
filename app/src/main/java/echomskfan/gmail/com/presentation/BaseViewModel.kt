@@ -1,20 +1,12 @@
 package echomskfan.gmail.com.presentation
 
 import androidx.lifecycle.ViewModel
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import echomskfan.gmail.com.domain.interactor.IBaseInteractor
 
-abstract class BaseViewModel : ViewModel() {
-
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+abstract class BaseViewModel(private val interactor: IBaseInteractor) : ViewModel() {
 
     override fun onCleared() {
-        compositeDisposable.clear()
+        interactor.clear()
         super.onCleared()
     }
-
-    protected fun Disposable.unsubscribeOnDestroy() {
-        compositeDisposable.add(this)
-    }
-
 }

@@ -1,13 +1,15 @@
 package echomskfan.gmail.com.presentation.casts
 
+import androidx.lifecycle.LiveData
 import echomskfan.gmail.com.domain.interactor.casts.ICastsInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
 
-class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel() {
+class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel(interactor) {
 
-//    fun getPersonsLiveData(): LiveData<List<CastListItem>> {
-//        return Transformations.map(interactor.getPersonsLiveData()) { list -> CastListItem.from(list) }
-//    }
+    fun getCastsLiveData(): LiveData<List<CastListItem>>? {
+        return null
+        // return Transformations.map(interactor.getCastsLiveData()) { list -> CastListItem.from(list) }
+    }
 
     fun firstAttach() {
 //        interactor.transferPersonsFromXmlToDb()
