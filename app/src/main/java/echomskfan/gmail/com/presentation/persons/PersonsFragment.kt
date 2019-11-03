@@ -46,12 +46,4 @@ class PersonsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.adapter = adapter
     }
-
-    private fun showProgress(visible: Boolean) {
-
-    }
-
-    companion object {
-        fun newInstance() = PersonsFragment()
-    }
 }
