@@ -1,17 +1,53 @@
 package echomskfan.gmail.com.domain.repository
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import echomskfan.gmail.com.data.PersonsDao
 import echomskfan.gmail.com.data.PersonsDatabase
 import echomskfan.gmail.com.entity.PersonEntity
+import echomskfan.gmail.com.utils.catchThrowable
+import echomskfan.gmail.com.utils.fromIoToMain
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import org.json.JSONArray
 import java.nio.charset.Charset
 
 class Repository(private val appContext: Context, private val database: PersonsDatabase) : IRepository {
 
     private val personsDao: PersonsDao by lazy { database.getPersonsDao() }
+
+    private val _personsLiveData = MutableLiveData<List<PersonEntity>>()
+
+    private val personsLd: LiveData<List<PersonEntity>>
+        get() = _personsLiveData
+
+    private val transferPersonsFromXmlToDbCompositeDisposable: CompositeDisposable = CompositeDisposable()
+
+
+    override fun getPersonsLiveData(): LiveData<List<PersonEntity>> {
+        return personsLd
+    }
+
+    override fun transferPersonsFromXmlToDb() {
+        transferPersonsFromXmlToDbCompositeDisposable.dispose()
+
+        Completable.create {
+            val list = getPersonsFromXml(appContext)
+            val dao = database.getPersonsDao()
+            dao.addAll(list)
+            val ids = mutableListOf<Int>()
+            list.forEach { ids.add(it.id) }
+            dao.deleteNotIn(ids)
+            _personsLiveData.postValue(dao.getAll())
+        }
+            .doOnError { e -> catchThrowable(e) }
+            .fromIoToMain()
+            .subscribe()
+        //  .addToCompositeDisposable(transferPersonsFromXmlToDbCompositeDisposable)
+    }
 
     override fun getPersons(copyFromXml: Boolean): Single<List<PersonEntity>> {
         return Single.fromCallable {
@@ -26,6 +62,35 @@ class Repository(private val appContext: Context, private val database: PersonsD
             database.getPersonsDao().getAll()
         }
     }
+
+//    override fun getPersonLd(copyFromXml: Boolean): LiveData<List<PersonEntity>> {
+//        Completable.create {
+//            if (copyFromXml) {
+//                val list = getPersonsFromXml(appContext)
+//                val dao = database.getPersonsDao()
+//                dao.addAll(list)
+//                val ids = mutableListOf<Int>()
+//                list.forEach { ids.add(it.id) }
+//                dao.deleteNotIn(ids)
+//            }
+//
+//
+//        }.subscribe().
+//
+//
+//        return Single.fromCallable {
+//            if (copyFromXml) {
+//                val list = getPersonsFromXml(appContext)
+//                val dao = database.getPersonsDao()
+//                dao.addAll(list)
+//                val ids = mutableListOf<Int>()
+//                list.forEach { ids.add(it.id) }
+//                dao.deleteNotIn(ids)
+//            }
+//            database.getPersonsDao().getAll()
+//        }
+//    }
+
 
     override fun personIdNotificationClicked(id: Int): Completable {
         return Completable.create {
@@ -68,5 +133,9 @@ class Repository(private val appContext: Context, private val database: PersonsD
         `is`.close()
         json = String(buffer, Charset.forName("UTF-8"))
         return json
+    }
+
+    private fun Disposable.addToCompositeDisposable(compositeDisposable: CompositeDisposable) {
+        compositeDisposable.add(this)
     }
 }

@@ -40,9 +40,9 @@ class PersonsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(PersonsViewModel::class.java)
-        viewModel.personsLiveData.observe(this, Observer { list -> adapter.addItems(list) })
-        viewModel.progressLiveData.observe(this, Observer { b -> showProgress(b) })
-        viewModel.created(savedInstanceState == null)
+        viewModel.getPersonsLiveData().observe(this, Observer { list -> adapter.addItems(list) })
+        viewModel.progressLiveData.observe(viewLifecycleOwner, Observer { b -> showProgress(b) })
+        savedInstanceState ?: run { viewModel.created() }
 
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.adapter = adapter

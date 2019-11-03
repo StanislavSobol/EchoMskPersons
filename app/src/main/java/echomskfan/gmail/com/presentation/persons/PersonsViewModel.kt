@@ -1,25 +1,37 @@
 package echomskfan.gmail.com.presentation.persons
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import echomskfan.gmail.com.domain.interactor.IPersonsInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
-import echomskfan.gmail.com.utils.catchThrowable
 
 class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewModel() {
 
     val progressLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
-    val personsLiveData: MutableLiveData<List<PersonListItem>> = MutableLiveData()
+    //val personsLiveData: MutableLiveData<List<PersonListItem>> = MutableLiveData()
 
-    fun created(firstAttach: Boolean) {
-        interactor.getPersons(firstAttach)
-            .subscribe({ list ->
-                personsLiveData.postValue(PersonListItem.from(list))
-            }, { t ->
-                catchThrowable(t)
-            })
-            .unsubscribeOnDestroy()
+    fun getPersonsLiveData(): LiveData<List<PersonListItem>> {
+        return Transformations.map(interactor.getPersonsLiveData()) { list -> PersonListItem.from(list) }
     }
+
+    fun created() {
+        interactor.transferPersonsFromXmlToDb()
+
+
+//        interactor.getPersons(firstAttach)
+//            .subscribe({ list ->
+//                personsLiveData.postValue(PersonListItem.from(list))
+//            }, { t ->
+//                catchThrowable(t)
+//            })
+//            .unsubscribeOnDestroy()
+    }
+
+//    fun createdLd(firstAttach: Boolean) {
+//        personsLiveData. interactor.getPersonsLd(firstAttach)
+//    }
 
     fun itemIdNotificationClicked(id: Int) {
         interactor.personIdNotificationClicked(id).subscribe()

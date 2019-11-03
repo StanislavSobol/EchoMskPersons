@@ -1,5 +1,6 @@
 package echomskfan.gmail.com.data
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -23,4 +24,7 @@ interface PersonsDao {
 
     @Query("UPDATE PersonEntity SET notification = :notification WHERE id=:id")
     fun setNotificationById(notification: Boolean, id: Int)
+
+    @Query("SELECT * FROM PersonEntity")
+    fun getAllLd(): LiveData<List<PersonEntity>>
 }
