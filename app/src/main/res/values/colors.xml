@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#333333</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#ed1c24</color>
+    <color name="colorTextBackground">#efefef</color>
+    <color name="colorQuoteBackground">#f2f2f2</color>
+    <color name="colorMediaPlayerBackground">#444444</color>
+    <color name="colorMediaPlayerButtonBackground">#444444</color>
+    <color name="colorPlayAudioButtonBackground">#e1454a</color>
+
+    <color name="colorEcho1">#ed1c24</color>
+    <color name="colorEcho2">#939598</color>
+    <color name="colorEcho3">#6f7173</color>
+    <color name="colorEcho4">#000000</color>
+    <color name="colorEcho4TextBack">#f2f2f2</color>
+
+    <color name="colorRipple">#939598</color>
 
     <color name="black_overlay">#66000000</color>
 </resources>

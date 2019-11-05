@@ -2,6 +2,8 @@ package echomskfan.gmail.com.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import echomskfan.gmail.com.entity.CastEntity
 
@@ -11,8 +13,16 @@ interface CastsDao {
     @Query("SELECT * FROM CastEntity WHERE personId = :personId")
     fun getCastsLiveDataForPerson(personId: Int): LiveData<List<CastEntity>>
 
-//    @Query("SELECT * FROM PersonEntity WHERE id = :id")
-//    fun getById(id: Int): PersonEntity?
+//    @Query("SELECT * FROM CastEntity WHERE fullTextURL = :id")
+//    fun getById(id: Int): CastEntity?
+
+    @Query("DELETE FROM CastEntity WHERE personId = :personId")
+    fun deleteAllForPerson(personId: Int)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @JvmSuppressWildcards
+    fun insertAll(casts: List<CastEntity>)
+
 //
 //    @Query("UPDATE PersonEntity SET url = :url, firstName= :firstName, lastName= :lastName , profession = :profession, info =:info WHERE id=:id")
 //    fun initialUpdate(url: String, firstName: String, lastName: String, profession: String, info: String, id: Int)

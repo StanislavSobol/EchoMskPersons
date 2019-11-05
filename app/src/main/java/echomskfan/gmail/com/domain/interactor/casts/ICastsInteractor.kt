@@ -6,4 +6,5 @@ import echomskfan.gmail.com.entity.CastEntity
 
 interface ICastsInteractor : IBaseInteractor {
     fun getCastsLiveDataForPerson(personId: Int): LiveData<List<CastEntity>>
+    fun tranferCastsFromWebToDb(personId: Int)
 }

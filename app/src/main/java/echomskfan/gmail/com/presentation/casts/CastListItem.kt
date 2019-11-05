@@ -3,8 +3,7 @@ package echomskfan.gmail.com.presentation.casts
 import echomskfan.gmail.com.entity.CastEntity
 
 data class CastListItem(
-    val type: String, // Интервью
-    val subtype: String, // Персонально Ваш
+    val typeSubtype: String, // Интервью / Персонально Ваш
     val shortText: String,
     val mp3Url: String,
     val mp3Duration: Int,
@@ -21,9 +20,16 @@ data class CastListItem(
         }
 
         private fun oneFrom(castEntity: CastEntity): CastListItem {
+            fun getTypeSubtype(type: String, subtype: String): String {
+                var result = type
+                if (!subtype.isEmpty()) {
+                    result += ": $subtype"
+                }
+                return result
+            }
+
             return CastListItem(
-                type = castEntity.type,
-                subtype = castEntity.subtype,
+                typeSubtype = getTypeSubtype(castEntity.type, castEntity.subtype),
                 shortText = castEntity.shortText,
                 mp3Url = castEntity.mp3Url,
                 mp3Duration = castEntity.mp3Duration,
@@ -32,5 +38,7 @@ data class CastListItem(
                 fav = castEntity.fav
             )
         }
+
+
     }
 }

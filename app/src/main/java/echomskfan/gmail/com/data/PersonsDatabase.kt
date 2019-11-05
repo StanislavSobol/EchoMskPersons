@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 import echomskfan.gmail.com.entity.CastEntity
 import echomskfan.gmail.com.entity.PersonEntity
 
-@Database(entities = [(PersonEntity::class), (CastEntity::class)], version = 9)
+@Database(entities = [(PersonEntity::class), (CastEntity::class)], version = 11)
 abstract class PersonsDatabase : RoomDatabase() {
 
     abstract fun getPersonsDao(): PersonsDao

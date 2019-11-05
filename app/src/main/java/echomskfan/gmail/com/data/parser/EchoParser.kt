@@ -1,4 +1,4 @@
-package com.gmail.echomskfan.persons.interactor.parser
+package echomskfan.gmail.com.data.parser
 
 import echomskfan.gmail.com.entity.CastEntity
 import echomskfan.gmail.com.entity.PersonEntity
@@ -9,7 +9,9 @@ import java.io.IOException
 
 class EchoParser : IEchoParser {
 
-    override fun getCasts(fullUrl: String, vipEntity: PersonEntity, pageNum: Int): List<CastEntity> {
+    override fun getCasts(fullUrl: String, personEntity: PersonEntity, pageNum: Int): List<CastEntity> {
+        // https://echo.msk.ru/
+
         if (fullUrl.isEmpty()) return listOf()
 
         val document: Document?
@@ -26,7 +28,7 @@ class EchoParser : IEchoParser {
             return listOf()
         }
 
-        return document?.let { parseItems(document, vipEntity, pageNum) } ?: listOf()
+        return document?.let { parseItems(document, personEntity, pageNum) } ?: listOf()
     }
 
     @Throws(IOException::class)
@@ -35,7 +37,7 @@ class EchoParser : IEchoParser {
     }
 
     @Synchronized
-    private fun parseItems(document: Document, vipEntity: PersonEntity, pageNum: Int): List<CastEntity> {
+    private fun parseItems(document: Document, personEntity: PersonEntity, pageNum: Int): List<CastEntity> {
         val result = mutableListOf<CastEntity>()
         val divs = document.getElementsByTag("div")
         for (div in divs) {
@@ -52,14 +54,13 @@ class EchoParser : IEchoParser {
                     catchThrowable(e)
                 }
 
-                if (!person.contains(vipEntity.lastName)) {
+                if (!person.contains(personEntity.lastName)) {
                     continue
                 }
 
                 var fullTextURL = ""
                 var type = ""
                 var subtype = ""
-                var photoURL = ""
                 var shortText = ""
                 var mp3Url = ""
                 var mp3Duration = 0
@@ -88,7 +89,7 @@ class EchoParser : IEchoParser {
                     shortText = divPrevcontent.getElementsByTag("p")[1]
                         .getElementsByTag("a")[0].text()
                 } catch (e: IndexOutOfBoundsException) {
-                    //                    Logger.writeError("parseItems()::item.shortText");
+                    catchThrowable(e)
                 }
 
                 if (shortText.isEmpty()) {
@@ -97,7 +98,6 @@ class EchoParser : IEchoParser {
                     } catch (e: IndexOutOfBoundsException) {
                         catchThrowable(e)
                     }
-
                 }
 
                 try {
@@ -146,7 +146,7 @@ class EchoParser : IEchoParser {
 
                 val item = CastEntity(
                     fullTextURL = fullTextURL,
-                    personId = vipEntity.id,
+                    personId = personEntity.id,
                     type = type,
                     subtype = subtype,
                     shortText = shortText,

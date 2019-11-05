@@ -1,8 +1,8 @@
-package com.gmail.echomskfan.persons.interactor.parser
+package echomskfan.gmail.com.data.parser
 
 import echomskfan.gmail.com.entity.CastEntity
 import echomskfan.gmail.com.entity.PersonEntity
 
 interface IEchoParser {
-    fun getCasts(fullUrl: String, vipEntity: PersonEntity, pageNum: Int = 1): List<CastEntity>
+    fun getCasts(fullUrl: String, personEntity: PersonEntity, pageNum: Int = 1): List<CastEntity>
 }

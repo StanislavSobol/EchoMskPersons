@@ -2,11 +2,11 @@ package echomskfan.gmail.com.di
 
 import android.content.Context
 import androidx.room.Room
-import com.gmail.echomskfan.persons.interactor.parser.EchoParser
-import com.gmail.echomskfan.persons.interactor.parser.IEchoParser
 import dagger.Module
 import dagger.Provides
 import echomskfan.gmail.com.data.PersonsDatabase
+import echomskfan.gmail.com.data.parser.EchoParser
+import echomskfan.gmail.com.data.parser.IEchoParser
 import echomskfan.gmail.com.domain.repository.IRepository
 import echomskfan.gmail.com.domain.repository.Repository
 import javax.inject.Singleton

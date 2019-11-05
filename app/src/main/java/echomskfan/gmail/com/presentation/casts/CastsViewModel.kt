@@ -11,20 +11,7 @@ class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel(i
         return Transformations.map(interactor.getCastsLiveDataForPerson(personId)) { list -> CastListItem.from(list) }
     }
 
-    fun firstAttach() {
-//        interactor.transferPersonsFromXmlToDb()
-    }
-
-    fun itemIdNotificationClicked(id: Int) {
-//        interactor.personIdNotificationClicked(id)
-    }
-
-    fun itemIdFavClicked(id: Int) {
-//        interactor.personIdFavClicked(id)
-    }
-
-    override fun onCleared() {
-        interactor.clear()
-        super.onCleared()
+    fun firstAttach(personId: Int) {
+        interactor.tranferCastsFromWebToDb(personId)
     }
 }

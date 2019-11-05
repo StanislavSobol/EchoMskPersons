@@ -1,6 +1,27 @@
 <resources>
-    <string name="app_name">EchoMskPersons</string>
+    <string name="app_name">Персоны \"Эха Москвы\"</string>
 
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="splash_text">Застав Очка</string>
+
+    <string name="action_settings">Настройки</string>
+    <string name="action_favorites">Избранное</string>
+    <string name="notification_ticket">играет</string>
+    <string name="audio_label">Аудио запись:</string>
+    <string name="title_activity_loading">Загрузка…</string>
+    <string name="title_activity_settings">Настройки</string>
+    <string name="error_no_internet">Пожалуйста, проверьте Ваше Интернет-соединение</string>
+    <string name="error_socket_timeout">Невозможно соединиться с сайтом "Эхо Москвы"</string>
+    <!-- Navigation drawer-->
+    <string name="navigation_drawer_open">Открыть навигационный ящик</string>
+    <string name="navigation_drawer_close">Закрыть навигационный ящик</string>
+    <string name="other_persons_app_title">Другие персоны \"Эха Москвы\"</string>
+    <!-- Application actions -->
+    <string name="app_action_download">Скачать</string>
+    <string name="app_action_start">Запустить</string>
+    <!-- Settings -->
+    <string name="settings_text_size_title">Размер шрифта</string>
+    <string name="settings_text_size_small">Мелкий</string>
+    <string name="settings_text_size_middle">Средний</string>
+    <string name="settings_text_size_big">Крупный</string>
+    <string name="settings_text_size_huge">Огромный</string>
 </resources>

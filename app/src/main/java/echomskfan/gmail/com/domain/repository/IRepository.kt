@@ -12,4 +12,5 @@ interface IRepository {
     fun personIdFavClickedCompletable(id: Int): Completable
 
     fun getCastsLiveDataForPerson(personId: Int): LiveData<List<CastEntity>>
+    fun tranferCastsFromWebToDbCompletable(personId: Int): Completable
 }

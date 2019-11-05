@@ -47,7 +47,7 @@ class CastsFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(CastsViewModel::class.java)
 
         viewModel.getCastsLiveDataForPerson(personId as Int).observe(this, Observer { list -> adapter.addItems(list) })
-        savedInstanceState ?: run { viewModel.firstAttach() }
+        savedInstanceState ?: run { viewModel.firstAttach(personId as Int) }
 
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.adapter = adapter

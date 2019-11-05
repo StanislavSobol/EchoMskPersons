@@ -2,10 +2,10 @@ package echomskfan.gmail.com.domain.repository
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import com.gmail.echomskfan.persons.interactor.parser.IEchoParser
 import echomskfan.gmail.com.data.CastsDao
 import echomskfan.gmail.com.data.PersonsDao
 import echomskfan.gmail.com.data.PersonsDatabase
+import echomskfan.gmail.com.data.parser.IEchoParser
 import echomskfan.gmail.com.entity.CastEntity
 import echomskfan.gmail.com.entity.PersonEntity
 import echomskfan.gmail.com.utils.getPersonsFromXml
@@ -31,12 +31,12 @@ class Repository(
                 val dbPerson = personsDao.getById(xmlItem.id)
                 dbPerson?.run {
                     personsDao.initialUpdate(
+                        id = xmlItem.id,
                         url = xmlItem.url,
                         firstName = xmlItem.firstName,
                         lastName = xmlItem.lastName,
                         profession = xmlItem.profession,
-                        info = xmlItem.info,
-                        id = xmlItem.id
+                        info = xmlItem.info
                     )
                 } ?: run {
                     personsDao.add(xmlItem)
@@ -63,5 +63,15 @@ class Repository(
 
     override fun getCastsLiveDataForPerson(personId: Int): LiveData<List<CastEntity>> {
         return castsDao.getCastsLiveDataForPerson(personId)
+    }
+
+    override fun tranferCastsFromWebToDbCompletable(personId: Int): Completable {
+        return Completable.create {
+            personsDao.getById(personId)?.let {
+                castsDao.deleteAllForPerson(personId)
+                val casts = echoParser.getCasts("https://echo.msk.ru/" + it.url, it, 1)
+                castsDao.insertAll(casts)
+            }
+        }
     }
 }
