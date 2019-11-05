@@ -4,6 +4,5 @@ import echomskfan.gmail.com.domain.interactor.BaseInteractor
 import echomskfan.gmail.com.domain.repository.IRepository
 
 class CastsInteractor(private val repository: IRepository) : BaseInteractor(), ICastsInteractor {
-
-
+    override fun getCastsLiveDataForPerson(personId: Int) = repository.getCastsLiveDataForPerson(personId)
 }

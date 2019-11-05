@@ -3,8 +3,10 @@ package echomskfan.gmail.com.domain.repository
 import android.content.Context
 import androidx.lifecycle.LiveData
 import com.gmail.echomskfan.persons.interactor.parser.IEchoParser
+import echomskfan.gmail.com.data.CastsDao
 import echomskfan.gmail.com.data.PersonsDao
 import echomskfan.gmail.com.data.PersonsDatabase
+import echomskfan.gmail.com.entity.CastEntity
 import echomskfan.gmail.com.entity.PersonEntity
 import echomskfan.gmail.com.utils.getPersonsFromXml
 import io.reactivex.Completable
@@ -16,6 +18,7 @@ class Repository(
 ) : IRepository {
 
     private val personsDao: PersonsDao by lazy { database.getPersonsDao() }
+    private val castsDao: CastsDao by lazy { database.getCastsDao() }
 
     override fun getPersonsLiveData(): LiveData<List<PersonEntity>> {
         return personsDao.getAllLiveData()
@@ -56,5 +59,9 @@ class Repository(
         return Completable.create {
             personsDao.getById(id)?.let { personsDao.setFavById(!it.fav, id) }
         }
+    }
+
+    override fun getCastsLiveDataForPerson(personId: Int): LiveData<List<CastEntity>> {
+        return castsDao.getCastsLiveDataForPerson(personId)
     }
 }

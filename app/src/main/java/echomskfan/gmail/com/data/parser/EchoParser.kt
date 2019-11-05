@@ -85,16 +85,6 @@ class EchoParser : IEchoParser {
                 }
 
                 try {
-                    photoURL = divPrevcontent.getElementsByTag("p")[0]
-                        .getElementsByTag("a")[0]
-                        .getElementsByClass("photo")[0]
-                        .getElementsByTag("img")[0].attr("src")
-
-                } catch (e: IndexOutOfBoundsException) {
-                    catchThrowable(e)
-                }
-
-                try {
                     shortText = divPrevcontent.getElementsByTag("p")[1]
                         .getElementsByTag("a")[0].text()
                 } catch (e: IndexOutOfBoundsException) {
@@ -159,7 +149,6 @@ class EchoParser : IEchoParser {
                     personId = vipEntity.id,
                     type = type,
                     subtype = subtype,
-                    photoUrl = photoURL,
                     shortText = shortText,
                     mp3Url = mp3Url,
                     mp3Duration = mp3Duration,

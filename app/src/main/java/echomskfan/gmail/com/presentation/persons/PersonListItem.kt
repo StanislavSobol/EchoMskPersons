@@ -19,7 +19,7 @@ data class PersonListItem(
             return result
         }
 
-        fun oneFrom(personEntity: PersonEntity): PersonListItem {
+        private fun oneFrom(personEntity: PersonEntity): PersonListItem {
             return PersonListItem(
                 id = personEntity.id,
                 fullName = personEntity.firstName + " " + personEntity.lastName,

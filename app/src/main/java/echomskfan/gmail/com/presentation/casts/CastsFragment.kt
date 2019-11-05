@@ -24,6 +24,8 @@ class CastsFragment : Fragment() {
 
     private lateinit var viewModel: CastsViewModel
 
+    private val personId: Int?  by lazy { arguments?.getInt("personId") }
+
     private val adapter: CastsAdapter by lazy { CastsAdapter(viewModel) }
 
     init {
@@ -40,14 +42,15 @@ class CastsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        personId ?: run { throw IllegalStateException("personId must not be null") }
+
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(CastsViewModel::class.java)
-        viewModel.getCastsLiveData()?.observe(this, Observer { list -> adapter.addItems(list) })
+
+        viewModel.getCastsLiveDataForPerson(personId as Int).observe(this, Observer { list -> adapter.addItems(list) })
         savedInstanceState ?: run { viewModel.firstAttach() }
 
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.adapter = adapter
-
-        val personId = arguments?.getInt("personId")
 
         Log.d("SSS", "personId = $personId")
     }

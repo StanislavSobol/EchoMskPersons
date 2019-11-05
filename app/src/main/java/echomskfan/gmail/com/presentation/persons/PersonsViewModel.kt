@@ -9,7 +9,10 @@ import echomskfan.gmail.com.presentation.OneShotEvent
 
 class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewModel(interactor) {
 
-    val navigationLiveDate = MutableLiveData<OneShotEvent<Int>>()
+    private val _navigationLiveDate = MutableLiveData<OneShotEvent<Int>>()
+
+    val navigationLiveDate: LiveData<OneShotEvent<Int>>
+        get() = _navigationLiveDate
 
     fun getPersonsLiveData(): LiveData<List<PersonListItem>> {
         return Transformations.map(interactor.getPersonsLiveData()) { list -> PersonListItem.from(list) }
@@ -28,6 +31,6 @@ class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewMod
     }
 
     fun itemIdClicked(id: Int) {
-        navigationLiveDate.value = OneShotEvent(id)
+        _navigationLiveDate.value = OneShotEvent(id)
     }
 }
