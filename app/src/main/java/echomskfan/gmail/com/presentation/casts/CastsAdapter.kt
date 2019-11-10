@@ -5,6 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import echomskfan.gmail.com.R
+import echomskfan.gmail.com.utils.fromSecToAudioDuration
+import echomskfan.gmail.com.utils.gone
+import echomskfan.gmail.com.utils.visible
 import kotlinx.android.synthetic.main.item_cast.view.*
 
 internal class CastsAdapter(private val viewModel: CastsViewModel) : RecyclerView.Adapter<CastsAdapter.Holder>() {
@@ -35,16 +38,16 @@ internal class CastsAdapter(private val viewModel: CastsViewModel) : RecyclerVie
                 itemView.item_content_date_text_view.text = item.formattedDate
                 itemView.item_content_short_text_view.text = item.shortText
 
-//                if (!item.mp3Url.isEmpty()) {
-//                    itemView.item_content_audio_duration_text_view.text = StringUtils.getAudioDuration(item.mp3Duration)
-//                    itemView.item_content_audio_play_image_button.setOnClickListener {
-//                        presenter.play(item)
-//                    }
-//
-//                    itemView.item_content_audio_layout.makeVisible()
-//                } else {
-//                    itemView.item_content_audio_layout.makeGone()
-//                }
+                if (item.mp3Url.isNotEmpty()) {
+                    itemView.item_content_audio_duration_text_view.text = item.mp3Duration.fromSecToAudioDuration()
+                    itemView.item_content_audio_play_image_button.setOnClickListener {
+                        // presenter.play(item)
+                    }
+
+                    itemView.item_content_audio_layout.visible()
+                } else {
+                    itemView.item_content_audio_layout.gone()
+                }
 
                 itemView.item_content_favorite_image_view.setImageResource(
                     if (item.fav) R.drawable.ic_baseline_favorite_24px
