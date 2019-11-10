@@ -2,13 +2,13 @@ package echomskfan.gmail.com.data
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 import echomskfan.gmail.com.entity.CastEntity
 import echomskfan.gmail.com.entity.PersonEntity
+import java.util.*
 
-@Database(entities = [(PersonEntity::class), (CastEntity::class)], version = 11)
+@Database(entities = [(PersonEntity::class), (CastEntity::class)], version = 18)
+@TypeConverters(Converters::class)
 abstract class PersonsDatabase : RoomDatabase() {
 
     abstract fun getPersonsDao(): PersonsDao
@@ -30,5 +30,17 @@ abstract class PersonsDatabase : RoomDatabase() {
             }
             return instance!!
         }
+    }
+}
+
+internal class Converters {
+    @TypeConverter
+    fun fromTimestamp(value: Long?): Date? {
+        return value?.let { Date(it) }
+    }
+
+    @TypeConverter
+    fun dateToTimestamp(date: Date?): Long? {
+        return date?.time?.toLong()
     }
 }

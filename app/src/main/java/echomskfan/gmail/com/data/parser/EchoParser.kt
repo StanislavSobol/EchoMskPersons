@@ -1,23 +1,27 @@
 package echomskfan.gmail.com.data.parser
 
+import android.util.Log
 import echomskfan.gmail.com.entity.CastEntity
 import echomskfan.gmail.com.entity.PersonEntity
 import echomskfan.gmail.com.utils.catchThrowable
+import echomskfan.gmail.com.utils.toDate
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.io.IOException
 
 class EchoParser : IEchoParser {
 
-    override fun getCasts(fullUrl: String, personEntity: PersonEntity, pageNum: Int): List<CastEntity> {
-        // https://echo.msk.ru/
+    override fun getCasts(personEntity: PersonEntity, pageNum: Int): List<CastEntity> {
+        val fullUrl = "$BASE_URL${personEntity.url}"
 
-        if (fullUrl.isEmpty()) return listOf()
+        if (fullUrl.isEmpty()) {
+            return listOf()
+        }
 
         val document: Document?
         try {
             try {
-                document = getDocument(fullUrl)
+                document = Jsoup.connect(fullUrl).get()
             } catch (e: IllegalArgumentException) {
                 catchThrowable(e)
                 return listOf()
@@ -29,11 +33,6 @@ class EchoParser : IEchoParser {
         }
 
         return document?.let { parseItems(document, personEntity, pageNum) } ?: listOf()
-    }
-
-    @Throws(IOException::class)
-    private fun getDocument(fullUrl: String): Document? {
-        return Jsoup.connect(fullUrl).get()
     }
 
     @Synchronized
@@ -147,16 +146,19 @@ class EchoParser : IEchoParser {
                 val item = CastEntity(
                     fullTextURL = fullTextURL,
                     personId = personEntity.id,
+                    pageNum = pageNum,
                     type = type,
                     subtype = subtype,
                     shortText = shortText,
                     mp3Url = mp3Url,
                     mp3Duration = mp3Duration,
                     formattedDate = formattedDate,
-                    pageNum = pageNum
+                    date = formattedDate.toDate()
                 )
 
                 result.add(item)
+
+                Log.d("SSS", "item = $item")
 
 //                if (!result.contains(item)) {
 //                    if (!item.fullTextURL.isEmpty() || !item.mp3Url.isEmpty()) {
@@ -170,4 +172,10 @@ class EchoParser : IEchoParser {
         }
         return result
     }
+
+    companion object {
+        private const val BASE_URL = "https://echo.msk.ru/"
+    }
 }
+
+

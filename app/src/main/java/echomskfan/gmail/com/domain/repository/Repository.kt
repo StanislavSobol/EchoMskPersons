@@ -68,9 +68,11 @@ class Repository(
     override fun tranferCastsFromWebToDbCompletable(personId: Int): Completable {
         return Completable.create {
             personsDao.getById(personId)?.let {
+                // TODO deal with favs
                 castsDao.deleteAllForPerson(personId)
-                val casts = echoParser.getCasts("https://echo.msk.ru/" + it.url, it, 1)
+                val casts = echoParser.getCasts(it, 1)
                 castsDao.insertAll(casts)
+                castsDao.removeGarbage()
             }
         }
     }
