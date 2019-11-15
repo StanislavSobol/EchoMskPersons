@@ -41,7 +41,7 @@ internal class CastsAdapter(private val viewModel: CastsViewModel) : RecyclerVie
                 if (item.mp3Url.isNotEmpty()) {
                     itemView.item_content_audio_duration_text_view.text = item.mp3Duration.fromSecToAudioDuration()
                     itemView.item_content_audio_play_image_button.setOnClickListener {
-                        // presenter.play(item)
+                        viewModel.playButtonClicked(item)
                     }
 
                     itemView.item_content_audio_layout.visible()

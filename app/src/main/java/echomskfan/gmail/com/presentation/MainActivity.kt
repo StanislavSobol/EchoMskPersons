@@ -1,10 +1,13 @@
 package echomskfan.gmail.com.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import echomskfan.gmail.com.R
+import echomskfan.gmail.com.presentation.player.MediaPlayerService
+import echomskfan.gmail.com.presentation.player.PlayerItem
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,5 +23,11 @@ class MainActivity : AppCompatActivity() {
         val bundle = Bundle()
         bundle.putInt("personId", castId)
         navController.navigate(R.id.action_personsFragment_to_castsFragment, bundle)
+    }
+
+    fun startPlay(playerItem: PlayerItem) {
+        val intent = Intent(this, MediaPlayerService::class.java)
+        intent.putExtra(PlayerItem.EXTRA_KEY, playerItem)
+        startService(intent)
     }
 }

@@ -1,6 +1,5 @@
 package echomskfan.gmail.com.data.parser
 
-import android.util.Log
 import echomskfan.gmail.com.entity.CastEntity
 import echomskfan.gmail.com.entity.PersonEntity
 import echomskfan.gmail.com.utils.catchThrowable
@@ -157,17 +156,6 @@ class EchoParser : IEchoParser {
                 )
 
                 result.add(item)
-
-                Log.d("SSS", "item = $item")
-
-//                if (!result.contains(item)) {
-//                    if (!item.fullTextURL.isEmpty() || !item.mp3Url.isEmpty()) {
-//                        result.find { it.fullTextURL == item.fullTextURL } ?: run {
-//                            item.orderWithinPage = result.size
-//                            result.add(item)
-//                        }
-//                    }
-//                }
             }
         }
         return result

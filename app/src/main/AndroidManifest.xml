@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="echomskfan.gmail.com">
+          xmlns:tools="http://schemas.android.com/tools" package="echomskfan.gmail.com">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -12,9 +12,8 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme">
-        <activity android:name=".presentation.MainActivity">
-        </activity>
+            android:theme="@style/AppTheme" tools:ignore="GoogleAppIndexingWarning">
+
         <activity
                 android:name=".presentation.SplashActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize"
@@ -26,6 +25,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".presentation.MainActivity"/>
+
+        <service
+                android:name=".presentation.player.MediaPlayerService"
+                android:enabled="true"
+                android:exported="false"/>
     </application>
 
 </manifest>

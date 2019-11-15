@@ -44,10 +44,7 @@ class PersonsFragment : Fragment() {
 
         viewModel.getPersonsLiveData().observe(viewLifecycleOwner, Observer { list -> adapter.addItems(list) })
         viewModel.navigationLiveDate.observe(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let { id ->
-                val activity = requireActivity() as MainActivity
-                activity.navigateToCasts(id)
-            }
+            it.getContentIfNotHandled()?.let { id -> (requireActivity() as MainActivity).navigateToCasts(id) }
         })
 
         savedInstanceState ?: run { viewModel.firstAttach() }

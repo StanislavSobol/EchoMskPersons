@@ -1,7 +1,6 @@
 package echomskfan.gmail.com.presentation.casts
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
 import echomskfan.gmail.com.di.casts.CastsScope
 import echomskfan.gmail.com.di.casts.DaggerCastsComponent
+import echomskfan.gmail.com.presentation.MainActivity
 import kotlinx.android.synthetic.main.persons_fragment.*
 import javax.inject.Inject
 
@@ -46,12 +46,16 @@ class CastsFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(CastsViewModel::class.java)
 
-        viewModel.getCastsLiveDataForPerson(personId as Int).observe(this, Observer { list -> adapter.addItems(list) })
+        viewModel.getCastsLiveDataForPerson(personId as Int)
+            .observe(viewLifecycleOwner, Observer { list -> adapter.addItems(list) })
+
         savedInstanceState ?: run { viewModel.firstAttach(personId as Int) }
+
+        viewModel.startPlayLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let { item -> (requireActivity() as MainActivity).startPlay(item); }
+        })
 
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.adapter = adapter
-
-        Log.d("SSS", "personId = $personId")
     }
 }
