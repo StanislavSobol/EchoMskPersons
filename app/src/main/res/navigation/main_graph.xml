@@ -11,5 +11,8 @@
     <fragment android:id="@+id/castsFragment" android:name="echomskfan.gmail.com.presentation.casts.CastsFragment"
               android:label="CastsFragment">
         <argument android:name="personId" app:argType="integer"/>
+        <action android:id="@+id/action_castsFragment_to_playerFragment" app:destination="@id/playerFragment"/>
     </fragment>
+    <fragment android:id="@+id/playerFragment" android:name="echomskfan.gmail.com.presentation.player.PlayerFragment"
+              android:label="PlayerFragment"/>
 </navigation>

@@ -1,5 +1,7 @@
 package echomskfan.gmail.com.utils
 
-fun catchThrowable(e: Throwable) {
+import android.util.Log
 
+fun catchThrowable(e: Throwable) {
+    Log.e("SSS", "Caught: $e")
 }

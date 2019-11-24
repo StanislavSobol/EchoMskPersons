@@ -1,8 +1,8 @@
 package echomskfan.gmail.com.domain.repository
 
 import androidx.lifecycle.LiveData
-import echomskfan.gmail.com.entity.CastEntity
-import echomskfan.gmail.com.entity.PersonEntity
+import echomskfan.gmail.com.data.db.entity.CastEntity
+import echomskfan.gmail.com.data.db.entity.PersonEntity
 import io.reactivex.Completable
 
 interface IRepository {

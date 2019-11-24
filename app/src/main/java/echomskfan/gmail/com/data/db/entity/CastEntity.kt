@@ -1,12 +1,14 @@
-package echomskfan.gmail.com.entity
+package echomskfan.gmail.com.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import echomskfan.gmail.com.utils.toDate
 import java.util.*
 
-@Entity
+@Entity//(primaryKeys = ["personId","date"])
 data class CastEntity(
     @PrimaryKey
+    val id: String,
     val fullTextURL: String,
     val personId: Int, // FK
     val pageNum: Int,
@@ -16,6 +18,11 @@ data class CastEntity(
     val mp3Url: String,
     val mp3Duration: Int,
     val formattedDate: String,
-    val date: Date? = null,
+    val date: Date,
     var fav: Boolean = false // reserved
-)
+) {
+    companion object {
+        fun generateKey(personId: Int, formattedDate: String) = "$personId${dateFromString(formattedDate)}"
+        fun dateFromString(formattedDate: String) = formattedDate.toDate()?.let { it } ?: Date()
+    }
+}

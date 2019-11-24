@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
-import echomskfan.gmail.com.data.PersonsDatabase
+import echomskfan.gmail.com.data.db.PersonsDatabase
 import echomskfan.gmail.com.data.parser.EchoParser
 import echomskfan.gmail.com.data.parser.IEchoParser
 import echomskfan.gmail.com.domain.repository.IRepository

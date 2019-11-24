@@ -52,7 +52,7 @@ class CastsFragment : Fragment() {
         savedInstanceState ?: run { viewModel.firstAttach(personId as Int) }
 
         viewModel.startPlayLiveData.observe(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let { item -> (requireActivity() as MainActivity).startPlay(item); }
+            it.getContentIfNotHandled()?.let { id -> (requireActivity() as MainActivity).navigateToPlayer(id); }
         })
 
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())

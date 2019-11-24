@@ -1,6 +1,6 @@
 package echomskfan.gmail.com.presentation.persons
 
-import echomskfan.gmail.com.entity.PersonEntity
+import echomskfan.gmail.com.data.db.entity.PersonEntity
 
 data class PersonListItem(
     val id: Int,

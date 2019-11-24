@@ -1,13 +1,15 @@
-package echomskfan.gmail.com.data
+package echomskfan.gmail.com.data.db
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
 import androidx.room.*
-import echomskfan.gmail.com.entity.CastEntity
-import echomskfan.gmail.com.entity.PersonEntity
+import echomskfan.gmail.com.data.db.dao.CastsDao
+import echomskfan.gmail.com.data.db.dao.PersonsDao
+import echomskfan.gmail.com.data.db.entity.CastEntity
+import echomskfan.gmail.com.data.db.entity.PersonEntity
 import java.util.*
 
-@Database(entities = [(PersonEntity::class), (CastEntity::class)], version = 18)
+@Database(entities = [(PersonEntity::class), (CastEntity::class)], version = 21)
 @TypeConverters(Converters::class)
 abstract class PersonsDatabase : RoomDatabase() {
 
@@ -41,6 +43,6 @@ internal class Converters {
 
     @TypeConverter
     fun dateToTimestamp(date: Date?): Long? {
-        return date?.time?.toLong()
+        return date?.time
     }
 }

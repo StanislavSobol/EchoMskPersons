@@ -1,11 +1,11 @@
-package echomskfan.gmail.com.data
+package echomskfan.gmail.com.data.db.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import echomskfan.gmail.com.entity.PersonEntity
+import echomskfan.gmail.com.data.db.entity.PersonEntity
 
 @Dao
 interface PersonsDao {

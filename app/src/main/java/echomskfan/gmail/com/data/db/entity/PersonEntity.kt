@@ -1,4 +1,4 @@
-package echomskfan.gmail.com.entity
+package echomskfan.gmail.com.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

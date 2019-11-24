@@ -1,9 +1,8 @@
 package echomskfan.gmail.com.data.parser
 
-import echomskfan.gmail.com.entity.CastEntity
-import echomskfan.gmail.com.entity.PersonEntity
+import echomskfan.gmail.com.data.db.entity.CastEntity
+import echomskfan.gmail.com.data.db.entity.PersonEntity
 import echomskfan.gmail.com.utils.catchThrowable
-import echomskfan.gmail.com.utils.toDate
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.io.IOException
@@ -143,6 +142,7 @@ class EchoParser : IEchoParser {
                 }
 
                 val item = CastEntity(
+                    id = CastEntity.generateKey(personEntity.id, formattedDate),
                     fullTextURL = fullTextURL,
                     personId = personEntity.id,
                     pageNum = pageNum,
@@ -152,10 +152,16 @@ class EchoParser : IEchoParser {
                     mp3Url = mp3Url,
                     mp3Duration = mp3Duration,
                     formattedDate = formattedDate,
-                    date = formattedDate.toDate()
+                    date = CastEntity.dateFromString(formattedDate)
                 )
 
-                result.add(item)
+                if (!result.contains(item)) {
+                    if (item.fullTextURL.isNotEmpty() || item.mp3Url.isNotEmpty()) {
+                        result.find { it.fullTextURL == item.fullTextURL } ?: run {
+                            result.add(item)
+                        }
+                    }
+                }
             }
         }
         return result

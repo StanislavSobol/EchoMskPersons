@@ -6,13 +6,12 @@ import androidx.lifecycle.Transformations
 import echomskfan.gmail.com.domain.interactor.casts.ICastsInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.presentation.OneShotEvent
-import echomskfan.gmail.com.presentation.player.PlayerItem
 
 class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel(interactor) {
 
-    private val _startPlayLiveData = MutableLiveData<OneShotEvent<PlayerItem>>()
+    private val _startPlayLiveData = MutableLiveData<OneShotEvent<String>>()
 
-    val startPlayLiveData: LiveData<OneShotEvent<PlayerItem>>
+    val startPlayLiveData: LiveData<OneShotEvent<String>>
         get() = _startPlayLiveData
 
     fun getCastsLiveDataForPerson(personId: Int): LiveData<List<CastListItem>> {
@@ -24,6 +23,6 @@ class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel(i
     }
 
     fun playButtonClicked(castListItem: CastListItem) {
-        _startPlayLiveData.value = OneShotEvent(PlayerItem.from(castListItem))
+        _startPlayLiveData.value = OneShotEvent(castListItem.id)
     }
 }

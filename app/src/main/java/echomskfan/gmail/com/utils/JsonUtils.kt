@@ -1,7 +1,7 @@
 package echomskfan.gmail.com.utils
 
 import android.content.Context
-import echomskfan.gmail.com.entity.PersonEntity
+import echomskfan.gmail.com.data.db.entity.PersonEntity
 import org.json.JSONArray
 import java.nio.charset.Charset
 
@@ -35,11 +35,11 @@ fun getPersonsFromXml(context: Context): List<PersonEntity> {
 
 private fun loadJSONFromAsset(context: Context, assetName: String): String {
     val json: String
-    val `is` = context.assets.open(assetName)
-    val size = `is`.available()
+    val inputStream = context.assets.open(assetName)
+    val size = inputStream.available()
     val buffer = ByteArray(size)
-    `is`.read(buffer)
-    `is`.close()
+    inputStream.read(buffer)
+    inputStream.close()
     json = String(buffer, Charset.forName("UTF-8"))
     return json
 }
