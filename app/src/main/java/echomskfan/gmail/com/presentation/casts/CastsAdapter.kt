@@ -50,8 +50,8 @@ internal class CastsAdapter(private val viewModel: CastsViewModel) : RecyclerVie
                 }
 
                 itemView.item_content_favorite_image_view.setImageResource(
-                    if (item.fav) R.drawable.ic_baseline_favorite_24px
-                    else R.drawable.ic_baseline_favorite_border_24px
+                    if (item.fav) R.drawable.ic_baseline_favorite_black_24dp
+                    else R.drawable.ic_baseline_favorite_none_24dp
                 )
 
                 itemView.item_content_favorite_image_view.setOnClickListener {

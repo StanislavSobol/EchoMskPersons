@@ -67,7 +67,7 @@
                 android:id="@+id/personItemNotificationImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_notifications_24px"
+                android:src="@drawable/ic_baseline_notifications_black_24dp"
                 tools:ignore="ContentDescription"/>
 
         <ImageView
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/small_margin"
                 android:layout_marginStart="@dimen/small_margin"
-                android:src="@drawable/ic_baseline_favorite_24px"
+                android:src="@drawable/ic_baseline_favorite_black_24dp"
                 tools:ignore="ContentDescription"/>
 
     </LinearLayout>

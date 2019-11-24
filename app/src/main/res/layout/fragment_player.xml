@@ -32,7 +32,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@color/colorMediaPlayerButtonBackground"
-                android:src="@drawable/ic_baseline_play_arrow_24px"/>
+                android:src="@drawable/ic_baseline_play_white_24dp"/>
 
         <RelativeLayout
                 android:layout_width="match_parent"

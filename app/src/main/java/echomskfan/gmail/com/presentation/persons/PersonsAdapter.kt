@@ -41,8 +41,8 @@ internal class PersonsAdapter(private val viewModel: PersonsViewModel) : Recycle
                 itemView.personItemInfoTextView.text = item.info
 
                 itemView.personItemNotificationImageView.setImageResource(
-                    if (item.notification) R.drawable.ic_baseline_notifications_24px
-                    else R.drawable.ic_baseline_notifications_none_24px
+                    if (item.notification) R.drawable.ic_baseline_notifications_black_24dp
+                    else R.drawable.ic_baseline_notifications_none_24dp
                 )
 
                 itemView.personItemNotificationImageView.setOnClickListener {
@@ -50,8 +50,8 @@ internal class PersonsAdapter(private val viewModel: PersonsViewModel) : Recycle
                 }
 
                 itemView.personItemFavImageView.setImageResource(
-                    if (item.fav) R.drawable.ic_baseline_favorite_24px
-                    else R.drawable.ic_baseline_favorite_border_24px
+                    if (item.fav) R.drawable.ic_baseline_favorite_black_24dp
+                    else R.drawable.ic_baseline_favorite_none_24dp
                 )
 
                 itemView.personItemFavImageView.setOnClickListener {
