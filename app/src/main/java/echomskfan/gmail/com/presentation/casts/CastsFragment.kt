@@ -11,7 +11,6 @@ import echomskfan.gmail.com.di.casts.CastsScope
 import echomskfan.gmail.com.di.casts.DaggerCastsComponent
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
-import echomskfan.gmail.com.presentation.MainActivity
 import kotlinx.android.synthetic.main.fragment_recycler_view.*
 import javax.inject.Inject
 
@@ -47,7 +46,7 @@ class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycle
         savedInstanceState ?: run { viewModel.firstAttach(personId as Int) }
 
         viewModel.startPlayLiveData.observe(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let { id -> (requireActivity() as MainActivity).navigateToPlayer(id); }
+            it.getContentIfNotHandled()?.let { id -> mainActivityRouter?.navigateToPlayer(id); }
         })
 
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())

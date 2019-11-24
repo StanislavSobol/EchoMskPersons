@@ -10,7 +10,6 @@ import echomskfan.gmail.com.di.persons.DaggerPersonsComponent
 import echomskfan.gmail.com.di.persons.PersonsScope
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
-import echomskfan.gmail.com.presentation.MainActivity
 import kotlinx.android.synthetic.main.fragment_recycler_view.*
 import javax.inject.Inject
 
@@ -38,7 +37,7 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
 
         viewModel.getPersonsLiveData().observe(viewLifecycleOwner, Observer { list -> adapter.addItems(list) })
         viewModel.navigationLiveDate.observe(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let { id -> (requireActivity() as MainActivity).navigateToCasts(id) }
+            it.getContentIfNotHandled()?.let { id -> mainActivityRouter?.navigateToCasts(id) }
         })
 
         savedInstanceState ?: run { viewModel.firstAttach() }
