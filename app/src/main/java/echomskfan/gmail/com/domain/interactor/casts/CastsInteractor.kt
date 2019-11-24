@@ -6,7 +6,6 @@ import echomskfan.gmail.com.utils.catchThrowable
 import echomskfan.gmail.com.utils.fromIoToMain
 
 class CastsInteractor(private val repository: IRepository) : BaseInteractor(), ICastsInteractor {
-
     override fun getCastsLiveDataForPerson(personId: Int) = repository.getCastsLiveDataForPerson(personId)
 
     override fun tranferCastsFromWebToDb(personId: Int) {
@@ -16,4 +15,13 @@ class CastsInteractor(private val repository: IRepository) : BaseInteractor(), I
             .subscribe()
             .unsubscribeOnClear()
     }
+
+    override fun castIdFavClicked(castId: String) {
+        repository.castIdFavClickedCompletable(castId)
+            .doOnError { e -> catchThrowable(e) }
+            .fromIoToMain()
+            .subscribe()
+            .unsubscribeOnClear()
+    }
+
 }

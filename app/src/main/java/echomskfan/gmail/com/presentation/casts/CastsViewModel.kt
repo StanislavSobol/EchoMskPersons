@@ -25,4 +25,8 @@ class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel(i
     fun playButtonClicked(castListItem: CastListItem) {
         _startPlayLiveData.value = OneShotEvent(castListItem.id)
     }
+
+    fun itemIdFavClicked(castId: String) {
+        interactor.castIdFavClicked(castId)
+    }
 }

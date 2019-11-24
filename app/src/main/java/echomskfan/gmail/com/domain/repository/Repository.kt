@@ -1,7 +1,6 @@
 package echomskfan.gmail.com.domain.repository
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import echomskfan.gmail.com.data.db.PersonsDatabase
 import echomskfan.gmail.com.data.db.dao.CastsDao
@@ -56,48 +55,31 @@ class Repository(
         }
     }
 
-    override fun personIdFavClickedCompletable(id: Int): Completable {
+    override fun personIdFavClickedCompletable(personId: Int): Completable {
         return Completable.create {
-            personsDao.getById(id)?.let { personsDao.setFavById(!it.fav, id) }
+            personsDao.getById(personId)?.let { personsDao.setFavById(!it.fav, personId) }
+        }
+    }
+
+    override fun castIdFavClickedCompletable(castId: String): Completable {
+        return Completable.create {
+            castsDao.getById(castId)?.let { castsDao.setFavById(!it.fav, castId) }
         }
     }
 
     override fun getCastsLiveDataForPerson(personId: Int): LiveData<List<CastEntity>> {
-        return castsDao.getCastsLiveDataForPerson(personId)
+        return castsDao.getAllLiveDataForPerson(personId)
     }
 
     override fun tranferCastsFromWebToDbCompletable(personId: Int): Completable {
-
-//        return Completable.create {
-//            personsDao.getById(personId)?.let { person ->
-//                val inputCasts = echoParser.getCasts(person, 1)
-//                val dbCasts = castsDao.getCastsForPerson(personId)
-//
-//                inputCasts.forEach {cast ->
-//
-//                   val dbCast = castsDao.getCastByFullTextUrl(cast.fullTextURL)
-//
-//                }
-//
-//
-//
-//                // TODO deal with favs
-//                castsDao.deleteAllForPerson(personId)
-//                val casts = echoParser.getCasts(person, 1)
-//                castsDao.insertAll(casts)
-//                castsDao.removeGarbage()
-//            }
-//        }
-
-
         return Completable.create {
             personsDao.getById(personId)?.let {
-                // TODO deal with favs
-//                castsDao.deleteAllForPerson(personId)
+                //                castsDao.deleteLastForPerson(personId)
+
                 val newCasts = echoParser.getCasts(it, 1)
                 newCasts.forEach { newCast ->
                     run {
-                        val oldCast = castsDao.getCastByDate(newCast.date)
+                        val oldCast = castsDao.getCastByDateAndPersonId(newCast.date, personId)
                         oldCast?.let {
                             castsDao.updateContent(
                                 fullTextURL = newCast.fullTextURL,
@@ -113,17 +95,8 @@ class Repository(
                         }
                     }
                 }
-
-
-//                castsDao.insertAll(casts)
                 castsDao.removeGarbage()
-
-
-//                castsDao.getCastsForPerson(personId).forEach { item -> Log.d("SSS", "id = ${item.date}") }
-                castsDao.getCastsForPerson(personId).forEach { item -> Log.d("SSS", "id = ${item.id}") }
-
-
-
+//                castsDao.getByPersonId(personId).forEach { item -> Log.d("SSS", "id = ${item.id}") }
             }
         }
     }

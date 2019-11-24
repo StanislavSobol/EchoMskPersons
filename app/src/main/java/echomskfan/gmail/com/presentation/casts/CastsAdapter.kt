@@ -54,9 +54,9 @@ internal class CastsAdapter(private val viewModel: CastsViewModel) : RecyclerVie
                     else R.drawable.ic_baseline_favorite_border_24px
                 )
 
-//                itemView.item_content_favorite_image_view.setOnClickListener {
-//                    presenter.itemFavIconClicked(item)
-//                }
+                itemView.item_content_favorite_image_view.setOnClickListener {
+                    viewModel.itemIdFavClicked(item.id)
+                }
             }
         }
     }

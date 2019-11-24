@@ -7,4 +7,5 @@ import echomskfan.gmail.com.domain.interactor.IBaseInteractor
 interface ICastsInteractor : IBaseInteractor {
     fun getCastsLiveDataForPerson(personId: Int): LiveData<List<CastEntity>>
     fun tranferCastsFromWebToDb(personId: Int)
+    fun castIdFavClicked(castId: String)
 }

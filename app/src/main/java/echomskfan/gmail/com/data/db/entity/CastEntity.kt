@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import echomskfan.gmail.com.utils.toDate
 import java.util.*
 
-@Entity//(primaryKeys = ["personId","date"])
+@Entity
 data class CastEntity(
     @PrimaryKey
     val id: String,
@@ -19,7 +19,7 @@ data class CastEntity(
     val mp3Duration: Int,
     val formattedDate: String,
     val date: Date,
-    var fav: Boolean = false // reserved
+    var fav: Boolean = false
 ) {
     companion object {
         fun generateKey(personId: Int, formattedDate: String) = "$personId${dateFromString(formattedDate)}"

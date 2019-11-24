@@ -11,29 +11,20 @@ import java.util.*
 @Dao
 interface CastsDao {
 
-    @Query("SELECT * FROM CastEntity WHERE date = :date")
-    fun getCastByDate(date: Date): CastEntity?
-
     @Query("SELECT * FROM CastEntity WHERE personId = :personId ORDER BY date DESC")
-    fun getCastsLiveDataForPerson(personId: Int): LiveData<List<CastEntity>>
+    fun getAllLiveDataForPerson(personId: Int): LiveData<List<CastEntity>>
 
-//    @Query("SELECT * FROM CastEntity WHERE fullTextURL = :id")
-//    fun getById(id: Int): CastEntity?
+    @Query("SELECT * FROM CastEntity WHERE date = :date AND personId=:personId")
+    fun getCastByDateAndPersonId(date: Date, personId: Int): CastEntity?
 
-//    @Query("DELETE FROM CastEntity WHERE personId = :personId")
-//    fun deleteAllForPerson(personId: Int)
-
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    @JvmSuppressWildcards
-//    fun insertAll(casts: List<CastEntity>)
+    @Query("SELECT * FROM CastEntity WHERE id = :id")
+    fun getById(id: String): CastEntity?
 
     @Query("DELETE FROM CastEntity WHERE (type = '' AND subtype = '')")
     fun removeGarbage()
 
     @Query("SELECT * FROM CastEntity WHERE personId = :personId ORDER BY date DESC")
-    fun getCastsForPerson(personId: Int): List<CastEntity>
-//    @Query("SELECT * FROM CastEntity WHERE fullTextURL = :fullTextURL")
-//    fun getCastByFullTextUrl(fullTextURL: String):CastEntity
+    fun getByPersonId(personId: Int): List<CastEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(newCast: CastEntity)
@@ -41,7 +32,8 @@ interface CastsDao {
     @Query(
         """UPDATE CastEntity SET
         fullTextURL = :fullTextURL,
-        type=:type, subtype=:subtype,
+        type=:type,
+        subtype=:subtype,
         shortText=:shortText,
         mp3Url=:mp3Url,
         mp3Duration=:mp3Duration
@@ -57,20 +49,9 @@ interface CastsDao {
         id: String
     )
 
-}
+    @Query("DELETE FROM CastEntity WHERE date = (select max(date) from CastEntity where personId=:personId)")
+    fun deleteLastForPerson(personId: Int)
 
-//@Entity
-//data class CastEntity(
-//    @PrimaryKey
-//    val date: Date,
-//    val fullTextURL: String,
-//    val personId: Int, // FK
-//    val pageNum: Int,
-//    val type: String, // Интервью
-//    val subtype: String, // Персонально Ваш
-//    val shortText: String,
-//    val mp3Url: String,
-//    val mp3Duration: Int,
-//    val formattedDate: String,
-//    var fav: Boolean = false // reserved
-//)
+    @Query("UPDATE CastEntity SET fav=:fav WHERE id=:id")
+    fun setFavById(fav: Boolean, id: String)
+}
