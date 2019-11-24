@@ -37,8 +37,4 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-//    fun back() {
-//        navController.popBackStack()
-//    }
 }

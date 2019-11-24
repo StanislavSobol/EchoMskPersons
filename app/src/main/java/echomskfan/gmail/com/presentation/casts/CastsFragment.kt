@@ -1,9 +1,6 @@
 package echomskfan.gmail.com.presentation.casts
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,10 +12,10 @@ import echomskfan.gmail.com.di.casts.DaggerCastsComponent
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
 import echomskfan.gmail.com.presentation.MainActivity
-import kotlinx.android.synthetic.main.persons_fragment.*
+import kotlinx.android.synthetic.main.fragment_recycler_view.*
 import javax.inject.Inject
 
-class CastsFragment : BaseFragment(FragmentType.Child) {
+class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycler_view) {
 
     @CastsScope
     @Inject
@@ -35,10 +32,6 @@ class CastsFragment : BaseFragment(FragmentType.Child) {
             .appComponent(MApplication.getAppComponent())
             .build()
             .inject(this)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.persons_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

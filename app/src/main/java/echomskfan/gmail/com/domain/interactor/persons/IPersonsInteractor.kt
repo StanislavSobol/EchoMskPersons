@@ -7,6 +7,6 @@ import echomskfan.gmail.com.domain.interactor.IBaseInteractor
 interface IPersonsInteractor : IBaseInteractor {
     fun getPersonsLiveData(): LiveData<List<PersonEntity>>
     fun transferPersonsFromXmlToDb()
-    fun personIdNotificationClicked(id: Int)
-    fun personIdFavClicked(id: Int)
+    fun personIdNotificationClicked(personId: Int)
+    fun personIdFavClicked(personId: Int)
 }

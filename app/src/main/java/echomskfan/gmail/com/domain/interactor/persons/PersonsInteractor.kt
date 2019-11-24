@@ -17,8 +17,8 @@ class PersonsInteractor(private val repository: IRepository) : BaseInteractor(),
             .unsubscribeOnClear()
     }
 
-    override fun personIdNotificationClicked(id: Int) {
-        repository.personIdNotificationClickedCompletable(id)
+    override fun personIdNotificationClicked(personId: Int) {
+        repository.personIdNotificationClickedCompletable(personId)
             .fromIoToMain()
             .doOnError { e -> catchThrowable(e) }
             .subscribe()

@@ -5,7 +5,7 @@
             app:startDestination="@id/personsFragment">
 
     <fragment android:id="@+id/personsFragment" android:name="echomskfan.gmail.com.presentation.persons.PersonsFragment"
-              android:label="persons_fragment" tools:layout="@layout/persons_fragment">
+              android:label="persons_fragment" tools:layout="@layout/fragment_recycler_view">
         <action android:id="@+id/action_personsFragment_to_castsFragment" app:destination="@id/castsFragment"/>
     </fragment>
     <fragment android:id="@+id/castsFragment" android:name="echomskfan.gmail.com.presentation.casts.CastsFragment"

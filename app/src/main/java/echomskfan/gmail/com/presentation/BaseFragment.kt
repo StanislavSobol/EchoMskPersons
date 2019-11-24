@@ -1,12 +1,18 @@
 package echomskfan.gmail.com.presentation
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import echomskfan.gmail.com.R
 
-abstract class BaseFragment(private val fragmentType: FragmentType) : Fragment() {
+abstract class BaseFragment(
+    private val fragmentType: FragmentType,
+    @LayoutRes private val layoutId: Int
+) : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -30,18 +36,8 @@ abstract class BaseFragment(private val fragmentType: FragmentType) : Fragment()
         }
     }
 
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        if (item.itemId == android.R.id.home) {
-//            if (activity is MainActivity) {
-//                (activity as MainActivity).back()
-//            }
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(layoutId, container, false)
     }
 }
 
