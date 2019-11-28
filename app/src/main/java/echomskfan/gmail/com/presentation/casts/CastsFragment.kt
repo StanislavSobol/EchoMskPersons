@@ -39,11 +39,12 @@ class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycle
         personId ?: run { throw IllegalStateException("personId must not be null") }
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(CastsViewModel::class.java)
+        viewModel.personId = personId
 
-        viewModel.getCastsLiveDataForPerson(personId as Int)
+        viewModel.getCastsLiveDataForPerson()
             .observe(viewLifecycleOwner, Observer { list -> adapter.addItems(list) })
 
-        savedInstanceState ?: run { viewModel.firstAttach(personId as Int) }
+        savedInstanceState ?: run { viewModel.firstAttach() }
 
         viewModel.startPlayLiveData.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let { id -> mainActivityRouter?.navigateToPlayer(id); }

@@ -9,7 +9,7 @@ import echomskfan.gmail.com.data.db.entity.CastEntity
 import echomskfan.gmail.com.data.db.entity.PersonEntity
 import java.util.*
 
-@Database(entities = [(PersonEntity::class), (CastEntity::class)], version = 22)
+@Database(entities = [(PersonEntity::class), (CastEntity::class)], version = 23)
 @TypeConverters(Converters::class)
 abstract class PersonsDatabase : RoomDatabase() {
 

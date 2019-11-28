@@ -71,12 +71,12 @@ class Repository(
         return castsDao.getAllLiveDataForPerson(personId)
     }
 
-    override fun tranferCastsFromWebToDbCompletable(personId: Int): Completable {
+    override fun tranferCastsFromWebToDbCompletable(personId: Int, pageNum: Int): Completable {
         return Completable.create {
             personsDao.getById(personId)?.let {
-                //                castsDao.deleteLastForPerson(personId)
+                castsDao.deleteLastForPerson(personId)
 
-                val newCasts = echoParser.getCasts(it, 1)
+                val newCasts = echoParser.getCasts(it, pageNum)
                 newCasts.forEach { newCast ->
                     run {
                         val oldCast = castsDao.getCastByDateAndPersonId(newCast.date, personId)
@@ -98,6 +98,7 @@ class Repository(
                 castsDao.removeGarbage()
 //                castsDao.getByPersonId(personId).forEach { item -> Log.d("SSS", "id = ${item.id}") }
             }
+            it.onComplete()
         }
     }
 }

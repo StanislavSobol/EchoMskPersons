@@ -10,7 +10,7 @@ import java.io.IOException
 class EchoParser : IEchoParser {
 
     override fun getCasts(personEntity: PersonEntity, pageNum: Int): List<CastEntity> {
-        val fullUrl = "$BASE_URL${personEntity.url}"
+        val fullUrl = "$BASE_URL${personEntity.url}/archive/$pageNum"
 
         if (fullUrl.isEmpty()) {
             return listOf()

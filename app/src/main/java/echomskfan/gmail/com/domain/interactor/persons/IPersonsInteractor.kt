@@ -2,11 +2,11 @@ package echomskfan.gmail.com.domain.interactor.persons
 
 import androidx.lifecycle.LiveData
 import echomskfan.gmail.com.data.db.entity.PersonEntity
-import echomskfan.gmail.com.domain.interactor.IBaseInteractor
+import io.reactivex.Completable
 
-interface IPersonsInteractor : IBaseInteractor {
+interface IPersonsInteractor {
     fun getPersonsLiveData(): LiveData<List<PersonEntity>>
-    fun transferPersonsFromXmlToDb()
-    fun personIdNotificationClicked(personId: Int)
-    fun personIdFavClicked(personId: Int)
+    fun transferPersonsFromXmlToDb(): Completable
+    fun personIdNotificationClicked(personId: Int): Completable
+    fun personIdFavClicked(personId: Int): Completable
 }

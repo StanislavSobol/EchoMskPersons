@@ -14,6 +14,13 @@ data class CastListItem(
     val pageNum: Int,
     var fav: Boolean = false
 ) : ICastsListItemDelegate {
+    fun same(new: CastListItem): Boolean {
+        return typeSubtype == new.typeSubtype &&
+                shortText == new.shortText &&
+                mp3Url == new.mp3Url &&
+                mp3Duration == new.mp3Duration &&
+                fav == new.fav
+    }
 
     companion object {
         fun from(personEntities: List<CastEntity>): List<CastListItem> {
