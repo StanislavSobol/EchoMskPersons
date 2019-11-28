@@ -9,12 +9,11 @@ import echomskfan.gmail.com.presentation.OneShotEvent
 import echomskfan.gmail.com.utils.catchThrowable
 import echomskfan.gmail.com.utils.fromIoToMain
 
-// TODO Move all personId from the fragment over here
 class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel() {
 
+    var lastLoadedPageNum: Int = 0
+
     private var loading = false
-    private var hasMoreItems = true
-    private var currentPageNum = 1
     private val _startPlayLiveData = MutableLiveData<OneShotEvent<String>>()
 
     var personId: Int? = null
@@ -25,16 +24,12 @@ class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel()
     fun getCastsLiveDataForPerson(): LiveData<List<CastListItem>> {
         if (personId == null) {
             personIdIsNull()
-            return MutableLiveData<List<CastListItem>>()
         }
+
         return Transformations.map(interactor.getCastsLiveDataForPerson(personId!!)) { list -> CastListItem.from(list) }
     }
 
     fun firstAttach() {
-//        interactor.tranferCastsFromWebToDb(personId, currentPageNum)          .fromIoToMain()
-//            .doOnError { e -> catchThrowable(e) }
-//            .subscribe()
-//            .unsubscribeOnClear()
         subscribeToTransferCastsFromWebToDb()
     }
 
@@ -51,15 +46,7 @@ class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel()
     }
 
     fun scrolledToBottom() {
-//        if (personId == null) {
-//            personIdIsNull()
-//            return
-//        }
-
         subscribeToTransferCastsFromWebToDb()
-
-
-//        personId?.let { interactor.tranferCastsFromWebToDb(it, ++currentPageNum) }?: personIdIsNull()
     }
 
     private fun subscribeToTransferCastsFromWebToDb() {
@@ -69,15 +56,13 @@ class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel()
 
         if (personId == null) {
             personIdIsNull()
-            return
         }
 
-        interactor.tranferCastsFromWebToDb(personId!!, currentPageNum)
+        interactor.tranferCastsFromWebToDb(personId!!, lastLoadedPageNum + 1)
             .fromIoToMain()
             .doOnSubscribe { loading = true } // TODO to extension
             .subscribe({
                 loading = false
-                currentPageNum++
             }, {
                 loading = false
                 catchThrowable(it)
@@ -85,7 +70,7 @@ class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel()
             .unsubscribeOnClear()
     }
 
-    private fun personIdIsNull() {
+    private fun personIdIsNull(): Nothing {
         throw IllegalStateException("personId must be set")
     }
 }

@@ -1,6 +1,5 @@
 package echomskfan.gmail.com.presentation.casts
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +28,6 @@ internal class CastsAdapter(private val viewModel: CastsViewModel) : RecyclerVie
         if (position == items.lastIndex) {
             viewModel.scrolledToBottom()
         }
-        Log.d("SSS", "position = $position / ${items.size}")
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -46,42 +44,34 @@ internal class CastsAdapter(private val viewModel: CastsViewModel) : RecyclerVie
 //    }
 
 
-    fun addItems(newItems: List<CastListItem>) {
-        items.remove(items.find { it is CastsProgressBarItem })
-//        val castListItems = mutableListOf<CastListItem>()
-//        items.forEach {
-//            if (it is CastListItem) {
-//                castListItems.add(it)
+    fun setItems(newItems: List<CastListItem>) {
+//        items.remove(items.find { it is CastsProgressBarItem })
+//
+//        val newPages = mutableSetOf<Int>()
+//        newItems.forEach { newPages.add(it.pageNum) }
+//        val forDeleteItems = mutableListOf<ICastsListItemDelegate>()
+//        newPages.forEach { newPage ->
+//            run {
+//                items.forEach {
+//                    if (it is CastListItem && it.pageNum == newPage) {
+//                        forDeleteItems.add(it)
+//                    }
+//                }
 //            }
 //        }
 //
-//        if (castListItems.isEmpty()) {
-//            notifyDataSetChanged()
-//            return
-//        }
+//        forDeleteItems.forEach { items.remove(it) }
+//        forDeleteItems.clear()
 
-
-        val newPages = mutableSetOf<Int>()
-        newItems.forEach { newPages.add(it.pageNum) }
-        val forDeleteItems = mutableListOf<ICastsListItemDelegate>()
-        newPages.forEach { newPage ->
-            run {
-                items.forEach {
-                    if (it is CastListItem && it.pageNum == newPage) {
-                        forDeleteItems.add(it)
-                    }
-                }
-            }
-        }
-
-        forDeleteItems.forEach { items.remove(it) }
-        forDeleteItems.clear()
-
-        // items.clear()
+        items.clear()
         items.addAll(newItems)
         if (newItems.isNotEmpty()) {
             items.add(CastsProgressBarItem())
         }
+
+
+//        val diffResult = DiffUtil.calculateDiff(DiffUtilsCallback(items, newItems))
+//        diffResult.dispatchUpdatesTo(this)
 
         notifyDataSetChanged()
     }

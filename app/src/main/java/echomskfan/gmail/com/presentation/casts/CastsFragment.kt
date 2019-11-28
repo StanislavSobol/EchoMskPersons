@@ -42,9 +42,12 @@ class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycle
         viewModel.personId = personId
 
         viewModel.getCastsLiveDataForPerson()
-            .observe(viewLifecycleOwner, Observer { list -> adapter.addItems(list) })
+            .observe(viewLifecycleOwner, Observer { list ->
+                viewModel.lastLoadedPageNum = if (list.isEmpty()) 0 else list.last().pageNum
+                adapter.setItems(list)
+            })
 
-        savedInstanceState ?: run { viewModel.firstAttach() }
+        savedInstanceState ?: viewModel.firstAttach()
 
         viewModel.startPlayLiveData.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let { id -> mainActivityRouter?.navigateToPlayer(id); }

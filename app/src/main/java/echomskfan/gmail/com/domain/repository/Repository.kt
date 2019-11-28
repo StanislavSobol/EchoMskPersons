@@ -74,26 +74,23 @@ class Repository(
     override fun tranferCastsFromWebToDbCompletable(personId: Int, pageNum: Int): Completable {
         return Completable.create {
             personsDao.getById(personId)?.let {
-                castsDao.deleteLastForPerson(personId)
+                //    castsDao.deleteLastForPerson(personId)
 
                 val newCasts = echoParser.getCasts(it, pageNum)
                 newCasts.forEach { newCast ->
-                    run {
-                        val oldCast = castsDao.getCastByDateAndPersonId(newCast.date, personId)
-                        oldCast?.let {
-                            castsDao.updateContent(
-                                fullTextURL = newCast.fullTextURL,
-                                type = newCast.type,
-                                subtype = newCast.subtype,
-                                shortText = newCast.shortText,
-                                mp3Url = newCast.mp3Url,
-                                mp3Duration = newCast.mp3Duration,
-                                id = newCast.id
-                            )
-                        } ?: run {
-                            castsDao.insert(newCast)
-                        }
-                    }
+                    val oldCast = castsDao.getCastByDateAndPersonId(newCast.date, personId)
+                    oldCast?.let {
+                        castsDao.updateContent(
+                            fullTextURL = newCast.fullTextURL,
+                            type = newCast.type,
+                            subtype = newCast.subtype,
+                            shortText = newCast.shortText,
+                            mp3Url = newCast.mp3Url,
+                            mp3Duration = newCast.mp3Duration,
+                            id = newCast.id
+                        )
+                    } ?: castsDao.insert(newCast)
+
                 }
                 castsDao.removeGarbage()
 //                castsDao.getByPersonId(personId).forEach { item -> Log.d("SSS", "id = ${item.id}") }
