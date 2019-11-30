@@ -43,8 +43,10 @@ class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycle
 
         viewModel.getCastsLiveDataForPerson()
             .observe(viewLifecycleOwner, Observer { list ->
-                viewModel.lastLoadedPageNum = if (list.isEmpty()) 0 else list.last().pageNum
                 adapter.setItems(list)
+                viewModel.lastLoadedPageNum = if (list.isEmpty()) 0 else list.last().pageNum
+
+                CastListItem.printInfo(list)
             })
 
         savedInstanceState ?: viewModel.firstAttach()

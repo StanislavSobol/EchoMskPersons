@@ -3,6 +3,7 @@ package echomskfan.gmail.com.data.parser
 import echomskfan.gmail.com.data.db.entity.CastEntity
 import echomskfan.gmail.com.data.db.entity.PersonEntity
 import echomskfan.gmail.com.utils.catchThrowable
+import echomskfan.gmail.com.utils.logInfo
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.io.IOException
@@ -11,6 +12,8 @@ class EchoParser : IEchoParser {
 
     override fun getCasts(personEntity: PersonEntity, pageNum: Int): List<CastEntity> {
         val fullUrl = "$BASE_URL${personEntity.url}/archive/$pageNum"
+
+        logInfo("getCasts pageNum = $pageNum")
 
         if (fullUrl.isEmpty()) {
             return listOf()

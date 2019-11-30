@@ -1,11 +1,12 @@
 package echomskfan.gmail.com.presentation.casts
 
 import echomskfan.gmail.com.data.db.entity.CastEntity
+import echomskfan.gmail.com.utils.logInfo
 import java.util.*
 
 data class CastListItem(
     val id: String,
-    val typeSubtype: String, // Интервью / Персонально Ваш
+    val typeSubtype: String,
     val shortText: String,
     val mp3Url: String,
     val mp3Duration: Int,
@@ -49,6 +50,16 @@ data class CastListItem(
                 pageNum = castEntity.pageNum,
                 fav = castEntity.fav
             )
+        }
+
+        fun printInfo(list: List<CastListItem>) {
+            logInfo("List of CastListItem:")
+            logInfo("Size: ${list.size}")
+
+            val pages = hashSetOf<Int>()
+            list.forEach { pages.add(it.pageNum) }
+
+            logInfo("Pages: $pages")
         }
     }
 }
