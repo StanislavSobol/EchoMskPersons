@@ -7,6 +7,7 @@ import java.nio.charset.Charset
 
 private const val PERSONS_JSON_NAME: String = "vips.json"
 
+// TODO to PersonEntity companion object
 fun getPersonsFromXml(context: Context): List<PersonEntity> {
     val result = mutableListOf<PersonEntity>()
 

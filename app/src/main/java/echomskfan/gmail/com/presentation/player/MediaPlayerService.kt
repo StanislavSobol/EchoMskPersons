@@ -2,7 +2,7 @@ package echomskfan.gmail.com.presentation.player
 
 import android.app.Service
 import android.content.Intent
-import android.os.IBinder
+import android.os.Binder
 import echomskfan.gmail.com.utils.catchThrowable
 
 class MediaPlayerService : Service() {
@@ -22,5 +22,10 @@ class MediaPlayerService : Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    override fun onBind(p0: Intent?): IBinder? = null
+    override fun onBind(p0: Intent?) = MediaServiceBinder()
+
+    inner class MediaServiceBinder : Binder() {
+        val service: MediaPlayerService
+            get() = this@MediaPlayerService
+    }
 }
