@@ -56,7 +56,7 @@ class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel()
             personIdIsNull()
         }
 
-        interactor.tranferCastsFromWebToDb(personId!!, lastLoadedPageNum + 1)
+        interactor.transferCastsFromWebToDb(personId!!, lastLoadedPageNum + 1)
             .fromIoToMain()
             .doOnSubscribe { loading = true } // TODO to extension
             .subscribe({

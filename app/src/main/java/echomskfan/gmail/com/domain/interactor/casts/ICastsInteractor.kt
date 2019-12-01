@@ -6,6 +6,6 @@ import io.reactivex.Completable
 
 interface ICastsInteractor {
     fun getCastsLiveDataForPerson(personId: Int): LiveData<List<CastEntity>>
-    fun tranferCastsFromWebToDb(personId: Int, pageNum: Int): Completable
+    fun transferCastsFromWebToDb(personId: Int, pageNum: Int): Completable
     fun castIdFavClicked(castId: String): Completable
 }

@@ -51,9 +51,9 @@ class Repository(
         }
     }
 
-    override fun personIdNotificationClickedCompletable(id: Int): Completable {
+    override fun personIdNotificationClickedCompletable(personId: Int): Completable {
         return Completable.create {
-            personsDao.getById(id)?.let { personsDao.setNotificationById(!it.notification, id) }
+            personsDao.getById(personId)?.let { personsDao.setNotificationById(!it.notification, personId) }
         }
     }
 
@@ -73,7 +73,7 @@ class Repository(
         return castsDao.getAllLiveDataForPerson(personId)
     }
 
-    override fun tranferCastsFromWebToDbCompletable(personId: Int, pageNum: Int): Completable {
+    override fun transferCastsFromWebToDbCompletable(personId: Int, pageNum: Int): Completable {
         return Completable.create {
             personsDao.getById(personId)?.let {
                 //    castsDao.deleteLastForPerson(personId)
@@ -111,6 +111,7 @@ class Repository(
                 it.onSuccess(
                     PlayerItem(
                         personName = personEntity!!.getFullName(),
+                        personPhotoUrl = personEntity!!.photoUrl,
                         typeSubtype = castEntity.getTypeSubtype(),
                         formattedDate = castEntity.formattedDate,
                         mp3Url = castEntity.mp3Url,
@@ -118,7 +119,7 @@ class Repository(
                     )
                 )
             } else {
-                it.onError(IllegalStateException("Not enough info about tha cast or the person"))
+                it.onError(IllegalStateException("Not enough info about the cast or the person"))
             }
         }
     }

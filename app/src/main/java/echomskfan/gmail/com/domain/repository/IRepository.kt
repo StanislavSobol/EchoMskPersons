@@ -10,11 +10,11 @@ import io.reactivex.Single
 interface IRepository {
     fun getPersonsLiveData(): LiveData<List<PersonEntity>>
     fun transferPersonsFromXmlToDbCompletable(): Completable
-    fun personIdNotificationClickedCompletable(id: Int): Completable
-    fun personIdFavClickedCompletable(id: Int): Completable
+    fun personIdNotificationClickedCompletable(personId: Int): Completable
+    fun personIdFavClickedCompletable(personId: Int): Completable
 
     fun getCastsLiveDataForPerson(personId: Int): LiveData<List<CastEntity>>
-    fun tranferCastsFromWebToDbCompletable(personId: Int, pageNum: Int): Completable
+    fun transferCastsFromWebToDbCompletable(personId: Int, pageNum: Int): Completable
     fun castIdFavClickedCompletable(castId: String): Completable
 
     fun getPlayerItemSingle(castId: String): Single<PlayerItem>
