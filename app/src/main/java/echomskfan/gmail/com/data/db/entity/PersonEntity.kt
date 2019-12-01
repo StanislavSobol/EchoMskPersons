@@ -14,5 +14,7 @@ data class PersonEntity(
     val photoUrl: String,
     var fav: Boolean = false,
     var notification: Boolean = false
-)
+) {
+    fun getFullName() = ("$firstName $lastName").trim()
+}
 

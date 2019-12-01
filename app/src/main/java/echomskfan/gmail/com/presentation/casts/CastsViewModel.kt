@@ -12,14 +12,12 @@ import echomskfan.gmail.com.utils.fromIoToMain
 class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel() {
 
     var lastLoadedPageNum: Int = 0
+    var personId: Int? = null
+    val navigateToPlayerFragment: LiveData<OneShotEvent<String>>
+        get() = _navigateToPlayerFragment
 
     private var loading = false
-    private val _startPlayLiveData = MutableLiveData<OneShotEvent<String>>()
-
-    var personId: Int? = null
-
-    val startPlayLiveData: LiveData<OneShotEvent<String>>
-        get() = _startPlayLiveData
+    private val _navigateToPlayerFragment = MutableLiveData<OneShotEvent<String>>()
 
     fun getCastsLiveDataForPerson(): LiveData<List<CastListItem>> {
         if (personId == null) {
@@ -34,7 +32,7 @@ class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel()
     }
 
     fun playButtonClicked(castListItem: CastListItem) {
-        _startPlayLiveData.value = OneShotEvent(castListItem.id)
+        _navigateToPlayerFragment.value = OneShotEvent(castListItem.id)
     }
 
     fun itemIdFavClicked(castId: String) {

@@ -31,17 +31,9 @@ data class CastListItem(
         }
 
         private fun oneFrom(castEntity: CastEntity): CastListItem {
-            fun getTypeSubtype(type: String, subtype: String): String {
-                var result = type
-                if (subtype.isNotEmpty()) {
-                    result += ": $subtype"
-                }
-                return result
-            }
-
             return CastListItem(
                 id = castEntity.id,
-                typeSubtype = getTypeSubtype(castEntity.type, castEntity.subtype),
+                typeSubtype = castEntity.getTypeSubtype(),
                 shortText = castEntity.shortText,
                 mp3Url = castEntity.mp3Url,
                 mp3Duration = castEntity.mp3Duration,

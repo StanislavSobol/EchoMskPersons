@@ -22,7 +22,7 @@ data class PersonListItem(
         private fun oneFrom(personEntity: PersonEntity): PersonListItem {
             return PersonListItem(
                 id = personEntity.id,
-                fullName = personEntity.firstName + " " + personEntity.lastName,
+                fullName = personEntity.getFullName(),
                 profession = personEntity.profession,
                 info = personEntity.info,
                 photoUrl = personEntity.photoUrl,

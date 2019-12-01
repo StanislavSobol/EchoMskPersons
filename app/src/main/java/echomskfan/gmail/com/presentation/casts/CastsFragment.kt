@@ -51,7 +51,7 @@ class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycle
 
         savedInstanceState ?: viewModel.firstAttach()
 
-        viewModel.startPlayLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToPlayerFragment.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let { id -> mainActivityRouter?.navigateToPlayer(id); }
         })
 

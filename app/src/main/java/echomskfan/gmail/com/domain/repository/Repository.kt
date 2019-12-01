@@ -8,8 +8,10 @@ import echomskfan.gmail.com.data.db.dao.PersonsDao
 import echomskfan.gmail.com.data.db.entity.CastEntity
 import echomskfan.gmail.com.data.db.entity.PersonEntity
 import echomskfan.gmail.com.data.parser.IEchoParser
+import echomskfan.gmail.com.presentation.player.PlayerItem
 import echomskfan.gmail.com.utils.getPersonsFromXml
 import io.reactivex.Completable
+import io.reactivex.Single
 
 class Repository(
     private val appContext: Context,
@@ -98,4 +100,27 @@ class Repository(
             it.onComplete()
         }
     }
+
+    override fun getPlayerItemSingle(castId: String): Single<PlayerItem> {
+        return Single.create {
+            val castEntity = castsDao.getById(castId)
+            var personEntity: PersonEntity? = null
+            castEntity?.let { cast -> personEntity = personsDao.getById(cast.personId) }
+
+            if (castEntity != null && personEntity != null) {
+                it.onSuccess(
+                    PlayerItem(
+                        personName = personEntity!!.getFullName(),
+                        typeSubtype = castEntity.getTypeSubtype(),
+                        formattedDate = castEntity.formattedDate,
+                        mp3Url = castEntity.mp3Url,
+                        mp3Duration = castEntity.mp3Duration
+                    )
+                )
+            } else {
+                it.onError(IllegalStateException("Not enough info about tha cast or the person"))
+            }
+        }
+    }
+
 }

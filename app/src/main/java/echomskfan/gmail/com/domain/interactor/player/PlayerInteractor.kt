@@ -1,6 +1,12 @@
 package echomskfan.gmail.com.domain.interactor.player
 
 import echomskfan.gmail.com.domain.repository.IRepository
+import echomskfan.gmail.com.presentation.player.PlayerItem
+import io.reactivex.Single
 
 class PlayerInteractor(private val repository: IRepository) : IPlayerInteractor {
+
+    override fun getPlayerItemSingle(castId: String): Single<PlayerItem> {
+        return repository.getPlayerItemSingle(castId)
+    }
 }

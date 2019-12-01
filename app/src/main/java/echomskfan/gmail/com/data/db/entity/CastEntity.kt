@@ -21,6 +21,14 @@ data class CastEntity(
     val date: Date,
     var fav: Boolean = false
 ) {
+    fun getTypeSubtype(): String {
+        var result = type
+        if (subtype.isNotEmpty()) {
+            result += ": ${subtype}"
+        }
+        return result
+    }
+
     companion object {
         fun generateKey(personId: Int, formattedDate: String) = "$personId${dateFromString(formattedDate)}"
         fun dateFromString(formattedDate: String) = formattedDate.toDate()?.let { it } ?: Date()

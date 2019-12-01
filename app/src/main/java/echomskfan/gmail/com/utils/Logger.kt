@@ -5,6 +5,10 @@ import android.util.Log
 private const val TAG_INFO = "Info"
 private const val TAG_ERROR = "Error"
 
+fun logInfo(info: Any?) {
+    Log.d(TAG_INFO, info.toString())
+}
+
 fun logInfo(info: String) {
     Log.d(TAG_INFO, info)
 }
