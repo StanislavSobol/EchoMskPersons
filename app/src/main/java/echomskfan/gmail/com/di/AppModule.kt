@@ -25,8 +25,8 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideEchoParser(): IEchoParser {
-        return EchoParser()
+    fun provideEchoParser(appContext: Context): IEchoParser {
+        return EchoParser(appContext)
     }
 
     @Singleton

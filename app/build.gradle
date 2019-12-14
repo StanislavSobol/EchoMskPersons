@@ -20,7 +20,29 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "version"
+
+    productFlavors {
+        def flavorType = "boolean"
+        def flavorName = "FAKE_SERVER"
+
+        fakeServer {
+            dimension "version"
+            applicationIdSuffix ".fakeServer"
+            versionNameSuffix "-fakeServer"
+            buildConfigField flavorType, flavorName, "Boolean.parseBoolean(\"true\")"
+        }
+        full {
+            dimension "version"
+            applicationIdSuffix ".full"
+            versionNameSuffix "-full"
+            buildConfigField flavorType, flavorName, "Boolean.parseBoolean(\"false\")"
+        }
+    }
 }
+
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

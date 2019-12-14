@@ -11,7 +11,7 @@ private const val PERSONS_JSON_NAME: String = "vips.json"
 fun getPersonsFromXml(context: Context): List<PersonEntity> {
     val result = mutableListOf<PersonEntity>()
 
-    val jsonString = loadJSONFromAsset(context, PERSONS_JSON_NAME)
+    val jsonString = getStringFromAsset(context, PERSONS_JSON_NAME)
     val jsonArray = JSONArray(jsonString)
 
     val size = jsonArray.length()
@@ -34,7 +34,7 @@ fun getPersonsFromXml(context: Context): List<PersonEntity> {
     return result
 }
 
-private fun loadJSONFromAsset(context: Context, assetName: String): String {
+fun getStringFromAsset(context: Context, assetName: String): String {
     val json: String
     val inputStream = context.assets.open(assetName)
     val size = inputStream.available()
