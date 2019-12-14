@@ -24,4 +24,8 @@
     <string name="settings_text_size_middle">Средний</string>
     <string name="settings_text_size_big">Крупный</string>
     <string name="settings_text_size_huge">Огромный</string>
+    <!--Player-->
+    <string name="player_fragment_image_descr">Персона</string>
+    <string name="empty_time_code">00:00</string>
+
 </resources>

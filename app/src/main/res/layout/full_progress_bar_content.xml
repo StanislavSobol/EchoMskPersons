@@ -8,7 +8,7 @@
             android:id="@+id/progressBar"
             style="?android:progressBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/progress_bar_size"
+        android:layout_height="@dimen/player_fragment_progress_bar_size"
             android:layout_gravity="center"
             android:visibility="gone"/>
 

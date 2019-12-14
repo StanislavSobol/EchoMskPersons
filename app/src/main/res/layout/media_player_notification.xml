@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:orientation="horizontal"
+    android:padding="@dimen/smaller_padding">
+
+    <FrameLayout
+        android:id="@+id/notificationButtonsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
+
+        <Button
+            android:id="@+id/notificationPlayButton"
+            android:layout_width="@dimen/notification_button_size"
+            android:layout_height="@dimen/notification_button_size"
+            android:background="@drawable/ic_baseline_play_white_24dp"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/notificationPauseButton"
+            android:layout_width="@dimen/notification_button_size"
+            android:layout_height="@dimen/notification_button_size"
+            android:background="@drawable/ic_baseline_pause_white_24dp" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/notificationTimeCodeTextView"
+        android:layout_width="@dimen/notification_time_code_size"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_toEndOf="@id/notificationButtonsLayout"
+        android:layout_toRightOf="@id/notificationButtonsLayout"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="@color/colorEcho4TextBack"
+        android:textSize="@dimen/big_title_text_size"
+        tools:text="00:00" />
+
+    <LinearLayout
+        android:id="@+id/notificationTitleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/small_margin"
+        android:layout_marginRight="@dimen/small_margin"
+        android:layout_toStartOf="@id/notificationCloseButton"
+        android:layout_toLeftOf="@id/notificationCloseButton"
+        android:layout_toEndOf="@id/notificationTimeCodeTextView"
+        android:layout_toRightOf="@id/notificationTimeCodeTextView"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/notificationPersonTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="@color/colorEcho4TextBack"
+            android:textSize="@dimen/title_text_size"
+            tools:text="Невзоров" />
+
+        <TextView
+            android:id="@+id/notificationTypeSubtypeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="@color/colorEcho4TextBack"
+            android:textSize="@dimen/regular_text_size"
+            tools:text="Невзоровские среды" />
+
+        <TextView
+            android:id="@+id/notificationDateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="@color/colorEcho4TextBack"
+            android:textSize="@dimen/subtitle_text_size"
+            tools:text="13 февраля 2013" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/notificationCloseButton"
+        android:layout_width="@dimen/notification_button_size"
+        android:layout_height="@dimen/notification_button_size"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/ic_close_white_24dp" />
+
+</RelativeLayout>

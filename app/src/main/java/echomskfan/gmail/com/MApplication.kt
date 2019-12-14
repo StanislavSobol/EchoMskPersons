@@ -1,6 +1,9 @@
 package echomskfan.gmail.com
 
 import android.app.Application
+import android.content.Context
+import android.net.ConnectivityManager
+import android.widget.Toast
 import echomskfan.gmail.com.di.AppComponent
 import echomskfan.gmail.com.di.DaggerAppComponent
 
@@ -16,6 +19,20 @@ class MApplication : Application() {
             .builder()
             .appContext(this.applicationContext)
             .build()
+    }
+
+    fun isOnlineWithToast(showToastIfNot: Boolean): Boolean {
+        val cm = instance.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val netInfo = cm.activeNetworkInfo
+
+        val result = netInfo != null && netInfo.isConnectedOrConnecting
+
+        if (showToastIfNot && !result) {
+            val s = instance.resources.getString(R.string.error_no_internet)
+            Toast.makeText(instance, s, Toast.LENGTH_LONG).show()
+        }
+
+        return result
     }
 
     companion object {

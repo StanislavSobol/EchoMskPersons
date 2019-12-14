@@ -1,8 +1,10 @@
 package echomskfan.gmail.com.presentation.player
 
 import android.os.Bundle
+import android.widget.SeekBar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.squareup.picasso.Picasso
 import echomskfan.gmail.com.EXTRA_CAST_ID
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
@@ -10,7 +12,12 @@ import echomskfan.gmail.com.di.player.DaggerPlayerComponent
 import echomskfan.gmail.com.di.player.PlayerScope
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
-import echomskfan.gmail.com.utils.logInfo
+import echomskfan.gmail.com.presentation.MainActivity
+import echomskfan.gmail.com.utils.fromMSecSec
+import echomskfan.gmail.com.utils.fromSecToAudioDuration
+import echomskfan.gmail.com.utils.gone
+import echomskfan.gmail.com.utils.visible
+import kotlinx.android.synthetic.main.fragment_player.*
 import javax.inject.Inject
 
 class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player) {
@@ -21,7 +28,7 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
 
     private lateinit var viewModel: PlayerViewModel
     private val castId: String? by lazy { arguments?.getString(EXTRA_CAST_ID) }
-    private var playerItem: PlayerItem? = null
+    private val playerBridge: PlayerBridge by lazy { PlayerBridge(this) }
 
     init {
         DaggerPlayerComponent.builder()
@@ -30,52 +37,63 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
             .inject(this)
     }
 
-//    private var mediaPlayerServiceIntent: Intent? = null
-//    private var mediaPlayerServiceConnection: ServiceConnection? = null
-//    private var mediaPlayerService: MediaPlayerService? = null
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(PlayerViewModel::class.java)
         savedInstanceState ?: viewModel.firstAttach(castId)
         viewModel.playerItemLiveData.observe(this, Observer {
-            playerItem = it
-            playerItem?.run { initMediaPlayer() }
+            it?.let { playerItem ->
+                initViews(playerItem)
+                playerBridge.play(playerItem)
+            }
         })
     }
 
-    private fun initMediaPlayer() {
-        logInfo(playerItem)
+    override fun onDestroy() {
+        playerBridge.onDestroy()
+        super.onDestroy()
     }
 
+    fun notifyPlayerItemChanged() {
+        if (PlayerItemVisualState.isClosed) {
+            (requireActivity() as MainActivity).closePlayerFragment()
+            return
+        }
 
-    // mediaPlayerServiceIntent = Intent(this, MediaPlayerService::class.java)
-/*
-    private fun initMediaPlayer() {
-        mediaPlayerServiceIntent = Intent(this, MediaPlayerService::class.java)
-        mediaPlayerServiceConnection = object : ServiceConnection {
-            override fun onServiceConnected(name: ComponentName, service: IBinder) {
-                mediaPlayerService = (service as MediaPlayerService.MediaServiceBinder).service
-                mediaPlayerService?.parentActivity = this@MainActivity
-                if (playedItem != null) {
-                    mediaPlayerService?.play(playedItem!!)
-                } else {
-                    playedItem = mediaPlayerService?.playingItem
-                    if (playedItem != null) {
-                        initAudioPanel()
-                    }
+        val progressSec = PlayerItemVisualState.progressMSec.fromMSecSec()
+
+        if (PlayerItemVisualState.isPlaying) {
+            progressTextView?.text = progressSec.fromSecToAudioDuration()
+            fragmentPlayerPlayButton?.gone()
+            fragmentPlayerPauseButton?.visible()
+        } else {
+            fragmentPlayerPlayButton?.visible()
+            fragmentPlayerPauseButton?.gone()
+        }
+
+        playerFragmentAudioSeekBar?.progress = progressSec
+    }
+
+    private fun initViews(playerItem: PlayerItem) {
+        Picasso.with(requireContext()).load(playerItem.personPhotoUrl).into(playerFragmentImageView)
+
+        playerFragmentAudioSeekBar.max = playerItem.mp3Duration
+        playerFragmentAudioSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                if (fromUser) {
+                    playerBridge.seekTo(progress)
                 }
             }
+        })
 
-            override fun onServiceDisconnected(name: ComponentName) {
-                mediaPlayerService = null
-            }
-        }
+        maxProgressTextView?.text = playerItem.mp3Duration.fromSecToAudioDuration()
 
-        if (intent.action == null) {
-            bindService(mediaPlayerServiceIntent, mediaPlayerServiceConnection, BIND_AUTO_CREATE)
-        }
+        fragmentPlayerPlayButton?.setOnClickListener { playerBridge.resume() }
+        fragmentPlayerPauseButton?.setOnClickListener { playerBridge.pause() }
     }
-    */
 }

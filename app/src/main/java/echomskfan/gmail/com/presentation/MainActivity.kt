@@ -37,4 +37,8 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
         bundle.putString(EXTRA_CAST_ID, castId)
         navController.navigate(R.id.action_castsFragment_to_playerFragment, bundle)
     }
+
+    override fun closePlayerFragment() {
+        navController.popBackStack(R.id.playerFragment, true)
+    }
 }

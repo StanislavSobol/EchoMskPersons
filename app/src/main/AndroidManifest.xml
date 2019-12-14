@@ -32,6 +32,10 @@
                 android:name=".presentation.player.MediaPlayerService"
                 android:enabled="true"
                 android:exported="false"/>
+
+        <receiver android:name=".presentation.player.MediaPlayerService$NotificationPlayButtonHandler"/>
+        <receiver android:name=".presentation.player.MediaPlayerService$NotificationPauseButtonHandler"/>
+        <receiver android:name=".presentation.player.MediaPlayerService$NotificationCloseButtonHandler" />
     </application>
 
 </manifest>
