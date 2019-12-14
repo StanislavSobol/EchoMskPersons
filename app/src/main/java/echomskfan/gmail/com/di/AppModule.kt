@@ -7,6 +7,8 @@ import dagger.Provides
 import echomskfan.gmail.com.data.db.PersonsDatabase
 import echomskfan.gmail.com.data.parser.EchoParser
 import echomskfan.gmail.com.data.parser.IEchoParser
+import echomskfan.gmail.com.domain.assetextractor.AssetExtractor
+import echomskfan.gmail.com.domain.assetextractor.IAssetExtractor
 import echomskfan.gmail.com.domain.repository.IRepository
 import echomskfan.gmail.com.domain.repository.Repository
 import javax.inject.Singleton
@@ -25,14 +27,24 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideEchoParser(appContext: Context): IEchoParser {
-        return EchoParser(appContext)
+    fun provideAssetExtractor(appContext: Context): IAssetExtractor {
+        return AssetExtractor(appContext)
     }
 
     @Singleton
     @Provides
-    fun provideRepository(appContext: Context, database: PersonsDatabase, echoParser: IEchoParser): IRepository {
-        return Repository(appContext, database, echoParser)
+    fun provideEchoParser(assetExtractor: IAssetExtractor): IEchoParser {
+        return EchoParser(assetExtractor)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRepository(
+        assetExtractor: IAssetExtractor,
+        database: PersonsDatabase,
+        echoParser: IEchoParser
+    ): IRepository {
+        return Repository(assetExtractor, database, echoParser)
     }
 
     companion object {

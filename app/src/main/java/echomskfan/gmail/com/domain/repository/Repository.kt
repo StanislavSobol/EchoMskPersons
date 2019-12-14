@@ -1,6 +1,5 @@
 package echomskfan.gmail.com.domain.repository
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import echomskfan.gmail.com.data.db.PersonsDatabase
 import echomskfan.gmail.com.data.db.dao.CastsDao
@@ -8,13 +7,13 @@ import echomskfan.gmail.com.data.db.dao.PersonsDao
 import echomskfan.gmail.com.data.db.entity.CastEntity
 import echomskfan.gmail.com.data.db.entity.PersonEntity
 import echomskfan.gmail.com.data.parser.IEchoParser
+import echomskfan.gmail.com.domain.assetextractor.IAssetExtractor
 import echomskfan.gmail.com.presentation.player.PlayerItem
-import echomskfan.gmail.com.utils.getPersonsFromXml
 import io.reactivex.Completable
 import io.reactivex.Single
 
 class Repository(
-    private val appContext: Context,
+    private val assetExtractor: IAssetExtractor,
     private val database: PersonsDatabase,
     private val echoParser: IEchoParser
 ) : IRepository {
@@ -28,7 +27,7 @@ class Repository(
 
     override fun transferPersonsFromXmlToDbCompletable(): Completable {
         return Completable.create {
-            val xmlList = getPersonsFromXml(appContext)
+            val xmlList = assetExtractor.getPersons()
             xmlList.forEach { xmlItem ->
                 val dbPerson = personsDao.getById(xmlItem.id)
                 dbPerson?.run {

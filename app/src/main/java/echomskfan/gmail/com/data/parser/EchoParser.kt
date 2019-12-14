@@ -1,32 +1,29 @@
 package echomskfan.gmail.com.data.parser
 
-import android.content.Context
 import echomskfan.gmail.com.BuildConfig
 import echomskfan.gmail.com.data.db.entity.CastEntity
 import echomskfan.gmail.com.data.db.entity.PersonEntity
+import echomskfan.gmail.com.domain.assetextractor.IAssetExtractor
 import echomskfan.gmail.com.utils.catchThrowable
-import echomskfan.gmail.com.utils.getStringFromAsset
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.io.IOException
-import javax.inject.Inject
 
-class EchoParser @Inject constructor(private val appContext: Context) : IEchoParser {
+class EchoParser(private val assetExtractor: IAssetExtractor) : IEchoParser {
 
     override fun getCasts(personEntity: PersonEntity, pageNum: Int): List<CastEntity> {
         val document: Document?
         try {
-            try {
+            document = try {
                 if (BuildConfig.FAKE_SERVER) {
-                    val html = "person_page_${personEntity.id}_$pageNum.html"
-                    document = Jsoup.parse(getStringFromAsset(appContext, html))
+                    Jsoup.parse(assetExtractor.getCastsForPersonAndPage(personEntity.id, pageNum))
                 } else {
                     val fullUrl = "$BASE_URL${personEntity.url}/archive/$pageNum"
 
                     if (fullUrl.isEmpty()) {
                         return listOf()
                     }
-                    document = Jsoup.connect(fullUrl).get()
+                    Jsoup.connect(fullUrl).get()
                 }
             } catch (e: IllegalArgumentException) {
                 catchThrowable(e)
