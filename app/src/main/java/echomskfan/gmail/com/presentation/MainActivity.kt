@@ -6,13 +6,11 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import echomskfan.gmail.com.EXTRA_CAST_ID
-import echomskfan.gmail.com.EXTRA_PERSON_ID
-import echomskfan.gmail.com.R
+import echomskfan.gmail.com.*
+import echomskfan.gmail.com.utils.bundleOf
 import echomskfan.gmail.com.utils.logInfo
 
 class MainActivity : AppCompatActivity(), IMainActivityRouter {
-
 
     private lateinit var navController: NavController
 
@@ -32,8 +30,8 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
 
     private fun applyIntent(intent: Intent?) {
         if (intent != null) {
-            val castId: String? = intent.getStringExtra(PLAYER_ITEM_CAST_ID)
-            castId?.let { navigateToPlayer(it) }
+            val castId: String? = intent.getStringExtra(EXTRA_PLAYER_ITEM_CAST_ID)
+            castId?.let { navigateToPlayerAndResumePlaying(it) }
         }
     }
 
@@ -45,26 +43,19 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
     }
 
     override fun navigateToCastsFromPersons(personId: Int) {
-        val bundle = Bundle().apply { putInt(EXTRA_PERSON_ID, personId) }
-        navController.navigate(R.id.action_personsFragment_to_castsFragment, bundle)
+        navController.navigate(R.id.action_personsFragment_to_castsFragment, bundleOf(EXTRA_PERSON_ID to personId))
     }
 
     override fun navigateToPlayerFromCasts(castId: String) {
-        val bundle = Bundle().apply { putString(EXTRA_CAST_ID, castId) }
-        navController.navigate(R.id.action_castsFragment_to_playerFragment, bundle)
+        navController.navigate(R.id.action_castsFragment_to_playerFragment, bundleOf(EXTRA_CAST_ID to castId))
     }
 
     override fun closePlayerFragment() {
         navController.popBackStack(R.id.playerFragment, true)
     }
 
-    override fun navigateToPlayer(castId: String) {
+    override fun navigateToPlayerAndResumePlaying(castId: String) {
         closePlayerFragment()
-        val bundle = Bundle().apply { putString(EXTRA_CAST_ID, castId) }
-        navController.navigate(R.id.playerFragment, bundle)
-    }
-
-    companion object {
-        const val PLAYER_ITEM_CAST_ID = "PLAYER_ITEM_CAST_ID"
+        navController.navigate(R.id.playerFragment, bundleOf(EXTRA_CAST_ID to castId, EXTRA_PLAYER_RESUME to true))
     }
 }

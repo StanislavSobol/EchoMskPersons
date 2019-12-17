@@ -18,8 +18,13 @@ internal class PlayerBridge(private val playerFragment: PlayerFragment) {
     private var mediaPlayerService: MediaPlayerService? = null
     private var playerItem: PlayerItem? = null
 
-    fun play(playerItem: PlayerItem) {
+    fun bindServiceAndPlay(playerItem: PlayerItem) {
         this.playerItem = playerItem
+        mediaPlayerService ?: bindService()
+    }
+
+    fun bindServiceAndResume() {
+        playerItem = null
         mediaPlayerService ?: bindService()
     }
 
@@ -34,6 +39,7 @@ internal class PlayerBridge(private val playerFragment: PlayerFragment) {
                         mediaPlayerService?.play(playerItem!!)
                     } else {
                         playerItem = mediaPlayerService?.playerItem
+                        mediaPlayerService?.resume()
                     }
                 }
 
@@ -69,7 +75,7 @@ internal class PlayerBridge(private val playerFragment: PlayerFragment) {
         mediaPlayerService?.pause()
     }
 
-    fun onDestroy() {
+    fun unbindService() {
         mediaPlayerServiceConnection?.let {
             mediaPlayerService?.playerBridge = null
             try {

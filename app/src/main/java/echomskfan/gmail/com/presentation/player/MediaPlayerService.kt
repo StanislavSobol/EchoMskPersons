@@ -14,6 +14,7 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.IdRes
 import androidx.core.app.NotificationCompat
+import echomskfan.gmail.com.EXTRA_PLAYER_ITEM_CAST_ID
 import echomskfan.gmail.com.R
 import echomskfan.gmail.com.presentation.MainActivity
 import echomskfan.gmail.com.utils.*
@@ -132,11 +133,8 @@ class MediaPlayerService : Service() {
         playerItem?.let {
             val appName = applicationContext.getString(R.string.app_name)
             val notificationIntent = Intent(this, MainActivity::class.java).apply {
-                //                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                putExtra(MainActivity.PLAYER_ITEM_CAST_ID, it.castId)
+                putExtra(EXTRA_PLAYER_ITEM_CAST_ID, it.castId)
             }
-//            notificationIntent.putExtra(MainActivity.PLAYER_ITEM_CAST_ID, it.castId)
-//            val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
             val pendingIntent = PendingIntent.getActivity(
                 this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT
             )
@@ -167,6 +165,11 @@ class MediaPlayerService : Service() {
     }
 
     private fun initNotificationRemoteView() {
+        fun bindButton(@IdRes resId: Int, intent: Intent, notificationView: RemoteViews) {
+            val buttonPlayPendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
+            notificationView.setOnClickPendingIntent(resId, buttonPlayPendingIntent)
+        }
+
         bindButton(
             R.id.notificationPlayButton,
             Intent(this, NotificationPlayButtonHandler::class.java),
@@ -188,11 +191,6 @@ class MediaPlayerService : Service() {
         notificationRemoteView?.setTextViewText(R.id.notificationPersonTextView, playerItem?.personName)
         notificationRemoteView?.setTextViewText(R.id.notificationTypeSubtypeTextView, playerItem?.typeSubtype)
         notificationRemoteView?.setTextViewText(R.id.notificationDateTextView, playerItem?.formattedDate)
-    }
-
-    private fun bindButton(@IdRes resId: Int, intent: Intent, notificationView: RemoteViews) {
-        val buttonPlayPendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
-        notificationView.setOnClickPendingIntent(resId, buttonPlayPendingIntent)
     }
 
     private fun startTracking() {

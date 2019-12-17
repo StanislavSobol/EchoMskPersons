@@ -4,6 +4,6 @@ interface IMainActivityRouter {
     fun navigateToCastsFromPersons(personId: Int)
     fun navigateToPlayerFromCasts(castId: String)
     fun closePlayerFragment()
-    fun navigateToPlayer(castId: String)
+    fun navigateToPlayerAndResumePlaying(castId: String)
 
 }

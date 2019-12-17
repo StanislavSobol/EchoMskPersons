@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.squareup.picasso.Picasso
 import echomskfan.gmail.com.EXTRA_CAST_ID
+import echomskfan.gmail.com.EXTRA_PLAYER_RESUME
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
 import echomskfan.gmail.com.di.player.DaggerPlayerComponent
@@ -28,6 +29,7 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
 
     private lateinit var viewModel: PlayerViewModel
     private val castId: String? by lazy { arguments?.getString(EXTRA_CAST_ID) }
+    private val resume: Boolean by lazy { arguments?.getBoolean(EXTRA_PLAYER_RESUME) ?: false }
     private val playerBridge: PlayerBridge by lazy { PlayerBridge(this) }
 
     init {
@@ -45,13 +47,17 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
         viewModel.playerItemLiveData.observe(this, Observer {
             it?.let { playerItem ->
                 initViews(playerItem)
-                playerBridge.play(playerItem)
+                if (resume) {
+                    playerBridge.bindServiceAndResume()
+                } else {
+                    playerBridge.bindServiceAndPlay(playerItem)
+                }
             }
         })
     }
 
     override fun onDestroy() {
-        playerBridge.onDestroy()
+        playerBridge.unbindService()
         super.onDestroy()
     }
 
