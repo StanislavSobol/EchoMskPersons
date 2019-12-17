@@ -33,7 +33,7 @@ internal class PlayerBridge(private val playerFragment: PlayerFragment) {
                     if (playerItem != null) {
                         mediaPlayerService?.play(playerItem!!)
                     } else {
-                        playerItem = mediaPlayerService?.playingItem
+                        playerItem = mediaPlayerService?.playerItem
                     }
                 }
 

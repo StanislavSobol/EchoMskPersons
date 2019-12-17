@@ -1,7 +1,9 @@
 package echomskfan.gmail.com.presentation
 
 interface IMainActivityRouter {
-    fun navigateToCasts(personId: Int)
-    fun navigateToPlayer(castId: String)
+    fun navigateToCastsFromPersons(personId: Int)
+    fun navigateToPlayerFromCasts(castId: String)
     fun closePlayerFragment()
+    fun navigateToPlayer(castId: String)
+
 }

@@ -1,6 +1,7 @@
 package echomskfan.gmail.com.presentation.player
 
 data class PlayerItem(
+    val castId: String,
     val personName: String,
     val personPhotoUrl: String,
     val typeSubtype: String,

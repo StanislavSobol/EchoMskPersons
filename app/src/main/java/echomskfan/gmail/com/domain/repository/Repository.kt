@@ -109,6 +109,7 @@ class Repository(
             if (castEntity != null && personEntity != null) {
                 it.onSuccess(
                     PlayerItem(
+                        castId = castEntity.id,
                         personName = personEntity!!.getFullName(),
                         personPhotoUrl = personEntity!!.photoUrl,
                         typeSubtype = castEntity.getTypeSubtype(),

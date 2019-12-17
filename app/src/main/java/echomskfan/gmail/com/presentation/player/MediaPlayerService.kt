@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
 
 class MediaPlayerService : Service() {
 
-    internal var playingItem: PlayerItem? = null
+    internal var playerItem: PlayerItem? = null
     internal var playerBridge: PlayerBridge? = null
 
     private val mediaPlayer: MediaPlayer by lazy { MediaPlayer() }
@@ -82,7 +82,7 @@ class MediaPlayerService : Service() {
     override fun onBind(p0: Intent?) = MediaServiceBinder()
 
     fun play(playingItem: PlayerItem) {
-        this.playingItem = playingItem
+        this.playerItem = playingItem
         try {
             try {
                 mediaPlayer.reset()
@@ -129,10 +129,17 @@ class MediaPlayerService : Service() {
     }
 
     private fun startForeground() {
-        if (playingItem != null) {
+        playerItem?.let {
             val appName = applicationContext.getString(R.string.app_name)
-            val notificationIntent = Intent(this, MainActivity::class.java)
-            val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
+            val notificationIntent = Intent(this, MainActivity::class.java).apply {
+                //                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                putExtra(MainActivity.PLAYER_ITEM_CAST_ID, it.castId)
+            }
+//            notificationIntent.putExtra(MainActivity.PLAYER_ITEM_CAST_ID, it.castId)
+//            val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
+            val pendingIntent = PendingIntent.getActivity(
+                this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT
+            )
 
             notificationRemoteView = RemoteViews(this.packageName, R.layout.media_player_notification)
 
@@ -145,17 +152,16 @@ class MediaPlayerService : Service() {
 
             notificationBuilder = NotificationCompat.Builder(applicationContext)
                 .setSmallIcon(R.drawable.ic_volume_up_white_24dp)
-                .setContentTitle(appName)
-                .setContentText(playingItem?.typeSubtype)
+                .setContentTitle(it.typeSubtype)
                 .setContent(notificationRemoteView)
                 .setAutoCancel(false)
                 .setContentIntent(pendingIntent)
 
-            notificationBuilder?.build()?.let {
-                it.flags = it.flags or Notification.FLAG_ONGOING_EVENT
-                it.tickerText = appName + " " +
+            notificationBuilder?.build()?.let { notification ->
+                notification.flags = notification.flags or Notification.FLAG_ONGOING_EVENT
+                notification.tickerText = appName + " " +
                         applicationContext.getString(R.string.notification_ticket)
-                startForeground(NOTIFICATION_ID, it)
+                startForeground(NOTIFICATION_ID, notification)
             }
         }
     }
@@ -179,9 +185,9 @@ class MediaPlayerService : Service() {
             notificationRemoteView!!
         )
 
-        notificationRemoteView?.setTextViewText(R.id.notificationPersonTextView, playingItem?.personName)
-        notificationRemoteView?.setTextViewText(R.id.notificationTypeSubtypeTextView, playingItem?.typeSubtype)
-        notificationRemoteView?.setTextViewText(R.id.notificationDateTextView, playingItem?.formattedDate)
+        notificationRemoteView?.setTextViewText(R.id.notificationPersonTextView, playerItem?.personName)
+        notificationRemoteView?.setTextViewText(R.id.notificationTypeSubtypeTextView, playerItem?.typeSubtype)
+        notificationRemoteView?.setTextViewText(R.id.notificationDateTextView, playerItem?.formattedDate)
     }
 
     private fun bindButton(@IdRes resId: Int, intent: Intent, notificationView: RemoteViews) {

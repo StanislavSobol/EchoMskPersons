@@ -37,7 +37,7 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
 
         viewModel.getPersonsLiveData().observe(viewLifecycleOwner, Observer { list -> adapter.addItems(list) })
         viewModel.navigationLiveDate.observe(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let { id -> mainActivityRouter?.navigateToCasts(id) }
+            it.getContentIfNotHandled()?.let { id -> mainActivityRouter?.navigateToCastsFromPersons(id) }
         })
 
         savedInstanceState ?: run { viewModel.firstAttach() }

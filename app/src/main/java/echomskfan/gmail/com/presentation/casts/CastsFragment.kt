@@ -46,13 +46,13 @@ class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycle
                 adapter.setItems(list)
                 viewModel.lastLoadedPageNum = if (list.isEmpty()) 0 else list.last().pageNum
 
-                CastListItem.printInfo(list)
+//                CastListItem.printInfo(list)
             })
 
         savedInstanceState ?: viewModel.firstAttach()
 
         viewModel.navigateToPlayerFragment.observe(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let { id -> mainActivityRouter?.navigateToPlayer(id); }
+            it.getContentIfNotHandled()?.let { id -> mainActivityRouter?.navigateToPlayerFromCasts(id); }
         })
 
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
