@@ -144,7 +144,7 @@ class MediaPlayerService : Service() {
             initNotificationRemoteView()
 
             notificationBuilder = NotificationCompat.Builder(applicationContext)
-                .setSmallIcon(R.drawable.ic_baseline_play_white_24dp)
+                .setSmallIcon(R.drawable.ic_volume_up_white_24dp)
                 .setContentTitle(appName)
                 .setContentText(playingItem?.typeSubtype)
                 .setContent(notificationRemoteView)

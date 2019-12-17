@@ -8,6 +8,39 @@
     android:padding="@dimen/small_padding"
     tools:context=".presentation.persons.PersonsFragment">
 
+    <TextView
+        android:id="@+id/playerFragmentPersonTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:textSize="@dimen/biggest_title_text_size"
+        app:layout_constraintBottom_toTopOf="@+id/playerFragmentTypeSubtypeTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Невзоров" />
+
+    <TextView
+        android:id="@+id/playerFragmentTypeSubtypeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:textSize="@dimen/big_title_text_size"
+        app:layout_constraintBottom_toTopOf="@+id/playerFragmentDateTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Невзоровские среды" />
+
+    <TextView
+        android:id="@+id/playerFragmentDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/small_medium_margin"
+        android:textSize="@dimen/big_title_text_size"
+        app:layout_constraintBottom_toTopOf="@+id/playerFragmentImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="14 марта 2008" />
+
     <ImageView
         android:id="@+id/playerFragmentImageView"
         android:layout_width="@dimen/person_image_player_size"
@@ -48,7 +81,7 @@
             android:layout_centerVertical="true"
             android:maxLines="1"
             android:text="@string/empty_time_code"
-            android:textSize="@dimen/big_title_text_size"
+            android:textSize="@dimen/biggest_title_text_size"
             tools:text="00:01" />
 
         <FrameLayout
@@ -84,7 +117,7 @@
             android:layout_centerVertical="true"
             android:gravity="end"
             android:maxLines="1"
-            android:textSize="@dimen/big_title_text_size"
+            android:textSize="@dimen/biggest_title_text_size"
             tools:text="45:23" />
 
     </RelativeLayout>

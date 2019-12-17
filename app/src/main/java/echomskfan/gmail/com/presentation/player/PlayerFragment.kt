@@ -76,6 +76,10 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
     }
 
     private fun initViews(playerItem: PlayerItem) {
+        playerFragmentPersonTextView?.text = playerItem.personName
+        playerFragmentTypeSubtypeTextView?.text = playerItem.typeSubtype
+        playerFragmentDateTextView?.text = playerItem.formattedDate
+
         Picasso.with(requireContext()).load(playerItem.personPhotoUrl).into(playerFragmentImageView)
 
         playerFragmentAudioSeekBar.max = playerItem.mp3Duration
