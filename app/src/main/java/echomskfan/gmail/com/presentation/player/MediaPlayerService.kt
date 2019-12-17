@@ -216,6 +216,7 @@ class MediaPlayerService : Service() {
                 if (!isPlaying) {
                     stopForeground(true)
                     stopSelf()
+                    PlayerItemVisualState.close()
                     intervalDisposable?.dispose()
                 }
 

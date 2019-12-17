@@ -35,9 +35,8 @@ internal object PlayerItemVisualState {
 
     fun stop() = pause()
 
-    fun close(): PlayerItemVisualState {
+    fun close() {
         isPlaying = false
         isClosed = true
-        return this
     }
 }
