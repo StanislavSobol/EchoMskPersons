@@ -1,15 +1,15 @@
 package echomskfan.gmail.com.presentation.player
 
-import android.app.Notification
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.Service
+import android.annotation.TargetApi
+import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Binder
+import android.os.Build
 import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.IdRes
@@ -21,6 +21,7 @@ import echomskfan.gmail.com.utils.*
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import java.io.IOException
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class MediaPlayerService : Service() {
@@ -58,13 +59,11 @@ class MediaPlayerService : Service() {
                         }
                         CLOSE_ACTION -> {
                             stop()
-                            PlayerItemVisualState.close()
-                            stopForeground(true)
-                            stopSelf()
+                            fullStop()
                             playerBridge?.notifyPlayerItemChanged()
                         }
                         else -> {
-                            logInfo("Unknown broadcast from remote views")
+                            logError("Unknown broadcast from remote views")
                         }
                     }
                 }
@@ -76,7 +75,6 @@ class MediaPlayerService : Service() {
     override fun onDestroy() {
         stop()
         actionsBroadCastReceiver?.let { unregisterReceiver(it) }
-        logInfo("onDestroy service")
         super.onDestroy()
     }
 
@@ -148,20 +146,40 @@ class MediaPlayerService : Service() {
 
             initNotificationRemoteView()
 
-            notificationBuilder = NotificationCompat.Builder(applicationContext)
+            notificationBuilder = createNotificationBuilder()
                 .setSmallIcon(R.drawable.ic_volume_up_white_24dp)
                 .setContentTitle(it.typeSubtype)
                 .setContent(notificationRemoteView)
                 .setAutoCancel(false)
                 .setContentIntent(pendingIntent)
+                .setOngoing(true)
 
-            notificationBuilder?.build()?.let { notification ->
-                notification.flags = notification.flags or Notification.FLAG_ONGOING_EVENT
-                notification.tickerText = appName + " " +
+            notificationBuilder?.build().let { notification ->
+                notification?.tickerText = appName + " " +
                         applicationContext.getString(R.string.notification_ticket)
                 startForeground(NOTIFICATION_ID, notification)
             }
         }
+    }
+
+    private fun createNotificationBuilder(): NotificationCompat.Builder {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createChannel()
+            NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+        } else {
+            NotificationCompat.Builder(applicationContext)
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private fun createChannel() {
+        val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_LOW)
+            .apply { description = CHANNEL_DESCRIPTION }
+            .apply { enableLights(true) }
+            .apply { lightColor = Color.BLUE }
+            .apply { setSound(null, null) }
+
+        getNotificationManager().createNotificationChannel(channel)
     }
 
     private fun initNotificationRemoteView() {
@@ -214,9 +232,7 @@ class MediaPlayerService : Service() {
                 }
 
                 if (!isPlaying) {
-                    stopForeground(true)
-                    stopSelf()
-                    PlayerItemVisualState.close()
+                    fullStop()
                     intervalDisposable?.dispose()
                 }
 
@@ -224,10 +240,16 @@ class MediaPlayerService : Service() {
             }
     }
 
-    private fun updateNotification() {
-        val mNotificationManager: NotificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        mNotificationManager.notify(NOTIFICATION_ID, notificationBuilder?.build())
+    private fun isInForeground(): Boolean {
+        val manager = applicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        for (service in manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (javaClass.name == service.service.className) {
+                if (service.foreground) {
+                    return true
+                }
+            }
+        }
+        return false
     }
 
     private fun PlayerItemVisualState.applyRemoteViewsAppearance() {
@@ -244,7 +266,21 @@ class MediaPlayerService : Service() {
             progressMSec.fromMSecSec().fromSecToAudioDuration()
         )
 
-        updateNotification()
+        getNotificationManager().notify(NOTIFICATION_ID, notificationBuilder?.build())
+    }
+
+    private fun fullStop() {
+        PlayerItemVisualState.close()
+        stopForeground(true)
+        stopSelf()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            getNotificationManager().deleteNotificationChannel(CHANNEL_ID)
+        }
+    }
+
+    private fun getNotificationManager(): NotificationManager {
+        return getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
     inner class MediaServiceBinder : Binder() {
@@ -271,10 +307,15 @@ class MediaPlayerService : Service() {
     }
 
     companion object {
-        private const val NOTIFICATION_ID = 1
-        private const val RESUME_ACTION = "RESUME_ACTION"
-        private const val PAUSE_ACTION = "PAUSE_ACTION"
-        private const val CLOSE_ACTION = "CLOSE_ACTION"
+        private const val RESUME_ACTION = "resume_action"
+        private const val PAUSE_ACTION = "pause_action"
+        private const val CLOSE_ACTION = "close_action"
+
+        private const val CHANNEL_NAME = "Echo Msk Persons' channel"
+        private const val CHANNEL_DESCRIPTION = "Echo Msk Persons' channel is dedicated to Echo Msk podcasts"
+
+        private val NOTIFICATION_ID = UUID.randomUUID().mostSignificantBits.toInt()
+        private val CHANNEL_ID = UUID.randomUUID().toString()
 
         fun sendActionBroadCast(context: Context, action: String) {
             val serviceIntent = Intent()

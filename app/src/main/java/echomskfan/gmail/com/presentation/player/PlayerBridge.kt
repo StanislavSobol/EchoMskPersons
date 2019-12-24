@@ -4,9 +4,11 @@ import android.content.ComponentName
 import android.content.Context.BIND_AUTO_CREATE
 import android.content.Intent
 import android.content.ServiceConnection
+import android.os.Build
 import android.os.IBinder
 import echomskfan.gmail.com.presentation.MainActivity
 import echomskfan.gmail.com.utils.catchThrowable
+import echomskfan.gmail.com.utils.logInfo
 
 /**
  * Local class-bridge between MainActivity and the service. Located in PlayerFragment
@@ -48,7 +50,13 @@ internal class PlayerBridge(private val playerFragment: PlayerFragment) {
                 }
             }
 
-            it.startService(mediaPlayerServiceIntent)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                it.startForegroundService(mediaPlayerServiceIntent)
+                logInfo("bridge startForegroundService")
+            } else {
+                it.startService(mediaPlayerServiceIntent)
+            }
+
             it.bindService(
                 mediaPlayerServiceIntent,
                 mediaPlayerServiceConnection as ServiceConnection, BIND_AUTO_CREATE
