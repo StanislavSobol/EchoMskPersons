@@ -13,7 +13,6 @@ import echomskfan.gmail.com.di.player.DaggerPlayerComponent
 import echomskfan.gmail.com.di.player.PlayerScope
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
-import echomskfan.gmail.com.presentation.MainActivity
 import echomskfan.gmail.com.utils.fromMSecSec
 import echomskfan.gmail.com.utils.fromSecToAudioDuration
 import echomskfan.gmail.com.utils.gone
@@ -63,7 +62,7 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
 
     fun notifyPlayerItemChanged() {
         if (PlayerItemVisualState.isClosed) {
-            (requireActivity() as MainActivity).closePlayerFragment()
+            mainActivityRouter?.closePlayerFragment()
             return
         }
 
@@ -80,6 +79,8 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
 
         playerFragmentAudioSeekBar?.progress = progressSec
     }
+
+    override fun isFavMenuItemVisible() = false
 
     private fun initViews(playerItem: PlayerItem) {
         playerFragmentPersonTextView?.text = playerItem.personName

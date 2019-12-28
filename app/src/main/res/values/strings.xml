@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Персоны \"Эха Москвы\"</string>
 
-    <string name="splash_text">Застав Очка</string>
+    <string name="splash_text">Персоны \"Эха Москвы\"</string>
 
     <string name="action_settings">Настройки</string>
     <string name="action_favorites">Избранное</string>
@@ -11,13 +11,6 @@
     <string name="title_activity_settings">Настройки</string>
     <string name="error_no_internet">Пожалуйста, проверьте Ваше Интернет-соединение</string>
     <string name="error_socket_timeout">Невозможно соединиться с сайтом "Эхо Москвы"</string>
-    <!-- Navigation drawer-->
-    <string name="navigation_drawer_open">Открыть навигационный ящик</string>
-    <string name="navigation_drawer_close">Закрыть навигационный ящик</string>
-    <string name="other_persons_app_title">Другие персоны \"Эха Москвы\"</string>
-    <!-- Application actions -->
-    <string name="app_action_download">Скачать</string>
-    <string name="app_action_start">Запустить</string>
     <!-- Settings -->
     <string name="settings_text_size_title">Размер шрифта</string>
     <string name="settings_text_size_small">Мелкий</string>
@@ -27,5 +20,7 @@
     <!--Player-->
     <string name="player_fragment_image_descr">Персона</string>
     <string name="empty_time_code">00:00</string>
+    <!--Menu-->
+    <string name="menu_fav">Избранное</string>
 
 </resources>

@@ -22,7 +22,7 @@ internal class PersonsAdapter(private val viewModel: PersonsViewModel) : Recycle
         holder.bind(items[position])
     }
 
-    fun addItems(list: List<PersonListItem>?) {
+    fun setItems(list: List<PersonListItem>?) {
         items.clear()
         list?.let { items.addAll(it) }
         notifyDataSetChanged()

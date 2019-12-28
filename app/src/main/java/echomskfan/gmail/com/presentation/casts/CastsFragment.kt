@@ -58,4 +58,6 @@ class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycle
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.adapter = adapter
     }
+
+    override fun isFavMenuItemVisible() = true
 }

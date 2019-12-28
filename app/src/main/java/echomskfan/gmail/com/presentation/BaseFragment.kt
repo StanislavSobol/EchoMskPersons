@@ -20,15 +20,12 @@ abstract class BaseFragment(
     @LayoutRes private val layoutId: Int
 ) : Fragment() {
 
+    protected val mainActivity: MainActivity
+        get() = requireActivity() as MainActivity
+
+    // TODO mainActivityRouter -> to NonNull
     protected val mainActivityRouter: IMainActivityRouter?
-        get() {
-            val activity = requireActivity()
-            return if (activity is IMainActivityRouter) {
-                activity
-            } else {
-                null
-            }
-        }
+        get() = mainActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(layoutId, container, false)
@@ -54,7 +51,11 @@ abstract class BaseFragment(
                 }
             }
         }
+
+        mainActivity.favMenuItemVisible = isFavMenuItemVisible()
     }
+
+    abstract fun isFavMenuItemVisible(): Boolean
 }
 
 enum class FragmentType {

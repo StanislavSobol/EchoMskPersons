@@ -10,10 +10,12 @@ import echomskfan.gmail.com.di.persons.DaggerPersonsComponent
 import echomskfan.gmail.com.di.persons.PersonsScope
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
+import echomskfan.gmail.com.presentation.IFavMenuItemClickListener
 import kotlinx.android.synthetic.main.fragment_recycler_view.*
 import javax.inject.Inject
 
-class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycler_view) {
+class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycler_view), IFavMenuItemClickListener {
+    private var favOn: Boolean = false
 
     @PersonsScope
     @Inject
@@ -35,7 +37,8 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(PersonsViewModel::class.java)
 
-        viewModel.getPersonsLiveData().observe(viewLifecycleOwner, Observer { list -> adapter.addItems(list) })
+//        viewModel.getPersonsLiveData().observe(viewLifecycleOwner, Observer { list -> adapter.setItems(list) })
+        viewModel.getPersonsLiveData().observe(viewLifecycleOwner, Observer { list -> setItems(list) })
         viewModel.navigationLiveDate.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let { id -> mainActivityRouter?.navigateToCastsFromPersons(id) }
         })
@@ -44,5 +47,22 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
 
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.adapter = adapter
+
+        mainActivity.favMenuItemClickListener = this
+    }
+
+    override fun onFavMenuItemClick(favOn: Boolean) {
+        this.favOn = favOn
+        viewModel.firstAttach()
+    }
+
+    override fun isFavMenuItemVisible() = true
+
+    private fun setItems(items: List<PersonListItem>) {
+        if (favOn) {
+            adapter.setItems(items.filter { it.fav })
+        } else {
+            adapter.setItems(items)
+        }
     }
 }
