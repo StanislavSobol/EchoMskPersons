@@ -28,6 +28,15 @@
   },
   {
     "id": 4,
+    "url": "/guests/7788",
+    "firstName": "Алексей",
+    "lastName": "Навальный",
+    "profession": "адвокат, политик, блогер",
+    "info": "",
+    "photoUrl": "https://2.cdn.echo.msk.ru/files/avatar2/1022564.jpg"
+  },
+  {
+    "id": 5,
     "url": "/contributors/5013",
     "firstName": "Сергей",
     "lastName": "Пархоменко",

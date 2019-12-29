@@ -10,6 +10,7 @@ import echomskfan.gmail.com.utils.gone
 import echomskfan.gmail.com.utils.visible
 import kotlinx.android.synthetic.main.item_cast.view.*
 
+// TODO Unable to load pages in favs on mode! Message about it/
 internal class CastsAdapter(private val viewModel: CastsViewModel) : RecyclerView.Adapter<CastsAdapter.Holder>() {
 
     private val items = mutableListOf<ICastsListItemDelegate>()
@@ -69,8 +70,11 @@ internal class CastsAdapter(private val viewModel: CastsViewModel) : RecyclerVie
                 }
 
                 itemView.item_content_favorite_image_view.setImageResource(
-                    if (item.fav) R.drawable.ic_baseline_favorite_black_24dp
-                    else R.drawable.ic_baseline_favorite_none_24dp
+                    if (item.fav) {
+                        R.drawable.ic_baseline_favorite_black_24dp
+                    } else {
+                        R.drawable.ic_baseline_favorite_none_24dp
+                    }
                 )
 
                 itemView.item_content_favorite_image_view.setOnClickListener {
