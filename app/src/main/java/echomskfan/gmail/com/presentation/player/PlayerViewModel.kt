@@ -14,64 +14,10 @@ class PlayerViewModel(private val interactor: IPlayerInteractor) : BaseViewModel
 
     private val _playerItemLiveData = MutableLiveData<PlayerItem>()
 
-/*
-    fun getPlayerLiveDataForCast(castId: Int?): LiveData<List<PlayerItem>> {
+    fun loadData(castId: String?) {
         if (castId == null) {
             castIdIsNull()
         }
-
-//        val playerItemSingle: Single<PlayerItem> = interactor.getPlayerItemSingle(castId)
-
-        interactor.getPlayerItemSingle(castId)
-            .fromIoToMain()
-            .subscribe(
-                {
-                    _playerItemLiveData.value = it
-                },
-                {
-                    catchThrowable(it)
-                }
-            )
-            .unsubscribeOnClear()
-
-//        val singleCas: Single<CastEntity> = interactor.singleCas(castId)
-//
-//        val singlePe: Single<PersonEntity> = interactor.singlePe(castId)
-//
-//        var castEntity: CastEntity? = null
-//
-//
-//        singleCas.fromIoToMain()
-//            .subscribe(
-//                {
-//                    castEntity = it
-//                },
-//                {
-//                    catchThrowable(it)
-//                }
-//            ).unsubscribeOnClear()
-
-
-        //  val personEntity: PersonEntity = interactor.getPerson
-
-
-        // return interactor.getPlayerLiveDataForCast(castId)
-
-//        if (castId == null) {
-//            castIdIsNull()
-//        }
-//
-//        return Transformations.map(interactor.getPlayerLiveDataForCast(castId)) { list -> PlayerItem.from(list) }
-    }
-    */
-
-
-    fun firstAttach(castId: String?) {
-        if (castId == null) {
-            castIdIsNull()
-        }
-
-//        val playerItemSingle: Single<PlayerItem> = interactor.getPlayerItemSingle(castId)
 
         interactor.getPlayerItemSingle(castId)
             .fromIoToMain()
@@ -85,7 +31,6 @@ class PlayerViewModel(private val interactor: IPlayerInteractor) : BaseViewModel
             )
             .unsubscribeOnClear()
     }
-
 
     private fun castIdIsNull(): Nothing {
         throw IllegalStateException("castId must be set")

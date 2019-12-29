@@ -27,6 +27,7 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
     internal lateinit var viewModelFactory: PlayerViewModelFactory
 
     private lateinit var viewModel: PlayerViewModel
+
     private val castId: String? by lazy { arguments?.getString(EXTRA_CAST_ID) }
     private val resume: Boolean by lazy { arguments?.getBoolean(EXTRA_PLAYER_RESUME) ?: false }
     private val playerBridge: PlayerBridge by lazy { PlayerBridge(this) }
@@ -42,11 +43,11 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
         super.onActivityCreated(savedInstanceState)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(PlayerViewModel::class.java)
-        savedInstanceState ?: viewModel.firstAttach(castId)
+        viewModel.loadData(castId)
         viewModel.playerItemLiveData.observe(this, Observer {
             it?.let { playerItem ->
                 initViews(playerItem)
-                if (resume) {
+                if (resume || savedInstanceState != null) {
                     playerBridge.bindServiceAndResume()
                 } else {
                     playerBridge.bindServiceAndPlay(playerItem)
