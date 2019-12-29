@@ -14,6 +14,7 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.IdRes
 import androidx.core.app.NotificationCompat
+import echomskfan.gmail.com.BuildConfig
 import echomskfan.gmail.com.EXTRA_PLAYER_ITEM_CAST_ID
 import echomskfan.gmail.com.R
 import echomskfan.gmail.com.presentation.main.MainActivity
@@ -37,11 +38,6 @@ class MediaPlayerService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-
-        val filter = IntentFilter()
-        filter.addAction(RESUME_ACTION)
-        filter.addAction(PAUSE_ACTION)
-        filter.addAction(CLOSE_ACTION)
 
         actionsBroadCastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -69,11 +65,23 @@ class MediaPlayerService : Service() {
                 }
             }
         }
-        registerReceiver(actionsBroadCastReceiver, filter)
+
+        registerReceiver(actionsBroadCastReceiver,
+            IntentFilter().apply {
+                addAction(RESUME_ACTION)
+                addAction(PAUSE_ACTION)
+                addAction(CLOSE_ACTION)
+            }
+        )
     }
 
     override fun onDestroy() {
         stop()
+
+        if (BuildConfig.DEBUG && isInForeground()) {
+            logError("Media Player service is still in foreground mode")
+        }
+
         actionsBroadCastReceiver?.let { unregisterReceiver(it) }
         super.onDestroy()
     }
@@ -174,10 +182,12 @@ class MediaPlayerService : Service() {
     @TargetApi(Build.VERSION_CODES.O)
     private fun createChannel() {
         val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_LOW)
-            .apply { description = CHANNEL_DESCRIPTION }
-            .apply { enableLights(true) }
-            .apply { lightColor = Color.BLUE }
-            .apply { setSound(null, null) }
+            .apply {
+                description = CHANNEL_DESCRIPTION
+                enableLights(true)
+                lightColor = Color.BLUE
+                setSound(null, null)
+            }
 
         getNotificationManager().createNotificationChannel(channel)
     }
@@ -217,12 +227,6 @@ class MediaPlayerService : Service() {
         intervalDisposable = Observable.interval(1, TimeUnit.SECONDS)
             .fromComputationToMain()
             .subscribe {
-                if (playerBridge == null) {
-                    logError("PlayerBridge got lost")
-                    intervalDisposable?.dispose()
-                    return@subscribe
-                }
-
                 PlayerItemVisualState.track(mediaPlayer.currentPosition).applyRemoteViewsAppearance()
 
                 val isPlaying: Boolean = try {
