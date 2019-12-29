@@ -27,7 +27,7 @@ class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel()
         return Transformations.map(interactor.getCastsLiveDataForPerson(personId!!)) { list -> CastListItem.from(list) }
     }
 
-    fun firstAttach() {
+    fun loadData() {
         subscribeToTransferCastsFromWebToDb()
     }
 

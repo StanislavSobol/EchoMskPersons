@@ -3,7 +3,6 @@ package echomskfan.gmail.com.presentation.casts
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import echomskfan.gmail.com.R
 import echomskfan.gmail.com.utils.fromSecToAudioDuration
@@ -13,8 +12,8 @@ import kotlinx.android.synthetic.main.item_cast.view.*
 
 internal class CastsAdapter(private val viewModel: CastsViewModel) : RecyclerView.Adapter<CastsAdapter.Holder>() {
 
-    //    private val currentPage:Int = 1
     private val items = mutableListOf<ICastsListItemDelegate>()
+    private var favsOn: Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val layoutId = if (viewType == TYPE_ITEM) R.layout.item_cast else R.layout.item_content_progress_bar
@@ -31,78 +30,18 @@ internal class CastsAdapter(private val viewModel: CastsViewModel) : RecyclerVie
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == items.size - 1) TYPE_PROGRESS_BAR else TYPE_ITEM
+        return if (!favsOn && position == items.size - 1) TYPE_PROGRESS_BAR else TYPE_ITEM
     }
 
-//    private fun getPageNumsFromItems(items: List<ICastsListItemDelegate>): Set<Int> {
-//        val result = mutableSetOf<Int>()
-//        items.filter { it is CastListItem }.forEach { result.add((it as CastListItem).pageNum) }
-//        return result
-//    }
-
-//    private fun <T> getPageNumsFromItemsitems: List<out CastListItem>):Set<Int> {
-//    }
-
-
-    fun setItems(newItems: List<CastListItem>) {
-//        items.remove(items.find { it is CastsProgressBarItem })
-//
-//        val newPages = mutableSetOf<Int>()
-//        newItems.forEach { newPages.add(it.pageNum) }
-//        val forDeleteItems = mutableListOf<ICastsListItemDelegate>()
-//        newPages.forEach { newPage ->
-//            run {
-//                items.forEach {
-//                    if (it is CastListItem && it.pageNum == newPage) {
-//                        forDeleteItems.add(it)
-//                    }
-//                }
-//            }
-//        }
-//
-//        forDeleteItems.forEach { items.remove(it) }
-//        forDeleteItems.clear()
-
+    fun setItems(newItems: List<CastListItem>, favsOn: Boolean = false) {
+        this.favsOn = favsOn
         items.clear()
         items.addAll(newItems)
-        if (newItems.isNotEmpty()) {
+        if (!favsOn && newItems.isNotEmpty()) {
             items.add(CastsProgressBarItem())
         }
 
-
-//        val diffResult = DiffUtil.calculateDiff(DiffUtilsCallback(items, newItems))
-//        diffResult.dispatchUpdatesTo(this)
-
         notifyDataSetChanged()
-    }
-
-    private class DiffUtilsCallback(
-        private val oldItems: List<ICastsListItemDelegate>,
-        private val newItems: List<CastListItem>
-    ) : DiffUtil.Callback() {
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            val old = oldItems[oldItemPosition]
-            val new = newItems[newItemPosition]
-            return if (old is CastListItem) {
-                old.id == new.id
-            } else {
-                false
-            }
-        }
-
-        override fun getOldListSize() = oldItems.size
-
-        override fun getNewListSize() = newItems.size
-
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            val old = oldItems[oldItemPosition]
-            val new = newItems[newItemPosition]
-            return if (old is CastListItem) {
-                old.same(new)
-            } else {
-                false
-            }
-        }
     }
 
     /*

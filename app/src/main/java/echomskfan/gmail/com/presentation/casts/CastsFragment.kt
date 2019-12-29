@@ -11,10 +11,11 @@ import echomskfan.gmail.com.di.casts.CastsScope
 import echomskfan.gmail.com.di.casts.DaggerCastsComponent
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
+import echomskfan.gmail.com.presentation.main.IFavMenuItemClickListener
 import kotlinx.android.synthetic.main.fragment_recycler_view.*
 import javax.inject.Inject
 
-class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycler_view) {
+class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycler_view), IFavMenuItemClickListener {
 
     @CastsScope
     @Inject
@@ -25,6 +26,8 @@ class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycle
     private val personId: Int?  by lazy { arguments?.getInt(EXTRA_PERSON_ID) }
 
     private val adapter: CastsAdapter by lazy { CastsAdapter(viewModel) }
+
+    private var favOn: Boolean = false
 
     init {
         DaggerCastsComponent.builder()
@@ -39,17 +42,11 @@ class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycle
         personId ?: run { throw IllegalStateException("personId must not be null") }
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(CastsViewModel::class.java)
-        viewModel.personId = personId
+        viewModel.personId = personId // TODO Put the Id to Dagger 2
 
-        viewModel.getCastsLiveDataForPerson()
-            .observe(viewLifecycleOwner, Observer { list ->
-                adapter.setItems(list)
-                viewModel.lastLoadedPageNum = if (list.isEmpty()) 0 else list.last().pageNum
+        subscribeToCastsLiveDataForPerson()
 
-//                CastListItem.printInfo(list)
-            })
-
-        savedInstanceState ?: viewModel.firstAttach()
+        savedInstanceState ?: viewModel.loadData()
 
         viewModel.navigateToPlayerFragment.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let { id -> mainActivityRouter?.navigateToPlayerFromCasts(id); }
@@ -57,7 +54,32 @@ class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycle
 
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.adapter = adapter
+
+        mainActivity.favMenuItemClickListener = this
     }
 
     override fun isFavMenuItemVisible() = true
+
+    override fun onFavMenuItemClick(favOn: Boolean) {
+        this.favOn = favOn
+        subscribeToCastsLiveDataForPerson()
+    }
+
+    private fun subscribeToCastsLiveDataForPerson() {
+        viewModel.getCastsLiveDataForPerson().removeObservers(viewLifecycleOwner)
+
+        viewModel.getCastsLiveDataForPerson()
+            .observe(viewLifecycleOwner, Observer { list ->
+                setItems(list)
+                viewModel.lastLoadedPageNum = if (list.isEmpty()) 0 else list.last().pageNum
+            })
+    }
+
+    private fun setItems(items: List<CastListItem>) {
+        if (favOn) {
+            adapter.setItems(items.filter { it.fav }, favsOn = true)
+        } else {
+            adapter.setItems(items)
+        }
+    }
 }
