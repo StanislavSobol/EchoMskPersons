@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import echomskfan.gmail.com.R
+import echomskfan.gmail.com.presentation.main.MainActivity
 
 /**
  * Splash-screen activity

@@ -16,7 +16,7 @@ import androidx.annotation.IdRes
 import androidx.core.app.NotificationCompat
 import echomskfan.gmail.com.EXTRA_PLAYER_ITEM_CAST_ID
 import echomskfan.gmail.com.R
-import echomskfan.gmail.com.presentation.MainActivity
+import echomskfan.gmail.com.presentation.main.MainActivity
 import echomskfan.gmail.com.utils.*
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable

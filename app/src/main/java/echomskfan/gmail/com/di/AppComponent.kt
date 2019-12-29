@@ -4,6 +4,7 @@ import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
 import echomskfan.gmail.com.domain.repository.IRepository
+import echomskfan.gmail.com.presentation.main.MainActivity
 import javax.inject.Singleton
 
 @Singleton
@@ -11,6 +12,7 @@ import javax.inject.Singleton
 interface AppComponent {
 
     fun repository(): IRepository
+    fun inject(mainActivity: MainActivity)
 
     @Component.Builder
     interface Builder {

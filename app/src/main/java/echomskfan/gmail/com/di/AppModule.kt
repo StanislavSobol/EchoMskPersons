@@ -7,10 +7,15 @@ import dagger.Provides
 import echomskfan.gmail.com.data.db.PersonsDatabase
 import echomskfan.gmail.com.data.parser.EchoParser
 import echomskfan.gmail.com.data.parser.IEchoParser
+import echomskfan.gmail.com.data.prefs.ISharedPrefs
+import echomskfan.gmail.com.data.prefs.SharedPrefs
 import echomskfan.gmail.com.domain.assetextractor.AssetExtractor
 import echomskfan.gmail.com.domain.assetextractor.IAssetExtractor
+import echomskfan.gmail.com.domain.interactor.main.IMainInteractor
+import echomskfan.gmail.com.domain.interactor.main.MainInteractor
 import echomskfan.gmail.com.domain.repository.IRepository
 import echomskfan.gmail.com.domain.repository.Repository
+import echomskfan.gmail.com.presentation.main.MainViewModelFactory
 import javax.inject.Singleton
 
 @Module
@@ -39,12 +44,31 @@ class AppModule {
 
     @Singleton
     @Provides
+    fun provideSharedPrefs(appContext: Context): ISharedPrefs {
+        return SharedPrefs(appContext)
+    }
+
+    @Singleton
+    @Provides
     fun provideRepository(
         assetExtractor: IAssetExtractor,
         database: PersonsDatabase,
-        echoParser: IEchoParser
+        echoParser: IEchoParser,
+        sharedPrefs: ISharedPrefs
     ): IRepository {
-        return Repository(assetExtractor, database, echoParser)
+        return Repository(assetExtractor, database, echoParser, sharedPrefs)
+    }
+
+    @Singleton
+    @Provides
+    fun provideMainInteractor(repository: IRepository): IMainInteractor {
+        return MainInteractor(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideMainViewModelFactory(interactor: IMainInteractor): MainViewModelFactory {
+        return MainViewModelFactory(interactor)
     }
 
     companion object {

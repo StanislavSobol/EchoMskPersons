@@ -10,11 +10,12 @@ import echomskfan.gmail.com.di.persons.DaggerPersonsComponent
 import echomskfan.gmail.com.di.persons.PersonsScope
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
-import echomskfan.gmail.com.presentation.IFavMenuItemClickListener
+import echomskfan.gmail.com.presentation.main.IFavMenuItemClickListener
 import kotlinx.android.synthetic.main.fragment_recycler_view.*
 import javax.inject.Inject
 
 class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycler_view), IFavMenuItemClickListener {
+
     private var favOn: Boolean = false
 
     @PersonsScope
@@ -37,13 +38,12 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(PersonsViewModel::class.java)
 
-//        viewModel.getPersonsLiveData().observe(viewLifecycleOwner, Observer { list -> adapter.setItems(list) })
         viewModel.getPersonsLiveData().observe(viewLifecycleOwner, Observer { list -> setItems(list) })
         viewModel.navigationLiveDate.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let { id -> mainActivityRouter?.navigateToCastsFromPersons(id) }
         })
 
-        savedInstanceState ?: run { viewModel.firstAttach() }
+        savedInstanceState ?: run { viewModel.loadData() }
 
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.adapter = adapter
@@ -53,7 +53,7 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
 
     override fun onFavMenuItemClick(favOn: Boolean) {
         this.favOn = favOn
-        viewModel.firstAttach()
+        viewModel.loadData()
     }
 
     override fun isFavMenuItemVisible() = true

@@ -20,7 +20,7 @@ class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewMod
         return Transformations.map(interactor.getPersonsLiveData()) { list -> PersonListItem.from(list) }
     }
 
-    fun firstAttach() {
+    fun loadData() {
         interactor.transferPersonsFromXmlToDb()
             .fromIoToMain()
             .doOnError { e -> catchThrowable(e) }

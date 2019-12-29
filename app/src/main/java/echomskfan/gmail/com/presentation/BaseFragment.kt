@@ -8,6 +8,8 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import echomskfan.gmail.com.R
+import echomskfan.gmail.com.presentation.main.IMainActivityRouter
+import echomskfan.gmail.com.presentation.main.MainActivity
 
 /**
  * Class to store all common features for diff. classes placed on MainActivity.

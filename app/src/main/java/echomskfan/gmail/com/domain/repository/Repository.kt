@@ -7,6 +7,7 @@ import echomskfan.gmail.com.data.db.dao.PersonsDao
 import echomskfan.gmail.com.data.db.entity.CastEntity
 import echomskfan.gmail.com.data.db.entity.PersonEntity
 import echomskfan.gmail.com.data.parser.IEchoParser
+import echomskfan.gmail.com.data.prefs.ISharedPrefs
 import echomskfan.gmail.com.domain.assetextractor.IAssetExtractor
 import echomskfan.gmail.com.presentation.player.PlayerItem
 import io.reactivex.Completable
@@ -15,7 +16,8 @@ import io.reactivex.Single
 class Repository(
     private val assetExtractor: IAssetExtractor,
     private val database: PersonsDatabase,
-    private val echoParser: IEchoParser
+    private val echoParser: IEchoParser,
+    private val sharedPrefs: ISharedPrefs
 ) : IRepository {
 
     private val personsDao: PersonsDao by lazy { database.getPersonsDao() }
@@ -124,4 +126,9 @@ class Repository(
         }
     }
 
+    override var isFavOn: Boolean
+        get() = sharedPrefs.isFavOn
+        set(value) {
+            sharedPrefs.isFavOn = value
+        }
 }

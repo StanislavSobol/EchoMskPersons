@@ -18,4 +18,6 @@ interface IRepository {
     fun castIdFavClickedCompletable(castId: String): Completable
 
     fun getPlayerItemSingle(castId: String): Single<PlayerItem>
+
+    var isFavOn: Boolean
 }

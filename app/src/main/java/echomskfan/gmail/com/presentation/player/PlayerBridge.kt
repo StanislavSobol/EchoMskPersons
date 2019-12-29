@@ -6,7 +6,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Build
 import android.os.IBinder
-import echomskfan.gmail.com.presentation.MainActivity
+import echomskfan.gmail.com.presentation.main.MainActivity
 import echomskfan.gmail.com.utils.catchThrowable
 import echomskfan.gmail.com.utils.logInfo
 

@@ -1,17 +1,26 @@
-package echomskfan.gmail.com.presentation
+package echomskfan.gmail.com.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import echomskfan.gmail.com.*
 import echomskfan.gmail.com.utils.bundleOf
-import echomskfan.gmail.com.utils.logInfo
+import javax.inject.Inject
+import javax.inject.Singleton
 
 class MainActivity : AppCompatActivity(), IMainActivityRouter {
+
+    @Singleton
+    @Inject
+    internal lateinit var viewModelFactory: MainViewModelFactory
+
+    private var favOn: Boolean = false
 
     var favMenuItemClickListener: IFavMenuItemClickListener? = null
 
@@ -24,25 +33,40 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
             invalidateOptionsMenu()
         }
 
+    private lateinit var viewModel: MainViewModel
     private lateinit var navController: NavController
+
+    init {
+        MApplication.getAppComponent().inject(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         applyIntent(intent)
-        logInfo("onCreate")
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
+        viewModel.favOnLiveDate.observe(this, Observer { favOn ->
+            favMenuItemClickListener?.onFavMenuItemClick(favOn)
+            this.favOn = favOn
+            invalidateOptionsMenu()
+        })
+
+        savedInstanceState ?: run { viewModel.loadData() }
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         applyIntent(intent)
-        logInfo("onNewIntent")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
-        menu?.findItem(R.id.mainMenuFav)?.isVisible = favMenuItemVisible
+        menu?.findItem(R.id.mainMenuFav)?.let {
+            it.isVisible = favMenuItemVisible
+            it.setIcon(if (favOn) R.drawable.ic_favorite_white_24dp else R.drawable.ic_favorite_border_black_24dp)
+        }
         return true
     }
 
@@ -54,7 +78,7 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
             }
 
             R.id.mainMenuFav -> {
-                favMenuItemClickListener?.onFavMenuItemClick(true)
+                viewModel.onFavMenuItemClick()
                 true
             }
 
