@@ -35,7 +35,7 @@
     <dimen name="biggest_title_text_size">24sp</dimen>
 
     <!--Player fragment-->
-    <dimen name="player_fragment_progress_bar_size">16dp</dimen>
+    <dimen name="player_fragment_progress_bar_size">32dp</dimen>
     <dimen name="player_fragment_time_code_width">100dp</dimen>
 
     <!--Notification-->

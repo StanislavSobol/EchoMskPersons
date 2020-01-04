@@ -13,11 +13,14 @@ class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel()
 
     var lastLoadedPageNum: Int = 0
     var personId: Int? = null
-    val navigateToPlayerFragment: LiveData<OneShotEvent<String>>
-        get() = _navigateToPlayerFragment
 
-    private var loading = false
-    private val _navigateToPlayerFragment = MutableLiveData<OneShotEvent<String>>()
+    val navigateToPlayerFragmentLiveData: LiveData<OneShotEvent<String>>
+        get() = _navigateToPlayerFragmentLiveData
+    val showProgressLiveData: LiveData<Boolean>
+        get() = _showProgressLiveData
+
+    private val _navigateToPlayerFragmentLiveData = MutableLiveData<OneShotEvent<String>>()
+    private val _showProgressLiveData = MutableLiveData<Boolean>()
 
     fun getCastsLiveDataForPerson(): LiveData<List<CastListItem>> {
         if (personId == null) {
@@ -32,7 +35,7 @@ class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel()
     }
 
     fun playButtonClicked(castListItem: CastListItem) {
-        _navigateToPlayerFragment.value = OneShotEvent(castListItem.id)
+        _navigateToPlayerFragmentLiveData.value = OneShotEvent(castListItem.id)
     }
 
     fun itemIdFavClicked(castId: String) {
@@ -47,6 +50,14 @@ class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel()
         subscribeToTransferCastsFromWebToDb()
     }
 
+    override fun showProgress() {
+        _showProgressLiveData.value = true
+    }
+
+    override fun hideProgress() {
+        _showProgressLiveData.value = false
+    }
+
     private fun subscribeToTransferCastsFromWebToDb() {
         if (loading) {
             return
@@ -58,13 +69,8 @@ class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel()
 
         interactor.transferCastsFromWebToDb(personId!!, lastLoadedPageNum + 1)
             .fromIoToMain()
-            .doOnSubscribe { loading = true } // TODO to extension
-            .subscribe({
-                loading = false
-            }, {
-                loading = false
-                catchThrowable(it)
-            })
+            .withProgress()
+            .subscribe({}, { catchThrowable(it) })
             .unsubscribeOnClear()
     }
 

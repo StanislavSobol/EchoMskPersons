@@ -12,7 +12,10 @@ import echomskfan.gmail.com.di.casts.DaggerCastsComponent
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
 import echomskfan.gmail.com.presentation.main.IFavMenuItemClickListener
+import echomskfan.gmail.com.utils.gone
+import echomskfan.gmail.com.utils.visible
 import kotlinx.android.synthetic.main.fragment_recycler_view.*
+import kotlinx.android.synthetic.main.full_progress_bar_content.*
 import javax.inject.Inject
 
 class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycler_view), IFavMenuItemClickListener {
@@ -42,18 +45,20 @@ class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycle
         personId ?: run { throw IllegalStateException("personId must not be null") }
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(CastsViewModel::class.java)
-        viewModel.personId = personId // TODO Put the Id to Dagger 2
+        viewModel.personId = personId // TODO Put the Id to Dagger 2 (Provider ?)
 
         subscribeToCastsLiveDataForPerson()
 
         savedInstanceState ?: viewModel.loadData()
 
-        viewModel.navigateToPlayerFragment.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToPlayerFragmentLiveData.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let { id -> mainActivityRouter?.navigateToPlayerFromCasts(id); }
         })
 
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.adapter = adapter
+
+        viewModel.showProgressLiveData.observe(viewLifecycleOwner, Observer { showProgress(it) })
 
         mainActivity.favMenuItemClickListener = this
     }
@@ -80,6 +85,16 @@ class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycle
             adapter.setItems(items.filter { it.fav }, favsOn = true)
         } else {
             adapter.setItems(items)
+        }
+    }
+
+    private fun showProgress(show: Boolean) {
+        if (show) {
+            recyclerView.gone()
+            progressBar.visible()
+        } else {
+            recyclerView.visible()
+            progressBar.gone()
         }
     }
 }
