@@ -48,6 +48,7 @@ class Repository(
                 val ids = mutableListOf<Int>()
                 xmlList.forEach { ids.add(it.id) }
                 personsDao.deleteNotIn(ids)
+                it.onComplete()
             }
         }
     }

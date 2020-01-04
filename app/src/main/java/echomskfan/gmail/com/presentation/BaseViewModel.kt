@@ -1,11 +1,19 @@
 package echomskfan.gmail.com.presentation
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.Completable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
 abstract class BaseViewModel : ViewModel() {
+
+
+    val showProgressLiveData: LiveData<Boolean>
+        get() = _showProgressLiveData
+
+    private val _showProgressLiveData = MutableLiveData<Boolean>()
 
     protected var loading = false
         private set
@@ -27,11 +35,13 @@ abstract class BaseViewModel : ViewModel() {
             .doOnError { hideProgress() }
     }
 
-    open protected fun showProgress() {
+    protected open fun showProgress() {
         loading = true
+        _showProgressLiveData.value = true
     }
 
-    open protected fun hideProgress() {
+    protected open fun hideProgress() {
         loading = false
+        _showProgressLiveData.value = false
     }
 }

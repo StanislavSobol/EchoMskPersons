@@ -16,11 +16,9 @@ class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel()
 
     val navigateToPlayerFragmentLiveData: LiveData<OneShotEvent<String>>
         get() = _navigateToPlayerFragmentLiveData
-    val showProgressLiveData: LiveData<Boolean>
-        get() = _showProgressLiveData
+
 
     private val _navigateToPlayerFragmentLiveData = MutableLiveData<OneShotEvent<String>>()
-    private val _showProgressLiveData = MutableLiveData<Boolean>()
 
     fun getCastsLiveDataForPerson(): LiveData<List<CastListItem>> {
         if (personId == null) {
@@ -48,14 +46,6 @@ class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel()
 
     fun scrolledToBottom() {
         subscribeToTransferCastsFromWebToDb()
-    }
-
-    override fun showProgress() {
-        _showProgressLiveData.value = true
-    }
-
-    override fun hideProgress() {
-        _showProgressLiveData.value = false
     }
 
     private fun subscribeToTransferCastsFromWebToDb() {

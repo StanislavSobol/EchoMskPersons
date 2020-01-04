@@ -23,7 +23,8 @@ class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewMod
     fun loadData() {
         interactor.transferPersonsFromXmlToDb()
             .fromIoToMain()
-            .doOnError { e -> catchThrowable(e) }
+            .withProgress()
+            .doOnError { e -> catchThrowable(e) } // TODO to extension
             .subscribe()
             .unsubscribeOnClear()
     }

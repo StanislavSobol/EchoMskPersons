@@ -11,7 +11,10 @@ import echomskfan.gmail.com.di.persons.PersonsScope
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
 import echomskfan.gmail.com.presentation.main.IFavMenuItemClickListener
+import echomskfan.gmail.com.utils.gone
+import echomskfan.gmail.com.utils.visible
 import kotlinx.android.synthetic.main.fragment_recycler_view.*
+import kotlinx.android.synthetic.main.full_progress_bar_content.*
 import javax.inject.Inject
 
 class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycler_view), IFavMenuItemClickListener {
@@ -48,6 +51,8 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.adapter = adapter
 
+        viewModel.showProgressLiveData.observe(viewLifecycleOwner, Observer { showProgress(it) })
+
         mainActivity.favMenuItemClickListener = this
     }
 
@@ -63,6 +68,16 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
             adapter.setItems(items.filter { it.fav })
         } else {
             adapter.setItems(items)
+        }
+    }
+
+    private fun showProgress(show: Boolean) {
+        if (show) {
+            recyclerView.gone()
+            progressBar.visible()
+        } else {
+            recyclerView.visible()
+            progressBar.gone()
         }
     }
 }
