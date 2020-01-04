@@ -1,84 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   xmlns:tools="http://schemas.android.com/tools"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="wrap_content"
-                                                   android:padding="@dimen/small_margin">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <TextView
-            android:id="@+id/personItemNameTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/title_text_size"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:text="Александр Невзоров"/>
+        android:id="@+id/personItemNameTextView"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/title_text_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Александр Невзоров" />
 
     <TextView
-            android:id="@+id/personItemProfessionTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/subtitle_text_size"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/personItemNameTextView"
-            tools:text="публицист"/>
+        android:id="@+id/personItemProfessionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/subtitle_text_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/personItemNameTextView"
+        tools:text="публицист" />
 
     <RelativeLayout
-            android:id="@+id/personItemCentralLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/small_margin"
-            app:layout_constraintTop_toBottomOf="@+id/personItemProfessionTextView">
+        android:id="@+id/personItemCentralLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/small_margin"
+        app:layout_constraintTop_toBottomOf="@+id/personItemProfessionTextView">
 
         <ImageView
-                android:id="@+id/personItemImageView"
-                android:layout_width="@dimen/vip_image_size"
-                android:layout_height="@dimen/vip_image_size"
-                tools:ignore="ContentDescription"/>
+            android:id="@+id/personItemImageView"
+            android:layout_width="@dimen/vip_image_size"
+            android:layout_height="@dimen/vip_image_size"
+            tools:ignore="ContentDescription" />
 
         <TextView
-                android:id="@+id/personItemInfoTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/small_margin"
-                android:layout_marginStart="@dimen/small_margin"
-                android:layout_toEndOf="@+id/personItemImageView"
-                android:layout_toRightOf="@+id/personItemImageView"
-                android:ellipsize="end"
-                android:maxLines="5"
-                android:textSize="@dimen/regular_text_size"
-                tools:text="23 декабря 1987 года вышла в эфир и просуществовала шесть лет информационная программа Ленинградского телевидения «600 секунд», шеф-редактором и ведущим которой стал Александр Невзоров. Передача стала культовой и вошла в Книгу рекордов Гиннеса как самый рейтинговый телепроект.Как репортер и как солдат был участником войн в Югославии, Приднестровье, Карабахе, Прибалтике, Ираке и Чечне, одним из первых, вместе с генералом Рохлиным вошел в Грозный.О чеченской войне Невзоровым сняты документальный фильм «Ад» (1995) и художественная лента «Чистилище» (1997)."/>
+            android:id="@+id/personItemInfoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginLeft="@dimen/small_margin"
+            android:layout_toEndOf="@+id/personItemImageView"
+            android:layout_toRightOf="@+id/personItemImageView"
+            android:ellipsize="end"
+            android:maxLines="5"
+            android:textSize="@dimen/regular_text_size"
+            tools:text="23 декабря 1987 года вышла в эфир и просуществовала шесть лет информационная программа Ленинградского телевидения «600 секунд», шеф-редактором и ведущим которой стал Александр Невзоров. Передача стала культовой и вошла в Книгу рекордов Гиннеса как самый рейтинговый телепроект.Как репортер и как солдат был участником войн в Югославии, Приднестровье, Карабахе, Прибалтике, Ираке и Чечне, одним из первых, вместе с генералом Рохлиным вошел в Грозный.О чеченской войне Невзоровым сняты документальный фильм «Ад» (1995) и художественная лента «Чистилище» (1997)." />
 
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/iconsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/small_margin"
+        android:orientation="horizontal"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/personItemCentralLayout">
+
+        <ImageView
+            android:id="@+id/personItemNotificationImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/small_margin"
-            android:orientation="horizontal"
-
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/personItemCentralLayout">
+            android:src="@drawable/ic_baseline_notifications_black_24dp"
+            tools:ignore="ContentDescription" />
 
         <ImageView
-                android:id="@+id/personItemNotificationImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_notifications_black_24dp"
-                tools:ignore="ContentDescription"/>
-
-        <ImageView
-                android:id="@+id/personItemFavImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/small_margin"
-                android:layout_marginStart="@dimen/small_margin"
-                android:src="@drawable/ic_baseline_favorite_black_24dp"
-                tools:ignore="ContentDescription"/>
+            android:id="@+id/personItemFavImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginLeft="@dimen/small_margin"
+            android:src="@drawable/ic_baseline_favorite_black_24dp"
+            tools:ignore="ContentDescription" />
 
     </LinearLayout>
+
+    <View
+        android:id="@+id/lineView"
+        style="@style/HorizontalSeparator"
+        android:layout_marginTop="@dimen/small_margin"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iconsLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -64,9 +64,13 @@ internal class CastsAdapter(private val viewModel: CastsViewModel) : RecyclerVie
                         viewModel.playButtonClicked(item)
                     }
 
-                    itemView.item_content_audio_layout.visible()
+                    itemView.item_content_audio_play_image_button.visible()
+                    itemView.item_content_audio_duration_text_view.visible()
+                    itemView.itemCastAudioTitleTextView.visible()
                 } else {
-                    itemView.item_content_audio_layout.gone()
+                    itemView.item_content_audio_play_image_button.gone()
+                    itemView.item_content_audio_duration_text_view.gone()
+                    itemView.itemCastAudioTitleTextView.gone()
                 }
 
                 itemView.item_content_favorite_image_view.setImageResource(
