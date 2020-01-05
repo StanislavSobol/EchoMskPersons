@@ -41,6 +41,7 @@ class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycle
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        favOn = mainActivity.favOn
 
         personId ?: run { throw IllegalStateException("personId must not be null") }
 
@@ -72,9 +73,7 @@ class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycle
 
     private fun subscribeToCastsLiveDataForPerson() {
         viewModel.getCastsLiveDataForPerson().removeObservers(viewLifecycleOwner)
-
-        viewModel.getCastsLiveDataForPerson()
-            .observe(viewLifecycleOwner, Observer { list ->
+        viewModel.getCastsLiveDataForPerson().observe(viewLifecycleOwner, Observer { list ->
                 setItems(list)
                 viewModel.lastLoadedPageNum = if (list.isEmpty()) 0 else list.last().pageNum
             })

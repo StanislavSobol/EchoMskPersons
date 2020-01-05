@@ -91,10 +91,9 @@ internal class PlayerBridge(private val playerFragment: PlayerFragment) {
             mediaPlayerServiceConnection?.let {
                 mediaPlayerService?.playerBridge = null
                 try {
+                    bound = false
                     getMainActivity().unbindService(it)
-                    bound = false
                 } catch (e: IllegalArgumentException) {
-                    bound = false
                     catchThrowable(e)
                 }
             }

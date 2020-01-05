@@ -38,10 +38,12 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        favOn = mainActivity.favOn
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(PersonsViewModel::class.java)
 
-        viewModel.getPersonsLiveData().observe(viewLifecycleOwner, Observer { list -> setItems(list) })
+        subscribeToPersonsLiveData()
+
         viewModel.navigationLiveDate.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let { id -> mainActivityRouter?.navigateToCastsFromPersons(id) }
         })
@@ -58,7 +60,12 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
 
     override fun onFavMenuItemClick(favOn: Boolean) {
         this.favOn = favOn
-        viewModel.loadData()
+        subscribeToPersonsLiveData()
+    }
+
+    private fun subscribeToPersonsLiveData() {
+        viewModel.getPersonsLiveData().removeObservers(viewLifecycleOwner)
+        viewModel.getPersonsLiveData().observe(viewLifecycleOwner, Observer { list -> setItems(list) })
     }
 
     override fun isFavMenuItemVisible() = true

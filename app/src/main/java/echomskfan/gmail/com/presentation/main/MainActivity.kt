@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
     @Inject
     internal lateinit var viewModelFactory: MainViewModelFactory
 
-    private var favOn: Boolean = false
+    internal var favOn: Boolean = false
 
     var favMenuItemClickListener: IFavMenuItemClickListener? = null
 
