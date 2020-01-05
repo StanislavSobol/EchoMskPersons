@@ -19,6 +19,7 @@ internal class PlayerBridge(private val playerFragment: PlayerFragment) {
     private var mediaPlayerServiceConnection: ServiceConnection? = null
     private var mediaPlayerService: MediaPlayerService? = null
     private var playerItem: PlayerItem? = null
+    private var bound = false
 
     fun bindServiceAndPlay(playerItem: PlayerItem) {
         this.playerItem = playerItem
@@ -43,6 +44,8 @@ internal class PlayerBridge(private val playerFragment: PlayerFragment) {
                         playerItem = mediaPlayerService?.playerItem
                         mediaPlayerService?.resume()
                     }
+
+                    bound = true
                 }
 
                 override fun onServiceDisconnected(name: ComponentName) {
@@ -65,10 +68,10 @@ internal class PlayerBridge(private val playerFragment: PlayerFragment) {
     }
 
     fun notifyPlayerItemChanged() {
+        playerFragment.notifyPlayerItemChanged()
         if (PlayerItemVisualState.isClosed) {
             mediaPlayerServiceConnection?.let { getMainActivity().unbindService(it) }
         }
-        playerFragment.notifyPlayerItemChanged()
     }
 
     fun seekTo(progress: Int) {
@@ -84,14 +87,22 @@ internal class PlayerBridge(private val playerFragment: PlayerFragment) {
     }
 
     fun unbindService() {
-        mediaPlayerServiceConnection?.let {
-            mediaPlayerService?.playerBridge = null
-            try {
-                getMainActivity().unbindService(it)
-            } catch (e: IllegalArgumentException) {
-                catchThrowable(e)
+        if (bound) {
+            mediaPlayerServiceConnection?.let {
+                mediaPlayerService?.playerBridge = null
+                try {
+                    getMainActivity().unbindService(it)
+                    bound = false
+                } catch (e: IllegalArgumentException) {
+                    bound = false
+                    catchThrowable(e)
+                }
             }
         }
+    }
+
+    fun mp3Loaded() {
+        playerFragment.mp3Loaded()
     }
 
     private fun getMainActivity() = playerFragment.requireActivity() as MainActivity

@@ -98,6 +98,7 @@
                 android:layout_height="@dimen/notification_button_size"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/ic_play_circle_filled_black_48dp"
+                tools:visibility="gone"
                 android:visibility="invisible" />
 
             <Button
@@ -105,7 +106,14 @@
                 android:layout_width="@dimen/notification_button_size"
                 android:layout_height="@dimen/notification_button_size"
                 android:layout_gravity="center_horizontal"
+                tools:visibility="gone"
                 android:background="@drawable/ic_pause_circle_filled_black_48dp" />
+
+            <ProgressBar
+                android:id="@+id/fragmentPlayerProgressBar"
+                android:layout_width="@dimen/notification_button_size"
+                android:layout_height="@dimen/notification_button_size"
+                android:layout_gravity="center_horizontal" />
         </FrameLayout>
 
         <TextView

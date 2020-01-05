@@ -101,6 +101,7 @@ class MediaPlayerService : Service() {
                 mediaPlayer.start()
                 startForeground()
                 startTracking()
+                playerBridge?.mp3Loaded()
             }
             mediaPlayer.prepareAsync()
         } catch (e: IOException) {
@@ -236,7 +237,7 @@ class MediaPlayerService : Service() {
                 }
 
                 if (!isPlaying) {
-                    fullStop()
+                    pause()
                     intervalDisposable?.dispose()
                 }
 

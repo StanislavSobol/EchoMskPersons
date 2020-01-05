@@ -13,10 +13,7 @@ import echomskfan.gmail.com.di.player.DaggerPlayerComponent
 import echomskfan.gmail.com.di.player.PlayerScope
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
-import echomskfan.gmail.com.utils.fromMSecSec
-import echomskfan.gmail.com.utils.fromSecToAudioDuration
-import echomskfan.gmail.com.utils.gone
-import echomskfan.gmail.com.utils.visible
+import echomskfan.gmail.com.utils.*
 import kotlinx.android.synthetic.main.fragment_player.*
 import javax.inject.Inject
 
@@ -84,6 +81,8 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
     override fun isFavMenuItemVisible() = false
 
     private fun initViews(playerItem: PlayerItem) {
+        showProgress(true)
+
         playerFragmentPersonTextView?.text = playerItem.personName
         playerFragmentTypeSubtypeTextView?.text = playerItem.typeSubtype
         playerFragmentDateTextView?.text = playerItem.formattedDate
@@ -107,5 +106,25 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
 
         fragmentPlayerPlayButton?.setOnClickListener { playerBridge.resume() }
         fragmentPlayerPauseButton?.setOnClickListener { playerBridge.pause() }
+    }
+
+    fun mp3Loaded() {
+        showProgress(false)
+    }
+
+    private fun showProgress(show: Boolean) {
+        if (show) {
+            fragmentPlayerPlayButton.gone()
+            fragmentPlayerPauseButton.gone()
+            playerFragmentAudioSeekBar.invisible()
+
+            fragmentPlayerProgressBar.visible()
+        } else {
+            fragmentPlayerPlayButton.visible()
+            fragmentPlayerPauseButton.gone()
+            playerFragmentAudioSeekBar.visible()
+
+            fragmentPlayerProgressBar.gone()
+        }
     }
 }
