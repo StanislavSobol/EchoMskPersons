@@ -120,8 +120,8 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
 
             fragmentPlayerProgressBar.visible()
         } else {
-            fragmentPlayerPlayButton.visible()
-            fragmentPlayerPauseButton.gone()
+            fragmentPlayerPlayButton.gone()
+            fragmentPlayerPauseButton.visible()
             playerFragmentAudioSeekBar.visible()
 
             fragmentPlayerProgressBar.gone()

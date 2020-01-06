@@ -52,8 +52,7 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
             this.favOn = favOn
             invalidateOptionsMenu()
         })
-
-        savedInstanceState ?: run { viewModel.loadData() }
+        viewModel.loadData()
     }
 
     override fun onNewIntent(intent: Intent?) {
