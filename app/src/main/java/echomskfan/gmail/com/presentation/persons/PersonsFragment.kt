@@ -38,7 +38,6 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        favOn = mainActivity.favOn
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(PersonsViewModel::class.java)
 

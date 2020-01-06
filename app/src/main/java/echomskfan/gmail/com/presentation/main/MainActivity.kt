@@ -20,16 +20,17 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
     @Inject
     internal lateinit var viewModelFactory: MainViewModelFactory
 
-    internal var favOn: Boolean = false
+    private var favOn: Boolean = false
 
     var favMenuItemClickListener: IFavMenuItemClickListener? = null
+        set(value) {
+            field = value
+            viewModel.loadData()
+        }
 
     var favMenuItemVisible: Boolean = false
         set(value) {
             field = value
-            if (!value) {
-                favMenuItemClickListener = null
-            }
             invalidateOptionsMenu()
         }
 

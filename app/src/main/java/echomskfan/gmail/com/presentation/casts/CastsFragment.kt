@@ -41,7 +41,6 @@ class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycle
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        favOn = mainActivity.favOn
 
         personId ?: run { throw IllegalStateException("personId must not be null") }
 
