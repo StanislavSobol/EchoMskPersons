@@ -25,7 +25,11 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             },
-            500
+            SPLASH_DELAY_MS
         )
+    }
+
+    companion object {
+        const val SPLASH_DELAY_MS = 1000L
     }
 }

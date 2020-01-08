@@ -19,8 +19,6 @@ import javax.inject.Inject
 
 class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycler_view), IFavMenuItemClickListener {
 
-    private var favOn: Boolean = false
-
     @PersonsScope
     @Inject
     internal lateinit var viewModelFactory: PersonsViewModelFactory
@@ -28,6 +26,8 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
     private lateinit var viewModel: PersonsViewModel
 
     private val adapter: PersonsAdapter by lazy { PersonsAdapter(viewModel) }
+
+    private var favOn: Boolean = false
 
     init {
         DaggerPersonsComponent.builder()

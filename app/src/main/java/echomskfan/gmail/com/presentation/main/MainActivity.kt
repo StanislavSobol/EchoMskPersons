@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
-        menu?.findItem(R.id.mainMenuFav)?.let {
+        menu?.findItem(R.id.mainMenuItemFav)?.let {
             it.isVisible = favMenuItemVisible
             it.setIcon(if (favOn) R.drawable.ic_favorite_white_24dp else R.drawable.ic_favorite_border_black_24dp)
         }
@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
                 true
             }
 
-            R.id.mainMenuFav -> {
+            R.id.mainMenuItemFav -> {
                 viewModel.onFavMenuItemClick()
                 true
             }
