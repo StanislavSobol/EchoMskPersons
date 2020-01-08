@@ -10,8 +10,6 @@ import echomskfan.gmail.com.data.parser.IEchoParser
 import echomskfan.gmail.com.data.prefs.ISharedPrefs
 import echomskfan.gmail.com.domain.assetextractor.IAssetExtractor
 import echomskfan.gmail.com.presentation.player.PlayerItem
-import io.reactivex.Completable
-import io.reactivex.Single
 
 class Repository(
     private val assetExtractor: IAssetExtractor,
@@ -27,103 +25,86 @@ class Repository(
         return personsDao.getAllLiveData()
     }
 
-    override fun transferPersonsFromXmlToDbCompletable(): Completable {
-        return Completable.create {
-            val xmlList = assetExtractor.getPersons()
-            xmlList.forEach { xmlItem ->
-                val dbPerson = personsDao.getById(xmlItem.id)
-                dbPerson?.run {
-                    personsDao.initialUpdate(
-                        id = xmlItem.id,
-                        url = xmlItem.url,
-                        firstName = xmlItem.firstName,
-                        lastName = xmlItem.lastName,
-                        profession = xmlItem.profession,
-                        info = xmlItem.info
-                    )
-                } ?: run {
-                    personsDao.add(xmlItem)
-                }
-
-                val ids = mutableListOf<Int>()
-                xmlList.forEach { ids.add(it.id) }
-                personsDao.deleteNotIn(ids)
-                it.onComplete()
+    override fun transferPersonsFromXmlToDb() {
+        val xmlList = assetExtractor.getPersons()
+        xmlList.forEach { xmlItem ->
+            val dbPerson = personsDao.getById(xmlItem.id)
+            dbPerson?.run {
+                personsDao.initialUpdate(
+                    id = xmlItem.id,
+                    url = xmlItem.url,
+                    firstName = xmlItem.firstName,
+                    lastName = xmlItem.lastName,
+                    profession = xmlItem.profession,
+                    info = xmlItem.info
+                )
+            } ?: run {
+                personsDao.add(xmlItem)
             }
+
+            val ids = mutableListOf<Int>()
+            xmlList.forEach { ids.add(it.id) }
+            personsDao.deleteNotIn(ids)
         }
     }
 
-    override fun personIdNotificationClickedCompletable(personId: Int): Completable {
-        return Completable.create {
-            personsDao.getById(personId)?.let { personsDao.setNotificationById(!it.notification, personId) }
-        }
+    override fun personIdNotificationClicked(personId: Int) {
+        personsDao.getById(personId)?.let { personsDao.setNotificationById(!it.notification, personId) }
     }
 
-    override fun personIdFavClickedCompletable(personId: Int): Completable {
-        return Completable.create {
-            personsDao.getById(personId)?.let { personsDao.setFavById(!it.fav, personId) }
-        }
+    override fun personIdFavClicked(personId: Int) {
+        personsDao.getById(personId)?.let { personsDao.setFavById(!it.fav, personId) }
     }
 
-    override fun castIdFavClickedCompletable(castId: String): Completable {
-        return Completable.create {
-            castsDao.getById(castId)?.let { castsDao.setFavById(!it.fav, castId) }
-        }
+    override fun castIdFavClicked(castId: String) {
+        castsDao.getById(castId)?.let { castsDao.setFavById(!it.fav, castId) }
     }
 
     override fun getCastsLiveDataForPerson(personId: Int): LiveData<List<CastEntity>> {
         return castsDao.getAllLiveDataForPerson(personId)
     }
 
-    override fun transferCastsFromWebToDbCompletable(personId: Int, pageNum: Int): Completable {
-        return Completable.create {
-            personsDao.getById(personId)?.let {
-                //    castsDao.deleteLastForPerson(personId)
+    override fun transferCastsFromWebToDb(personId: Int, pageNum: Int) {
+        personsDao.getById(personId)?.let {
+            //    castsDao.deleteLastForPerson(personId)
 
-                val newCasts = echoParser.getCasts(it, pageNum)
-                newCasts.forEach { newCast ->
-                    val oldCast = castsDao.getCastByDateAndPersonId(newCast.date, personId)
-                    oldCast?.let {
-                        castsDao.updateContent(
-                            fullTextURL = newCast.fullTextURL,
-                            type = newCast.type,
-                            subtype = newCast.subtype,
-                            shortText = newCast.shortText,
-                            mp3Url = newCast.mp3Url,
-                            mp3Duration = newCast.mp3Duration,
-                            id = newCast.id
-                        )
-                    } ?: castsDao.insert(newCast)
+            val newCasts = echoParser.getCasts(it, pageNum)
+            newCasts.forEach { newCast ->
+                val oldCast = castsDao.getCastByDateAndPersonId(newCast.date, personId)
+                oldCast?.let {
+                    castsDao.updateContent(
+                        fullTextURL = newCast.fullTextURL,
+                        type = newCast.type,
+                        subtype = newCast.subtype,
+                        shortText = newCast.shortText,
+                        mp3Url = newCast.mp3Url,
+                        mp3Duration = newCast.mp3Duration,
+                        id = newCast.id
+                    )
+                } ?: castsDao.insert(newCast)
 
-                }
-                castsDao.removeGarbage()
-//                castsDao.getByPersonId(personId).forEach { item -> Log.d("SSS", "id = ${item.id}") }
             }
-            it.onComplete()
+            castsDao.removeGarbage()
         }
     }
 
-    override fun getPlayerItemSingle(castId: String): Single<PlayerItem> {
-        return Single.create {
-            val castEntity = castsDao.getById(castId)
-            var personEntity: PersonEntity? = null
-            castEntity?.let { cast -> personEntity = personsDao.getById(cast.personId) }
+    override fun getPlayerItem(castId: String): PlayerItem {
+        val castEntity = castsDao.getById(castId)
+        var personEntity: PersonEntity? = null
+        castEntity?.let { cast -> personEntity = personsDao.getById(cast.personId) }
 
-            if (castEntity != null && personEntity != null) {
-                it.onSuccess(
-                    PlayerItem(
-                        castId = castEntity.id,
-                        personName = personEntity!!.getFullName(),
-                        personPhotoUrl = personEntity!!.photoUrl,
-                        typeSubtype = castEntity.getTypeSubtype(),
-                        formattedDate = castEntity.formattedDate,
-                        mp3Url = castEntity.mp3Url,
-                        mp3Duration = castEntity.mp3Duration
-                    )
-                )
-            } else {
-                it.onError(IllegalStateException("Not enough info about the cast or the person"))
-            }
+        if (castEntity != null && personEntity != null) {
+            return PlayerItem(
+                castId = castEntity.id,
+                personName = personEntity!!.getFullName(),
+                personPhotoUrl = personEntity!!.photoUrl,
+                typeSubtype = castEntity.getTypeSubtype(),
+                formattedDate = castEntity.formattedDate,
+                mp3Url = castEntity.mp3Url,
+                mp3Duration = castEntity.mp3Duration
+            )
+        } else {
+            throw IllegalStateException("Not enough info about the cast or the person")
         }
     }
 

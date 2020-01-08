@@ -8,26 +8,23 @@ class PersonsInteractor(private val repository: IRepository) : IPersonsInteracto
     override fun getPersonsLiveData() = repository.getPersonsLiveData()
 
     override fun transferPersonsFromXmlToDb(): Completable {
-        return repository.transferPersonsFromXmlToDbCompletable()
-//            .fromIoToMain()
-//            .doOnError { e -> catchThrowable(e) }
-//            .subscribe()
-//            .unsubscribeOnClear()
+        return Completable.create {
+            repository.transferPersonsFromXmlToDb()
+            it.onComplete()
+        }
     }
 
     override fun personIdNotificationClicked(personId: Int): Completable {
-        return repository.personIdNotificationClickedCompletable(personId)
-//            .fromIoToMain()
-//            .doOnError { e -> catchThrowable(e) }
-//            .subscribe()
-//            .unsubscribeOnClear()
+        return Completable.create {
+            repository.personIdNotificationClicked(personId)
+            it.onComplete()
+        }
     }
 
     override fun personIdFavClicked(personId: Int): Completable {
-        return repository.personIdFavClickedCompletable(personId)
-//            .doOnError { e -> catchThrowable(e) }
-//            .fromIoToMain()
-//            .subscribe()
-//            .unsubscribeOnClear()
+        return Completable.create {
+            repository.personIdFavClicked(personId)
+            it.onComplete()
+        }
     }
 }

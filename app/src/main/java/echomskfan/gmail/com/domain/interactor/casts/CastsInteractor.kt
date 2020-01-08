@@ -8,10 +8,16 @@ class CastsInteractor(private val repository: IRepository) : ICastsInteractor {
     override fun getCastsLiveDataForPerson(personId: Int) = repository.getCastsLiveDataForPerson(personId)
 
     override fun transferCastsFromWebToDb(personId: Int, pageNum: Int): Completable {
-        return repository.transferCastsFromWebToDbCompletable(personId, pageNum)
+        return Completable.create {
+            repository.transferCastsFromWebToDb(personId, pageNum)
+            it.onComplete()
+        }
     }
 
     override fun castIdFavClicked(castId: String): Completable {
-        return repository.castIdFavClickedCompletable(castId)
+        return Completable.create {
+            repository.castIdFavClicked(castId)
+            it.onComplete()
+        }
     }
 }
