@@ -24,20 +24,26 @@ android {
     flavorDimensions "version"
 
     productFlavors {
-        def flavorType = "boolean"
-        def flavorName = "FAKE_SERVER"
+        def booleanType = "boolean"
+        def fakeServerConfigParameter = "FAKE_SERVER"
 
         fakeServer {
             dimension "version"
             applicationIdSuffix ".fakeServer"
             versionNameSuffix "-fakeServer"
-            buildConfigField flavorType, flavorName, "Boolean.parseBoolean(\"true\")"
+            buildConfigField booleanType, fakeServerConfigParameter, "Boolean.parseBoolean(\"true\")"
         }
         full {
             dimension "version"
             applicationIdSuffix ".full"
             versionNameSuffix "-full"
-            buildConfigField flavorType, flavorName, "Boolean.parseBoolean(\"false\")"
+            buildConfigField booleanType, fakeServerConfigParameter, "Boolean.parseBoolean(\"false\")"
+        }
+        espresso {
+            dimension "version"
+            applicationIdSuffix ".espressoOnFakeServer"
+            versionNameSuffix "-espressoOnFakeServer"
+            buildConfigField booleanType, fakeServerConfigParameter, "Boolean.parseBoolean(\"true\")"
         }
     }
 }

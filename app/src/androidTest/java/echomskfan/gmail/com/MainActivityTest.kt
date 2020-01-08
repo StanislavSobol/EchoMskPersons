@@ -9,12 +9,14 @@ import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
+import echomskfan.gmail.com.data.prefs.SharedPrefs.Companion.PREFS_NAME
 import echomskfan.gmail.com.presentation.main.MainActivity
 import echomskfan.gmail.com.utils.logWarning
 import org.hamcrest.Description
@@ -24,14 +26,19 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
 
     private lateinit var appContext: Context
 
     @get:Rule
-    var activityRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
+    var activityTestRule: ActivityTestRule<MainActivity> =
+        object : ActivityTestRule<MainActivity>(MainActivity::class.java) {
+            override fun beforeActivityLaunched() {
+                clearSharedPrefs(InstrumentationRegistry.getInstrumentation().targetContext)
+                super.beforeActivityLaunched()
+            }
+        }
 
     @Before
     fun setup() {
@@ -57,6 +64,8 @@ class MainActivityTest {
     @Test
     fun mainActivity_favMenuItem_click() {
         onView(withId(R.id.mainMenuItemFav)).check(matches(withActionIconDrawable(R.drawable.ic_favorite_border_black_24dp)))
+        onView(withId(R.id.mainMenuItemFav)).perform(click())
+        onView(withId(R.id.mainMenuItemFav)).check(matches(withActionIconDrawable(R.drawable.ic_favorite_white_24dp)))
     }
 
     private fun withActionIconDrawable(@DrawableRes resourceId: Int): Matcher<View> {
@@ -99,5 +108,13 @@ class MainActivityTest {
             this.draw(canvas)
         }
         return result
+    }
+
+    private fun clearSharedPrefs(appContext: Context) {
+        appContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit()
+            .apply {
+                clear()
+                commit()
+            }
     }
 }

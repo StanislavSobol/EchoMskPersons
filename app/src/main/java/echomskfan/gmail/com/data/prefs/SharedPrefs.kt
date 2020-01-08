@@ -2,6 +2,7 @@ package echomskfan.gmail.com.data.prefs
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.annotation.VisibleForTesting
 import echomskfan.gmail.com.BuildConfig
 
 class SharedPrefs(private val appContext: Context) : ISharedPrefs {
@@ -27,7 +28,8 @@ class SharedPrefs(private val appContext: Context) : ISharedPrefs {
         }
 
     companion object {
-        private const val PREFS_NAME = BuildConfig.APPLICATION_ID + ".prefs"
+        @VisibleForTesting
+        const val PREFS_NAME = BuildConfig.APPLICATION_ID + ".prefs"
         private const val FAV_ON_ITEM = "favOn"
     }
 }
