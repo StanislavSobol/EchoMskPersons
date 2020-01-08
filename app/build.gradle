@@ -31,19 +31,19 @@ android {
             dimension "version"
             applicationIdSuffix ".fakeServer"
             versionNameSuffix "-fakeServer"
-            buildConfigField booleanType, fakeServerConfigParameter, "Boolean.parseBoolean(\"true\")"
+            buildConfigField booleanType, fakeServerConfigParameter, "true"
         }
         full {
             dimension "version"
             applicationIdSuffix ".full"
             versionNameSuffix "-full"
-            buildConfigField booleanType, fakeServerConfigParameter, "Boolean.parseBoolean(\"false\")"
+            buildConfigField booleanType, fakeServerConfigParameter, "false"
         }
         espresso {
             dimension "version"
             applicationIdSuffix ".espressoOnFakeServer"
             versionNameSuffix "-espressoOnFakeServer"
-            buildConfigField booleanType, fakeServerConfigParameter, "Boolean.parseBoolean(\"true\")"
+            buildConfigField booleanType, fakeServerConfigParameter, "true"
         }
     }
 }
