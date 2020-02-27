@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.test.espresso.Espresso.onView
@@ -21,10 +22,12 @@ import echomskfan.gmail.com.presentation.main.MainActivity
 import echomskfan.gmail.com.utils.logWarning
 import org.hamcrest.Description
 import org.hamcrest.Matcher
+import org.hamcrest.TypeSafeMatcher
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+
 
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
@@ -66,6 +69,23 @@ class MainActivityTest {
         onView(withId(R.id.mainMenuItemFav)).check(matches(withActionIconDrawable(R.drawable.ic_favorite_border_black_24dp)))
         onView(withId(R.id.mainMenuItemFav)).perform(click())
         onView(withId(R.id.mainMenuItemFav)).check(matches(withActionIconDrawable(R.drawable.ic_favorite_white_24dp)))
+    }
+
+    @Test
+    fun mainActivity_recyclerView() {
+        onView(withId(R.id.recyclerView)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun mainActivity_recyclerView2() {
+//        onView(withId(R.id.recyclerView))
+//            .check(matches(hasDescendant(withText("Some text"))))
+
+        onView(nthChildOf(withId(R.id.recyclerView), 0))
+            .check(matches(hasDescendant(withText("Some text"))))
+
+//        onView(nthChildOf(withId(R.id.recyclerView), 0).matches()
+//            .check(matches(hasDescendant(withText("Some text"))))
     }
 
     private fun withActionIconDrawable(@DrawableRes resourceId: Int): Matcher<View> {
@@ -116,5 +136,25 @@ class MainActivityTest {
                 clear()
                 commit()
             }
+    }
+
+    /**
+     * https://stackoverflow.com/questions/24748303/selecting-child-view-at-index-using-espresso/30073528#30073528
+     */
+    fun nthChildOf(parentMatcher: Matcher<View>, childPosition: Int): Matcher<View> {
+        return object : TypeSafeMatcher<View>() {
+            override fun describeTo(description: Description) {
+                description.appendText("with $childPosition child view of type parentMatcher")
+            }
+
+            override fun matchesSafely(view: View): Boolean {
+                if (view.parent !is ViewGroup) {
+                    return parentMatcher.matches(view.parent)
+                }
+
+                val group = view.parent as ViewGroup
+                return parentMatcher.matches(view.parent) && group.getChildAt(childPosition) == view
+            }
+        }
     }
 }
