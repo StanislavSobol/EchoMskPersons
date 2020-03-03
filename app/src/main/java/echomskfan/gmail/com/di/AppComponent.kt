@@ -10,8 +10,8 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [(AppModule::class)])
 interface AppComponent {
-
     fun repository(): IRepository
+
     fun inject(mainActivity: MainActivity)
 
     @Component.Builder

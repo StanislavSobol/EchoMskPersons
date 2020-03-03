@@ -1,5 +1,6 @@
 package echomskfan.gmail.com.presentation.main
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import echomskfan.gmail.com.domain.interactor.main.IMainInteractor
@@ -17,6 +18,8 @@ class MainViewModel(private val interactor: IMainInteractor) : BaseViewModel() {
     fun loadData() {
         isFavOn = interactor.isFavOn
         _favOnLiveDate.value = isFavOn
+
+        Log.d("SSS", "interactor.isDebugPanelEnabled = " + interactor.isDebugPanelEnabled)
     }
 
     fun onFavMenuItemClick() {

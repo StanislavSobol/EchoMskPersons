@@ -13,6 +13,8 @@ import echomskfan.gmail.com.domain.assetextractor.AssetExtractor
 import echomskfan.gmail.com.domain.assetextractor.IAssetExtractor
 import echomskfan.gmail.com.domain.interactor.main.IMainInteractor
 import echomskfan.gmail.com.domain.interactor.main.MainInteractor
+import echomskfan.gmail.com.domain.repository.ConfigRepository
+import echomskfan.gmail.com.domain.repository.IConfigRepository
 import echomskfan.gmail.com.domain.repository.IRepository
 import echomskfan.gmail.com.domain.repository.Repository
 import echomskfan.gmail.com.presentation.main.MainViewModelFactory
@@ -61,9 +63,19 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideMainInteractor(repository: IRepository): IMainInteractor {
-        return MainInteractor(repository)
+    fun provideConfigManager(appContext: Context): IConfigRepository {
+        return ConfigRepository(appContext)
     }
+
+    @Singleton
+    @Provides
+    fun provideMainInteractor(
+        repository: IRepository,
+        configRepository: IConfigRepository
+    ): IMainInteractor {
+        return MainInteractor(repository, configRepository)
+    }
+
 
     @Singleton
     @Provides
