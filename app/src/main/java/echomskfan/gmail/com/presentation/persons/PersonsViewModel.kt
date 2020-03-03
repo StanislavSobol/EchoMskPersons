@@ -1,5 +1,6 @@
 package echomskfan.gmail.com.presentation.persons
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -11,9 +12,9 @@ import echomskfan.gmail.com.utils.fromIoToMain
 
 class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewModel() {
 
-    private val _navigationLiveDate = MutableLiveData<OneShotEvent<Int>>()
+    private val _navigationLiveDate = MutableLiveData<OneShotEvent<Pair<Int, View>>>()
 
-    val navigationLiveDate: LiveData<OneShotEvent<Int>>
+    val navigationLiveDate: LiveData<OneShotEvent<Pair<Int, View>>>
         get() = _navigationLiveDate
 
     fun getPersonsLiveData(): LiveData<List<PersonListItem>> {
@@ -45,7 +46,7 @@ class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewMod
             .unsubscribeOnClear()
     }
 
-    fun itemIdClicked(id: Int) {
-        _navigationLiveDate.value = OneShotEvent(id)
+    fun itemIdClicked(id: Int, transitionView: View) {
+        _navigationLiveDate.value = OneShotEvent(Pair(id, transitionView))
     }
 }

@@ -44,7 +44,9 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
         subscribeToPersonsLiveData()
 
         viewModel.navigationLiveDate.observe(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let { id -> mainActivityRouter?.navigateToCastsFromPersons(id) }
+            it.getContentIfNotHandled()?.let { idAndView ->
+                mainActivityRouter?.navigateToCastsFromPersons(idAndView.first, idAndView.second)
+            }
         })
 
         savedInstanceState ?: run { viewModel.loadData() }

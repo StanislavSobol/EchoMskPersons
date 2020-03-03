@@ -4,13 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import echomskfan.gmail.com.*
 import echomskfan.gmail.com.utils.bundleOf
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -44,6 +47,8 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setSupportActionBar(toolbar)
+
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         applyIntent(intent)
 
@@ -88,12 +93,38 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
         }
     }
 
-    override fun navigateToCastsFromPersons(personId: Int) {
-        navController.navigate(R.id.action_personsFragment_to_castsFragment, bundleOf(EXTRA_PERSON_ID to personId))
+    override fun navigateToCastsFromPersons(personId: Int, transitionView: View) {
+//        val activityOptionsCompat: ActivityOptionsCompat =
+//            ActivityOptionsCompat.makeSceneTransitionAnimation(this, transitionView, getString(R.string.person_transition))
+//        val bundle = activityOptionsCompat.toBundle()
+//        bundle?.putInt(EXTRA_PERSON_ID, personId)
+//
+//        navController.navigate(R.id.action_personsFragment_to_castsFragment, null, bundle )
+
+
+        val extras = FragmentNavigatorExtras(
+            transitionView to "qqq"
+        )
+//        view.findNavController().navigate(R.id.confirmationAction,
+//            null, // Bundle of args
+//            null, // NavOptions
+//            extras)
+
+
+        navController.navigate(
+            R.id.action_personsFragment_to_castsFragment,
+            bundleOf(EXTRA_PERSON_ID to personId),
+            null,
+            extras
+        )
+//        navController.navigate(R.id.action_personsFragment_to_castsFragment, bundleOf(EXTRA_PERSON_ID to personId))
     }
 
     override fun navigateToPlayerFromCasts(castId: String) {
-        navController.navigate(R.id.action_castsFragment_to_playerFragment, bundleOf(EXTRA_CAST_ID to castId))
+        navController.navigate(
+            R.id.action_castsFragment_to_playerFragment,
+            bundleOf(EXTRA_CAST_ID to castId)
+        )
     }
 
     override fun closePlayerFragment() {
@@ -102,7 +133,10 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
 
     override fun navigateToPlayerAndResumePlaying(castId: String) {
         closePlayerFragment()
-        navController.navigate(R.id.playerFragment, bundleOf(EXTRA_CAST_ID to castId, EXTRA_PLAYER_RESUME to true))
+        navController.navigate(
+            R.id.playerFragment,
+            bundleOf(EXTRA_CAST_ID to castId, EXTRA_PLAYER_RESUME to true)
+        )
     }
 
     private fun applyIntent(intent: Intent?) {

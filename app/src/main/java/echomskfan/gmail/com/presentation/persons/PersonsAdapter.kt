@@ -6,14 +6,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import echomskfan.gmail.com.R
-import kotlinx.android.synthetic.main.person_item.view.*
+import kotlinx.android.synthetic.main.item_person.view.*
 
 internal class PersonsAdapter(private val viewModel: PersonsViewModel) : RecyclerView.Adapter<PersonsAdapter.Holder>() {
 
     private val items = mutableListOf<IPersonsListItemDelegate>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.person_item, parent, false))
+        return Holder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_person,
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount() = items.size
@@ -58,7 +64,12 @@ internal class PersonsAdapter(private val viewModel: PersonsViewModel) : Recycle
                     viewModel.itemIdFavClicked(item.id)
                 }
 
-                itemView.setOnClickListener { viewModel.itemIdClicked(item.id) }
+                itemView.setOnClickListener {
+                    viewModel.itemIdClicked(
+                        item.id,
+                        itemView.personItemImageView
+                    )
+                }
             }
         }
     }

@@ -22,5 +22,7 @@
     <string name="empty_time_code">00:00</string>
     <!--Menu-->
     <string name="menu_fav">Избранное</string>
+    <!--Transitions-->
+    <string name="person_transition">personTransition</string>
 
 </resources>

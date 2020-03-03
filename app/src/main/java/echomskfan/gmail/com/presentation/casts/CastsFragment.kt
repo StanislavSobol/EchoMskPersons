@@ -1,6 +1,10 @@
 package echomskfan.gmail.com.presentation.casts
 
 import android.os.Bundle
+import android.transition.ChangeBounds
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -61,6 +65,20 @@ class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycle
         viewModel.showProgressLiveData.observe(viewLifecycleOwner, Observer { showProgress(it) })
 
         mainActivity.favMenuItemClickListener = this
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        sharedElementEnterTransition = ChangeBounds().apply {
+            duration = 750
+        }
+        sharedElementReturnTransition = ChangeBounds().apply {
+            duration = 750
+        }
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun isFavMenuItemVisible() = true
