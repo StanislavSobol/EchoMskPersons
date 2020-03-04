@@ -8,7 +8,7 @@ import java.nio.charset.Charset
 class ConfigRepository(private val appContext: Context) :
     IConfigRepository {
 
-    private val props: Props
+    private val propertiesDelegate: PropertiesDelegate
 
     init {
         val jsonString = getString(CONFIG_JSON_NAME)
@@ -22,20 +22,13 @@ class ConfigRepository(private val appContext: Context) :
             jsonArray.getJSONObject(i).names()?.getString(0)?.let {
                 map[it] = jsonObject.get(it)
             }
-
-//            val jsonObject = jsonArray.getJSONObject(i)
-//            val name = jsonObject.names()?.getString(0)
-//            val value = jsonObject.get(name)
-//            val value2 = jsonObject.get(name)
-
         }
 
-        props = Props(map)
-
-
+        propertiesDelegate = PropertiesDelegate(map)
     }
 
-    override fun isDebugPanelEnabled() = props.debugPanelEnabled
+    override val isDebugPanelEnabled: Boolean
+        get() = propertiesDelegate.debugPanelEnabled
 
     private fun getString(assetName: String): String {
         val inputStream = appContext.assets.open(assetName)
@@ -46,7 +39,7 @@ class ConfigRepository(private val appContext: Context) :
         return String(buffer, Charset.forName("UTF-8"))
     }
 
-    inner class Props(map: Map<String, Any>) {
+    inner class PropertiesDelegate(map: Map<String, Any>) {
         val debugPanelEnabled: Boolean by map
         val materialDesignEnabled: Boolean by map
     }

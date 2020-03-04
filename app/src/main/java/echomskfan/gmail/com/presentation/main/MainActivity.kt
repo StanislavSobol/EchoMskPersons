@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.forEach
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
@@ -20,7 +21,8 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
     @Inject
     internal lateinit var viewModelFactory: MainViewModelFactory
 
-    private var favOn: Boolean = false
+    private var favOn = false
+    private var debugPanelEnabled = false
 
     var favMenuItemClickListener: IFavMenuItemClickListener? = null
         set(value) {
@@ -48,11 +50,18 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
         applyIntent(intent)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
+
         viewModel.favOnLiveDate.observe(this, Observer { favOn ->
             favMenuItemClickListener?.onFavMenuItemClick(favOn)
             this.favOn = favOn
             invalidateOptionsMenu()
         })
+
+        viewModel.debugPanelEnabledLiveDate.observe(this, Observer {
+            this.debugPanelEnabled = it
+            invalidateOptionsMenu()
+        })
+
         viewModel.loadData()
     }
 
@@ -63,10 +72,23 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
-        menu?.findItem(R.id.mainMenuItemFav)?.let {
+        menu?.findItem(R.id.favMainMenuItem)?.let {
             it.isVisible = favMenuItemVisible
             it.setIcon(if (favOn) R.drawable.ic_favorite_white_24dp else R.drawable.ic_favorite_border_black_24dp)
         }
+
+        menu?.forEach {
+            when (it.itemId) {
+                R.id.favMainMenuItem -> {
+                    it.isVisible = favMenuItemVisible
+                    it.setIcon(if (favOn) R.drawable.ic_favorite_white_24dp else R.drawable.ic_favorite_border_black_24dp)
+                }
+                R.id.debugPanelMainMenuItem -> {
+                    it.isVisible = debugPanelEnabled
+                }
+            }
+        }
+
         return true
     }
 
@@ -77,7 +99,7 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
                 true
             }
 
-            R.id.mainMenuItemFav -> {
+            R.id.favMainMenuItem -> {
                 viewModel.onFavMenuItemClick()
                 true
             }
@@ -89,11 +111,17 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
     }
 
     override fun navigateToCastsFromPersons(personId: Int) {
-        navController.navigate(R.id.action_personsFragment_to_castsFragment, bundleOf(EXTRA_PERSON_ID to personId))
+        navController.navigate(
+            R.id.action_personsFragment_to_castsFragment,
+            bundleOf(EXTRA_PERSON_ID to personId)
+        )
     }
 
     override fun navigateToPlayerFromCasts(castId: String) {
-        navController.navigate(R.id.action_castsFragment_to_playerFragment, bundleOf(EXTRA_CAST_ID to castId))
+        navController.navigate(
+            R.id.action_castsFragment_to_playerFragment,
+            bundleOf(EXTRA_CAST_ID to castId)
+        )
     }
 
     override fun closePlayerFragment() {
@@ -102,7 +130,10 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
 
     override fun navigateToPlayerAndResumePlaying(castId: String) {
         closePlayerFragment()
-        navController.navigate(R.id.playerFragment, bundleOf(EXTRA_CAST_ID to castId, EXTRA_PLAYER_RESUME to true))
+        navController.navigate(
+            R.id.playerFragment,
+            bundleOf(EXTRA_CAST_ID to castId, EXTRA_PLAYER_RESUME to true)
+        )
     }
 
     private fun applyIntent(intent: Intent?) {

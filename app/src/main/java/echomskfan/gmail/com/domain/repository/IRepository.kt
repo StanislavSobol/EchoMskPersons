@@ -17,5 +17,6 @@ interface IRepository {
 
     fun getPlayerItem(castId: String): PlayerItem
 
+    // TODO Move it in a brand new repo ISharedPrefsRepository
     var isFavOn: Boolean
 }

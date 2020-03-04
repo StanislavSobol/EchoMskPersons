@@ -61,14 +61,14 @@ class MainActivityTest {
 
     @Test
     fun mainActivity_favMenuItem_isDisplayed() {
-        onView(withId(R.id.mainMenuItemFav)).check(matches(isDisplayed()))
+        onView(withId(R.id.favMainMenuItem)).check(matches(isDisplayed()))
     }
 
     @Test
     fun mainActivity_favMenuItem_click() {
-        onView(withId(R.id.mainMenuItemFav)).check(matches(withActionIconDrawable(R.drawable.ic_favorite_border_black_24dp)))
-        onView(withId(R.id.mainMenuItemFav)).perform(click())
-        onView(withId(R.id.mainMenuItemFav)).check(matches(withActionIconDrawable(R.drawable.ic_favorite_white_24dp)))
+        onView(withId(R.id.favMainMenuItem)).check(matches(withActionIconDrawable(R.drawable.ic_favorite_border_black_24dp)))
+        onView(withId(R.id.favMainMenuItem)).perform(click())
+        onView(withId(R.id.favMainMenuItem)).check(matches(withActionIconDrawable(R.drawable.ic_favorite_white_24dp)))
     }
 
     @Test

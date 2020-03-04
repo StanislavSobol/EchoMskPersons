@@ -22,5 +22,6 @@
     <string name="empty_time_code">00:00</string>
     <!--Menu-->
     <string name="menu_fav">Избранное</string>
+    <string name="menu_debug">Отладка</string>
 
 </resources>

@@ -15,5 +15,5 @@ class MainInteractor(
         }
 
     override val isDebugPanelEnabled: Boolean
-        get() = configRepository.isDebugPanelEnabled()
+        get() = configRepository.isDebugPanelEnabled
 }
