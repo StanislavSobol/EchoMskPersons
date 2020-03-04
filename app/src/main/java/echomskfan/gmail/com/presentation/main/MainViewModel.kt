@@ -1,10 +1,10 @@
 package echomskfan.gmail.com.presentation.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import echomskfan.gmail.com.domain.interactor.main.IMainInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
+import echomskfan.gmail.com.presentation.OneShotEvent
 
 class MainViewModel(private val interactor: IMainInteractor) : BaseViewModel() {
 
@@ -12,6 +12,7 @@ class MainViewModel(private val interactor: IMainInteractor) : BaseViewModel() {
 
     private val _favOnLiveDate = MutableLiveData<Boolean>()
     private val _debugPanelEnabledLiveDate = MutableLiveData<Boolean>()
+    private val _navigateToCastsLiveDate = MutableLiveData<OneShotEvent<Unit>>()
 
     val favOnLiveDate: LiveData<Boolean>
         get() = _favOnLiveDate
@@ -19,17 +20,21 @@ class MainViewModel(private val interactor: IMainInteractor) : BaseViewModel() {
     val debugPanelEnabledLiveDate: LiveData<Boolean>
         get() = _debugPanelEnabledLiveDate
 
+    val navigateToCastsLiveDate: LiveData<OneShotEvent<Unit>>
+        get() = _navigateToCastsLiveDate
+
     fun loadData() {
         isFavOn = interactor.isFavOn
         _favOnLiveDate.value = isFavOn
         _debugPanelEnabledLiveDate.value = interactor.isDebugPanelEnabled
-
-        Log.d("SSS", "interactor.isDebugPanelEnabled = " + interactor.isDebugPanelEnabled)
     }
 
-    fun onFavMenuItemClick() {
+    fun favMenuItemClick() {
         interactor.isFavOn = !isFavOn
         loadData()
     }
 
+    fun debugPanelMenuItemClick() {
+        _navigateToCastsLiveDate.value = OneShotEvent(Unit)
+    }
 }

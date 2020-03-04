@@ -43,7 +43,7 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
 
         subscribeToPersonsLiveData()
 
-        viewModel.navigationLiveDate.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToCastsLiveDate.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let { id -> mainActivityRouter?.navigateToCastsFromPersons(id) }
         })
 

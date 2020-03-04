@@ -2,6 +2,7 @@ package echomskfan.gmail.com.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -62,6 +63,10 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
             invalidateOptionsMenu()
         })
 
+        viewModel.navigateToCastsLiveDate.observe(this, Observer {
+            it.getContentIfNotHandled()?.let { navigateToDebugPanel(); }
+        })
+
         viewModel.loadData()
     }
 
@@ -100,7 +105,12 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
             }
 
             R.id.favMainMenuItem -> {
-                viewModel.onFavMenuItemClick()
+                viewModel.favMenuItemClick()
+                true
+            }
+
+            R.id.debugPanelMainMenuItem -> {
+                viewModel.debugPanelMenuItemClick()
                 true
             }
 
@@ -134,6 +144,11 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
             R.id.playerFragment,
             bundleOf(EXTRA_CAST_ID to castId, EXTRA_PLAYER_RESUME to true)
         )
+    }
+
+    override fun navigateToDebugPanel() {
+        navController.navigate(R.id.debugPanelFragment)
+        Log.d("SSS", "navigateToDebugPanel")
     }
 
     private fun applyIntent(intent: Intent?) {

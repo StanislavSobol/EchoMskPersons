@@ -11,10 +11,10 @@ import echomskfan.gmail.com.utils.fromIoToMain
 
 class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewModel() {
 
-    private val _navigationLiveDate = MutableLiveData<OneShotEvent<Int>>()
+    private val _navigateToCastsLiveDate = MutableLiveData<OneShotEvent<Int>>()
 
-    val navigationLiveDate: LiveData<OneShotEvent<Int>>
-        get() = _navigationLiveDate
+    val navigateToCastsLiveDate: LiveData<OneShotEvent<Int>>
+        get() = _navigateToCastsLiveDate
 
     fun getPersonsLiveData(): LiveData<List<PersonListItem>> {
         return Transformations.map(interactor.getPersonsLiveData()) { list -> PersonListItem.from(list) }
@@ -46,6 +46,6 @@ class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewMod
     }
 
     fun itemIdClicked(id: Int) {
-        _navigationLiveDate.value = OneShotEvent(id)
+        _navigateToCastsLiveDate.value = OneShotEvent(id)
     }
 }
