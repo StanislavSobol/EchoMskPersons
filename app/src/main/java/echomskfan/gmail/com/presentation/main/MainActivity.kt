@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.forEach
 import androidx.lifecycle.Observer
@@ -14,6 +15,7 @@ import echomskfan.gmail.com.*
 import echomskfan.gmail.com.utils.bundleOf
 import javax.inject.Inject
 import javax.inject.Singleton
+
 
 class MainActivity : AppCompatActivity(), IMainActivityRouter {
 
@@ -27,7 +29,7 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
     var favMenuItemClickListener: IFavMenuItemClickListener? = null
         set(value) {
             field = value
-            viewModel.loadData()
+            viewModel.loadMenuData()
         }
 
     var favMenuItemVisible: Boolean = false
@@ -62,11 +64,21 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
             invalidateOptionsMenu()
         })
 
-        viewModel.navigateToCastsLiveDate.observe(this, Observer {
+        viewModel.navigateToDebugPanelLiveDate.observe(this, Observer {
             it.getContentIfNotHandled()?.let { navigateToDebugPanel(); }
         })
 
-        viewModel.loadData()
+        viewModel.disclaimerEnabledLiveDate.observe(this, Observer { event ->
+            event.getContentIfNotHandled()?.let {
+                if (it) {
+                    showDisclaimer()
+                }
+            }
+        })
+
+        if (savedInstanceState == null) {
+            viewModel.loadData()
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -153,6 +165,18 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
         if (intent != null) {
             val castId: String? = intent.getStringExtra(EXTRA_PLAYER_ITEM_CAST_ID)
             castId?.let { navigateToPlayerAndResumePlaying(it) }
+        }
+    }
+
+    private fun showDisclaimer() {
+        AlertDialog.Builder(this).create().let {
+            it.setTitle(R.string.disclaimer_title)
+            it.setMessage(getString(R.string.disclaimer_text))
+            it.setButton(
+                AlertDialog.BUTTON_NEUTRAL,
+                getString(android.R.string.ok)
+            ) { dialog, _ -> dialog.dismiss() }
+            it.show()
         }
     }
 }

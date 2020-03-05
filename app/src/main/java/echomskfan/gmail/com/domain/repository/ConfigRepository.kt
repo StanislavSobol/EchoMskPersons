@@ -5,13 +5,12 @@ import echomskfan.gmail.com.BuildConfig
 import org.json.JSONArray
 import java.nio.charset.Charset
 
-//class ConfigRepository @Inject constructor(private val appContext: Context) : IConfigRepository {
 class ConfigRepository(private val appContext: Context) : IConfigRepository {
 
     private val propertiesDelegate: PropertiesDelegate
 
     init {
-        val jsonString = getString(CONFIG_JSON_NAME)
+        val jsonString = getConfigFileAsString()
         val jsonArray = JSONArray(jsonString)
 
         val size = jsonArray.length()
@@ -27,11 +26,14 @@ class ConfigRepository(private val appContext: Context) : IConfigRepository {
         propertiesDelegate = PropertiesDelegate(map)
     }
 
-    override val isDebugPanelEnabled: Boolean
+    override val isDebugPanelEnabled
         get() = BuildConfig.DEBUG && propertiesDelegate.debugPanelEnabled
 
-    private fun getString(assetName: String): String {
-        val inputStream = appContext.assets.open(assetName)
+    override val isDisclaimerEnabled
+        get() = propertiesDelegate.disclaimerEnabled
+
+    private fun getConfigFileAsString(): String {
+        val inputStream = appContext.assets.open(CONFIG_JSON_NAME)
         val size = inputStream.available()
         val buffer = ByteArray(size)
         inputStream.read(buffer)
@@ -41,7 +43,7 @@ class ConfigRepository(private val appContext: Context) : IConfigRepository {
 
     inner class PropertiesDelegate(map: Map<String, Any>) {
         val debugPanelEnabled: Boolean by map
-        val materialDesignEnabled: Boolean by map
+        val disclaimerEnabled: Boolean by map
     }
 
     companion object {

@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Персоны \"Эха Москвы\"</string>
 
-    <string name="splash_text">Персоны \"Эха Москвы\"</string>
-
     <string name="action_settings">Настройки</string>
     <string name="action_favorites">Избранное</string>
     <string name="notification_ticket">играет</string>
@@ -25,6 +23,7 @@
     <string name="menu_debug">Отладка</string>
     <!--Debug panel-->
     <string name="debug_delete_last_nevzorov_cast">Удалить последний каст Невзорова</string>
-
-
+    <!-- Disclaimer-->
+    <string name="disclaimer_title">Disclaimer</string>
+    <string name="disclaimer_text">This app must not be used for commercial purpose! It pursues only educational goals. Any commercial use of the app and its assets is forbidden. If you use or fork this app, you must follow the same principles.</string>
 </resources>

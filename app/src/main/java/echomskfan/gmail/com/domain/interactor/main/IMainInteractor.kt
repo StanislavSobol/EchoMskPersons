@@ -4,4 +4,6 @@ interface IMainInteractor {
     var isFavOn: Boolean
 
     val isDebugPanelEnabled: Boolean
+
+    val isDisclaimerEnabled: Boolean
 }
