@@ -23,5 +23,8 @@
     <!--Menu-->
     <string name="menu_fav">Избранное</string>
     <string name="menu_debug">Отладка</string>
+    <!--Debug panel-->
+    <string name="debug_delete_last_nevzorov_cast">Удалить последний каст Невзорова</string>
+
 
 </resources>

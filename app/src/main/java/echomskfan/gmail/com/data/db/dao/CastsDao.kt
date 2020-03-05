@@ -49,9 +49,6 @@ interface CastsDao {
         id: String
     )
 
-    @Query("DELETE FROM CastEntity WHERE date = (select max(date) from CastEntity where personId=:personId)")
-    fun deleteLastForPerson(personId: Int)
-
     @Query("UPDATE CastEntity SET fav=:fav WHERE id=:id")
     fun setFavById(fav: Boolean, id: String)
 }

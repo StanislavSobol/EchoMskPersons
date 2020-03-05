@@ -1,6 +1,14 @@
 package echomskfan.gmail.com.domain.interactor.debugpanel
 
-import echomskfan.gmail.com.domain.repository.IDebugPanelRepository
+import echomskfan.gmail.com.domain.repository.IDebugRepository
+import io.reactivex.Completable
 
-class DebugPanelInteractor(debugPanelRepository: IDebugPanelRepository) : IDebugPanelInteractor {
+class DebugPanelInteractor(private val debugRepository: IDebugRepository) : IDebugPanelInteractor {
+
+    override fun deleteLastNevzorovCast(): Completable {
+        return Completable.create {
+            debugRepository.deleteLastNevzorovCast()
+            it.onComplete()
+        }
+    }
 }

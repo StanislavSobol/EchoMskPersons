@@ -3,6 +3,7 @@ package echomskfan.gmail.com.data.db.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+// TODO PersonEntity: Separate table and columns names from the class and fields names
 @Entity
 data class PersonEntity(
     @PrimaryKey val id: Int,

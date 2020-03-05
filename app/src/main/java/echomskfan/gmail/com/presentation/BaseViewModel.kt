@@ -9,7 +9,6 @@ import io.reactivex.disposables.Disposable
 
 abstract class BaseViewModel : ViewModel() {
 
-
     val showProgressLiveData: LiveData<Boolean>
         get() = _showProgressLiveData
 
@@ -37,11 +36,11 @@ abstract class BaseViewModel : ViewModel() {
 
     protected open fun showProgress() {
         loading = true
-        _showProgressLiveData.value = true
+        _showProgressLiveData.postValue(true)
     }
 
     protected open fun hideProgress() {
         loading = false
-        _showProgressLiveData.value = false
+        _showProgressLiveData.postValue(false)
     }
 }

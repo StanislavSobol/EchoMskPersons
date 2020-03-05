@@ -2,8 +2,6 @@ package echomskfan.gmail.com.domain.repository
 
 import androidx.lifecycle.LiveData
 import echomskfan.gmail.com.data.db.PersonsDatabase
-import echomskfan.gmail.com.data.db.dao.CastsDao
-import echomskfan.gmail.com.data.db.dao.PersonsDao
 import echomskfan.gmail.com.data.db.entity.CastEntity
 import echomskfan.gmail.com.data.db.entity.PersonEntity
 import echomskfan.gmail.com.data.parser.IEchoParser
@@ -18,8 +16,9 @@ class Repository(
     private val sharedPrefs: ISharedPrefs
 ) : IRepository {
 
-    private val personsDao: PersonsDao by lazy { database.getPersonsDao() }
-    private val castsDao: CastsDao by lazy { database.getCastsDao() }
+    // TODO provide all the DAOs vie Dagger ()
+    private val personsDao by lazy { database.getPersonsDao() }
+    private val castsDao by lazy { database.getCastsDao() }
 
     override fun getPersonsLiveData(): LiveData<List<PersonEntity>> {
         return personsDao.getAllLiveData()
@@ -66,8 +65,6 @@ class Repository(
 
     override fun transferCastsFromWebToDb(personId: Int, pageNum: Int) {
         personsDao.getById(personId)?.let {
-            //    castsDao.deleteLastForPerson(personId)
-
             val newCasts = echoParser.getCasts(it, pageNum)
             newCasts.forEach { newCast ->
                 val oldCast = castsDao.getCastByDateAndPersonId(newCast.date, personId)

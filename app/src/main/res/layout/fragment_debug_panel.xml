@@ -7,12 +7,10 @@
     android:padding="@dimen/medium_margin"
     tools:context=".presentation.persons.PersonsFragment">
 
-
     <Button
         android:id="@+id/deleteLastNevzorovButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Удалить Невзорова" />
-
+        android:text="@string/debug_delete_last_nevzorov_cast" />
 
 </LinearLayout>

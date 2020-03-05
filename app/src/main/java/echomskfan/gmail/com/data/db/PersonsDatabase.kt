@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.VisibleForTesting
 import androidx.room.*
 import echomskfan.gmail.com.data.db.dao.CastsDao
+import echomskfan.gmail.com.data.db.dao.DebugDao
 import echomskfan.gmail.com.data.db.dao.PersonsDao
 import echomskfan.gmail.com.data.db.entity.CastEntity
 import echomskfan.gmail.com.data.db.entity.PersonEntity
@@ -16,6 +17,8 @@ abstract class PersonsDatabase : RoomDatabase() {
     abstract fun getPersonsDao(): PersonsDao
 
     abstract fun getCastsDao(): CastsDao
+
+    abstract fun getDebugDao(): DebugDao
 
     companion object {
 
