@@ -2,7 +2,6 @@ package echomskfan.gmail.com.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -148,7 +147,6 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
 
     override fun navigateToDebugPanel() {
         navController.navigate(R.id.debugPanelFragment)
-        Log.d("SSS", "navigateToDebugPanel")
     }
 
     private fun applyIntent(intent: Intent?) {

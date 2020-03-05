@@ -4,17 +4,12 @@
     android:id="@+id/splashActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorEcho2"
+    android:background="@color/colorEcho4TextBack"
     tools:context=".presentation.SplashActivity">
 
-    <TextView
-        android:id="@+id/splashActivityText"
+    <ImageView
+        android:src="@drawable/ic_echo_of_moscow_logo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:keepScreenOn="true"
-        android:text="@string/splash_text"
-        android:textColor="@color/colorEcho4"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent" />
+
 </FrameLayout>

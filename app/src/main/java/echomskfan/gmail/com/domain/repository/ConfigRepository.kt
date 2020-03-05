@@ -1,12 +1,12 @@
 package echomskfan.gmail.com.domain.repository
 
 import android.content.Context
+import echomskfan.gmail.com.BuildConfig
 import org.json.JSONArray
 import java.nio.charset.Charset
 
 //class ConfigRepository @Inject constructor(private val appContext: Context) : IConfigRepository {
-class ConfigRepository(private val appContext: Context) :
-    IConfigRepository {
+class ConfigRepository(private val appContext: Context) : IConfigRepository {
 
     private val propertiesDelegate: PropertiesDelegate
 
@@ -28,7 +28,7 @@ class ConfigRepository(private val appContext: Context) :
     }
 
     override val isDebugPanelEnabled: Boolean
-        get() = propertiesDelegate.debugPanelEnabled
+        get() = BuildConfig.DEBUG && propertiesDelegate.debugPanelEnabled
 
     private fun getString(assetName: String): String {
         val inputStream = appContext.assets.open(assetName)
