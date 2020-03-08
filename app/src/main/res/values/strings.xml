@@ -26,4 +26,8 @@
     <!-- Disclaimer-->
     <string name="disclaimer_title">Disclaimer</string>
     <string name="disclaimer_text">This app must not be used for commercial purpose! It pursues only educational goals. Any commercial use of the app and its assets is forbidden. If you use or fork this app, you must follow the same principles.</string>
+    <!--Connectivity monitor-->
+    <string name="online">Online again!</string>
+    <string name="offline">Offline :(</string>
+
 </resources>

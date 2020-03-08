@@ -1,34 +1,14 @@
 package echomskfan.gmail.com.utils
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
+import android.widget.TextView
 import java.io.Serializable
 
-//fun <T : android.support.v4.app.Fragment> T.withArguments(vararg params: Pair<String, Any>): T {
-//    arguments = bundleOf(*params)
-//    return this
-//}
-
-fun <T : Intent> T.withArguments(vararg params: Pair<String, Any>): T {
-    val bundle = bundleOf(*params)
-    this.putExtras(bundle)
-    return this
+fun <T : TextView> T.setTextFromStringId(stringId: Int) {
+    this.text = this.context.getString(stringId)
 }
-
-//fun <T : AppCompatActivity> T.withArguments(vararg params: Pair<String, Any>): T {
-//    val bundle = bundleOf(*params)
-//    this.intent.putExtras(bundle)
-//    return this
-//}
-
-//fun <T : TextView> T.setTextFromStringId(stringId: Int, context: Context?) {
-//    this.text = context!!.applicationContext.getString(stringId)
-//}
 
 fun bundleOf(vararg params: Pair<String, Any>): Bundle {
     val b = Bundle()
@@ -58,7 +38,10 @@ fun bundleOf(vararg params: Pair<String, Any>): Bundle {
                 @Suppress("UNCHECKED_CAST")
                 when {
                     v.isArrayOf<Parcelable>() -> b.putParcelableArray(k, v as Array<out Parcelable>)
-                    v.isArrayOf<CharSequence>() -> b.putCharSequenceArray(k, v as Array<out CharSequence>)
+                    v.isArrayOf<CharSequence>() -> b.putCharSequenceArray(
+                        k,
+                        v as Array<out CharSequence>
+                    )
                     v.isArrayOf<String>() -> b.putStringArray(k, v as Array<out String>)
                     else -> throw Exception("Unsupported bundle component (${v.javaClass})")
                 }
@@ -82,19 +65,4 @@ fun <T : View> T.invisible() {
 
 fun <T : View> T.gone() {
     this.visibility = View.GONE
-}
-
-fun <T : EditText> T.requestFocusAndShowKeyboard() {
-    this.requestFocus()
-    (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(
-        this,
-        InputMethodManager.SHOW_FORCED
-    )
-}
-
-fun <T : View> T.hideKeyboard() {
-    (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
-        windowToken,
-        0
-    )
 }

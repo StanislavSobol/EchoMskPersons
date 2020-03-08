@@ -18,4 +18,9 @@
     <color name="colorRipple">#939598</color>
 
     <color name="black_overlay">#66000000</color>
+
+    <color name="onlineGreen">#00ff00</color>
+    <color name="offlineRed">#ff0000</color>
+
+
 </resources>

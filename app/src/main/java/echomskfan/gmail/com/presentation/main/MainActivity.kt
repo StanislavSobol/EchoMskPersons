@@ -1,7 +1,12 @@
 package echomskfan.gmail.com.presentation.main
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Bundle
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
@@ -13,6 +18,10 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import echomskfan.gmail.com.*
 import echomskfan.gmail.com.utils.bundleOf
+import echomskfan.gmail.com.utils.gone
+import echomskfan.gmail.com.utils.setTextFromStringId
+import echomskfan.gmail.com.utils.visible
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,6 +34,7 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
 
     private var favOn = false
     private var debugPanelEnabled = false
+    private var connectivityBroadcastReceiver: BroadcastReceiver? = null
 
     var favMenuItemClickListener: IFavMenuItemClickListener? = null
         set(value) {
@@ -76,9 +86,30 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
             }
         })
 
+        viewModel.goesOnlineLiveDate.observe(this, Observer {
+            it.getContentIfNotHandled()?.let { online -> showConnectivityState(online) }
+        })
+
         if (savedInstanceState == null) {
             viewModel.loadData()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        connectivityBroadcastReceiver = ConnectivityStateBroadcastReceiver()
+
+        registerReceiver(connectivityBroadcastReceiver,
+            IntentFilter().apply {
+                addAction(CONNECTIVITY_CHANGE_ACTION)
+                priority = 100
+            })
+    }
+
+    override fun onStop() {
+        connectivityBroadcastReceiver?.let { unregisterReceiver(it) }
+        super.onStop()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -114,17 +145,14 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
                 navController.popBackStack()
                 true
             }
-
             R.id.favMainMenuItem -> {
-                viewModel.favMenuItemClick()
+                viewModel.favMenuItemClicked()
                 true
             }
-
             R.id.debugPanelMainMenuItem -> {
-                viewModel.debugPanelMenuItemClick()
+                viewModel.debugPanelMenuItemClicked()
                 true
             }
-
             else -> {
                 super.onOptionsItemSelected(item)
             }
@@ -178,5 +206,28 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
             ) { dialog, _ -> dialog.dismiss() }
             it.show()
         }
+    }
+
+    private inner class ConnectivityStateBroadcastReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+            viewModel.connectivityStateChanged(cm?.isActiveNetworkMetered ?: false)
+        }
+    }
+
+    private fun showConnectivityState(online: Boolean) {
+        connectivityStatusTextView.visible()
+        connectivityStatusTextView.setTextFromStringId(if (online) R.string.online else R.string.offline)
+        val color = resources.getColor(if (online) R.color.onlineGreen else R.color.offlineRed)
+        connectivityStatusTextView.setBackgroundColor(color)
+        if (online) {
+            Handler().postDelayed({ connectivityStatusTextView.gone() }, showOnlineStateDelayMSec)
+        }
+    }
+
+    companion object {
+        private const val CONNECTIVITY_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE"
+        // TODO to config
+        private const val showOnlineStateDelayMSec = 3000L
     }
 }

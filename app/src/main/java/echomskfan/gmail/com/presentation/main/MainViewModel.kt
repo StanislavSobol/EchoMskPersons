@@ -9,6 +9,7 @@ import echomskfan.gmail.com.presentation.OneShotEvent
 class MainViewModel(private val interactor: IMainInteractor) : BaseViewModel() {
 
     private var isFavOn: Boolean = false
+    private var firstOnlineFired: Boolean = false
 
     private val _favOnLiveDate = MutableLiveData<Boolean>()
     val favOnLiveDate: LiveData<Boolean>
@@ -26,6 +27,10 @@ class MainViewModel(private val interactor: IMainInteractor) : BaseViewModel() {
     val navigateToDebugPanelLiveDate: LiveData<OneShotEvent<Unit>>
         get() = _navigateToDebugPanelLiveDate
 
+    private val _goesOnlineLiveDate = MutableLiveData<OneShotEvent<Boolean>>()
+    val goesOnlineLiveDate: LiveData<OneShotEvent<Boolean>>
+        get() = _goesOnlineLiveDate
+
     fun loadMenuData() {
         isFavOn = interactor.isFavOn
         _favOnLiveDate.value = isFavOn
@@ -38,12 +43,23 @@ class MainViewModel(private val interactor: IMainInteractor) : BaseViewModel() {
         _disclaimerEnabledLiveDate.value = OneShotEvent(interactor.isDisclaimerEnabled)
     }
 
-    fun favMenuItemClick() {
+    fun favMenuItemClicked() {
         interactor.isFavOn = !isFavOn
         loadMenuData()
     }
 
-    fun debugPanelMenuItemClick() {
+    fun debugPanelMenuItemClicked() {
         _navigateToDebugPanelLiveDate.value = OneShotEvent(Unit)
+    }
+
+    fun connectivityStateChanged(online: Boolean) {
+        if (firstOnlineFired) {
+            _goesOnlineLiveDate.value = OneShotEvent(online)
+        } else {
+            if (!online) {
+                _goesOnlineLiveDate.value = OneShotEvent(online)
+            }
+            firstOnlineFired = true
+        }
     }
 }

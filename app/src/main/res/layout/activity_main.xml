@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:animateLayoutChanges="true"
     tools:context=".presentation.main.MainActivity">
+
+    <TextView
+        android:padding="@dimen/smaller_margin"
+        android:id="@+id/connectivityStatusTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="@dimen/title_text_size"
+        android:background="@color/onlineGreen"
+        android:layout_marginBottom="@dimen/smaller_margin"
+        android:visibility="gone"
+        tools:text="@string/online"
+        tools:visibility="visible" />
 
     <fragment
         android:id="@+id/nav_host_fragment"
@@ -15,4 +30,4 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/main_graph" />
 
-</FrameLayout>
+</LinearLayout>
