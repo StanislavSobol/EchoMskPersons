@@ -214,9 +214,17 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
     }
 
     private inner class ConnectivityStateBroadcastReceiver : BroadcastReceiver() {
+
+        private var firstReceiving = true
+
         override fun onReceive(context: Context?, intent: Intent?) {
-            val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
-            viewModel.connectivityStateChanged(cm?.isActiveNetworkMetered ?: false)
+            if (firstReceiving) {
+                firstReceiving = false
+            } else {
+                val cm =
+                    context?.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+                viewModel.connectivityStateChanged(cm?.isActiveNetworkMetered ?: false)
+            }
         }
     }
 
