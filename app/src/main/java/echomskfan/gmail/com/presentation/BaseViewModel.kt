@@ -34,6 +34,12 @@ abstract class BaseViewModel : ViewModel() {
             .doOnError { hideProgress() }
     }
 
+    protected fun Completable.withProgressOnFirstPage(pageNum: Int): Completable {
+        return doOnSubscribe { if (pageNum == 1) showProgress() }
+            .doOnComplete { hideProgress() }
+            .doOnError { hideProgress() }
+    }
+
     protected open fun showProgress() {
         loading = true
         _showProgressLiveData.postValue(true)

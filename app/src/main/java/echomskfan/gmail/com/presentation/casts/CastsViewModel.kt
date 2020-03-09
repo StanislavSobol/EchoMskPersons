@@ -57,9 +57,11 @@ class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel()
             personIdIsNull()
         }
 
-        interactor.transferCastsFromWebToDb(personId!!, lastLoadedPageNum + 1)
+        val pageNum = lastLoadedPageNum + 1
+
+        interactor.transferCastsFromWebToDb(personId!!, pageNum)
             .fromIoToMain()
-            .withProgress()
+            .withProgressOnFirstPage(pageNum)
             .subscribe({}, { catchThrowable(it) })
             .unsubscribeOnClear()
     }
