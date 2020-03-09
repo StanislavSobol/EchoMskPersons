@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
     private var favOn = false
     private var debugPanelEnabled = false
     private var connectivityBroadcastReceiver: BroadcastReceiver? = null
+    private var showOnlineStateDelayMSec = 0L
 
     var favMenuItemClickListener: IFavMenuItemClickListener? = null
         set(value) {
@@ -88,6 +89,10 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
 
         viewModel.goesOnlineLiveDate.observe(this, Observer {
             it.getContentIfNotHandled()?.let { online -> showConnectivityState(online) }
+        })
+
+        viewModel.showOnlineStateDelayMSec.observe(this, Observer {
+            it.getContentIfNotHandled()?.let { delay -> showOnlineStateDelayMSec = delay }
         })
 
         if (savedInstanceState == null) {
@@ -220,14 +225,12 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
         connectivityStatusTextView.setTextFromStringId(if (online) R.string.online else R.string.offline)
         val color = resources.getColor(if (online) R.color.onlineGreen else R.color.offlineRed)
         connectivityStatusTextView.setBackgroundColor(color)
-        if (online) {
+        if (online && showOnlineStateDelayMSec > 0) {
             Handler().postDelayed({ connectivityStatusTextView.gone() }, showOnlineStateDelayMSec)
         }
     }
 
     companion object {
         private const val CONNECTIVITY_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE"
-        // TODO to config
-        private const val showOnlineStateDelayMSec = 3000L
     }
 }

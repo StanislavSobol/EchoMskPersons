@@ -23,6 +23,10 @@ class MainViewModel(private val interactor: IMainInteractor) : BaseViewModel() {
     val disclaimerEnabledLiveDate: LiveData<OneShotEvent<Boolean>>
         get() = _disclaimerEnabledLiveDate
 
+    private val _showOnlineStateDelayMSec = MutableLiveData<OneShotEvent<Long>>()
+    val showOnlineStateDelayMSec: LiveData<OneShotEvent<Long>>
+        get() = _showOnlineStateDelayMSec
+
     private val _navigateToDebugPanelLiveDate = MutableLiveData<OneShotEvent<Unit>>()
     val navigateToDebugPanelLiveDate: LiveData<OneShotEvent<Unit>>
         get() = _navigateToDebugPanelLiveDate
@@ -41,6 +45,7 @@ class MainViewModel(private val interactor: IMainInteractor) : BaseViewModel() {
     fun loadData() {
         loadMenuData()
         _disclaimerEnabledLiveDate.value = OneShotEvent(interactor.isDisclaimerEnabled)
+        _showOnlineStateDelayMSec.value = OneShotEvent(interactor.showOnlineStateDelayMSec)
     }
 
     fun favMenuItemClicked() {

@@ -3,6 +3,9 @@
     "debugPanelEnabled": true
   },
   {
-    "disclaimerEnabled": true
+    "disclaimerEnabled": false
+  },
+  {
+    "showOnlineStateDelayMSec": 2000
   }
 ]

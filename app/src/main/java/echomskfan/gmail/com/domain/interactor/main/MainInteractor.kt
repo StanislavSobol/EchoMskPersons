@@ -19,4 +19,7 @@ class MainInteractor(
 
     override val isDisclaimerEnabled: Boolean
         get() = configRepository.isDisclaimerEnabled
+
+    override val showOnlineStateDelayMSec: Long
+        get() = configRepository.showOnlineStateDelayMSec
 }
