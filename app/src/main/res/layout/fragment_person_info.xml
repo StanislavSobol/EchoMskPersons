@@ -19,6 +19,7 @@
         android:id="@+id/personInfoFullNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/big_title_text_size"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/medium_margin"
         tools:text="Fullname" />
@@ -26,20 +27,21 @@
     <TextView
         android:id="@+id/personInfoProfessionTextView"
         android:layout_width="wrap_content"
+        android:textSize="@dimen/title_text_size"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/medium_margin"
+        android:layout_marginTop="@dimen/small_margin"
         tools:text="Perofession" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/medium_margin"
-        android:layout_marginBottom="@dimen/medium_margin">
+        android:layout_marginTop="@dimen/small_medium_margin">
 
         <TextView
             android:id="@+id/personInfoInfoTextView"
             android:layout_width="match_parent"
+            android:textSize="@dimen/subtitle_text_size"
             android:layout_height="wrap_content"
             tools:text="Info" />
 

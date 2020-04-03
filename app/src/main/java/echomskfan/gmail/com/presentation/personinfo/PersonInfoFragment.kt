@@ -40,7 +40,6 @@ class PersonInfoFragment : BaseFragment(FragmentType.Child, R.layout.fragment_pe
             ViewModelProviders.of(this, viewModelFactory).get(PersonInfoViewModel::class.java)
         viewModel.getPersonLiveData(personId!!)
             .observe(viewLifecycleOwner, Observer { item -> initViews(item) })
-//        savedInstanceState ?: let { viewModel.loadData() }
     }
 
     private fun initViews(personInfoViewEntity: PersonInfoViewEntity?) {

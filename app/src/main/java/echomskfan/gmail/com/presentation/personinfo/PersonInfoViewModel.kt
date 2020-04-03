@@ -14,8 +14,4 @@ class PersonInfoViewModel(private val interactor: IPersonInfoInteractor) : BaseV
             )
         }
     }
-
-//    fun loadData() {
-//
-//    }
 }
