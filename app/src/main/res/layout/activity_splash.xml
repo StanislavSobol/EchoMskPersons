@@ -8,6 +8,7 @@
     tools:context=".presentation.SplashActivity">
 
     <ImageView
+        android:id="@+id/splashActivityLogoImageView"
         android:src="@drawable/ic_echo_of_moscow_logo"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
