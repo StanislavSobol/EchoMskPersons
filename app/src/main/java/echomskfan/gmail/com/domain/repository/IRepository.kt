@@ -17,6 +17,8 @@ interface IRepository {
 
     fun getPlayerItem(castId: String): PlayerItem
 
+    fun getPersonLiveData(personId: Int): LiveData<PersonEntity>
+
     // TODO Move it in a brand new repo ISharedPrefsRepository
     var isFavOn: Boolean
 }

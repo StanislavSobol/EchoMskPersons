@@ -7,9 +7,9 @@
 
     <TextView
         android:id="@+id/personItemNameTextView"
-        android:layout_marginTop="@dimen/small_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin"
         android:textSize="@dimen/title_text_size"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -30,8 +30,8 @@
         android:id="@+id/personItemCentralLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/small_margin"
         android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginTop="@dimen/small_margin"
         android:layout_marginEnd="@dimen/small_margin"
         app:layout_constraintTop_toBottomOf="@+id/personItemProfessionTextView">
 
@@ -53,15 +53,24 @@
             android:maxLines="5"
             android:textSize="@dimen/regular_text_size"
             tools:text="23 декабря 1987 года вышла в эфир и просуществовала шесть лет информационная программа Ленинградского телевидения «600 секунд», шеф-редактором и ведущим которой стал Александр Невзоров. Передача стала культовой и вошла в Книгу рекордов Гиннеса как самый рейтинговый телепроект.Как репортер и как солдат был участником войн в Югославии, Приднестровье, Карабахе, Прибалтике, Ираке и Чечне, одним из первых, вместе с генералом Рохлиным вошел в Грозный.О чеченской войне Невзоровым сняты документальный фильм «Ад» (1995) и художественная лента «Чистилище» (1997)." />
-
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/personItemInfoImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin"
+        android:src="@drawable/ic_info_black_32dp"
+        app:layout_constraintStart_toStartOf="@id/personItemCentralLayout"
+        app:layout_constraintTop_toBottomOf="@id/personItemCentralLayout"
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:id="@+id/iconsLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/small_margin"
         android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginTop="@dimen/small_margin"
         android:layout_marginEnd="@dimen/small_margin"
         android:orientation="horizontal"
         app:layout_constraintRight_toRightOf="parent"
@@ -71,7 +80,7 @@
             android:id="@+id/personItemNotificationImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_notifications_black_24dp"
+            android:src="@drawable/ic_baseline_notifications_black_32dp"
             tools:ignore="ContentDescription" />
 
         <ImageView
@@ -80,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginLeft="@dimen/small_margin"
-            android:src="@drawable/ic_baseline_favorite_black_24dp"
+            android:src="@drawable/ic_baseline_favorite_black_32dp"
             tools:ignore="ContentDescription" />
 
     </LinearLayout>

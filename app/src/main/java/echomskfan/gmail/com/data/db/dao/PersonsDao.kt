@@ -30,4 +30,7 @@ interface PersonsDao {
 
     @Query("UPDATE PersonEntity SET fav = :fav WHERE id=:id")
     fun setFavById(fav: Boolean, id: Int)
+
+    @Query("SELECT * FROM PersonEntity WHERE id=:id")
+    fun getPersonLiveData(id: Int): LiveData<PersonEntity>
 }

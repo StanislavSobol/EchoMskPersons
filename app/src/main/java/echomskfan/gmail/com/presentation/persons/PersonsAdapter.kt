@@ -8,12 +8,19 @@ import com.squareup.picasso.Picasso
 import echomskfan.gmail.com.R
 import kotlinx.android.synthetic.main.item_person.view.*
 
-internal class PersonsAdapter(private val viewModel: PersonsViewModel) : RecyclerView.Adapter<PersonsAdapter.Holder>() {
+internal class PersonsAdapter(private val viewModel: PersonsViewModel) :
+    RecyclerView.Adapter<PersonsAdapter.Holder>() {
 
     private val items = mutableListOf<IPersonsListItemDelegate>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.item_person, parent, false))
+        return Holder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_person,
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount() = items.size
@@ -40,25 +47,29 @@ internal class PersonsAdapter(private val viewModel: PersonsViewModel) : Recycle
                 itemView.personItemProfessionTextView.text = item.profession
                 itemView.personItemInfoTextView.text = item.info
 
+                itemView.personItemInfoImageView.setOnClickListener {
+                    viewModel.personItemInfoClicked(item.id)
+                }
+
                 itemView.personItemNotificationImageView.setImageResource(
-                    if (item.notification) R.drawable.ic_baseline_notifications_black_24dp
+                    if (item.notification) R.drawable.ic_baseline_notifications_black_32dp
                     else R.drawable.ic_baseline_notifications_none_24dp
                 )
 
                 itemView.personItemNotificationImageView.setOnClickListener {
-                    viewModel.itemIdNotificationClicked(item.id)
+                    viewModel.personItemNotificationClicked(item.id)
                 }
 
                 itemView.personItemFavImageView.setImageResource(
-                    if (item.fav) R.drawable.ic_baseline_favorite_black_24dp
+                    if (item.fav) R.drawable.ic_baseline_favorite_black_32dp
                     else R.drawable.ic_baseline_favorite_none_24dp
                 )
 
                 itemView.personItemFavImageView.setOnClickListener {
-                    viewModel.itemIdFavClicked(item.id)
+                    viewModel.personItemFavClicked(item.id)
                 }
 
-                itemView.setOnClickListener { viewModel.itemIdClicked(item.id) }
+                itemView.setOnClickListener { viewModel.personItemClicked(item.id) }
             }
         }
     }

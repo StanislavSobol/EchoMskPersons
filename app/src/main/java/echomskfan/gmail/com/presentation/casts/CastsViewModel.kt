@@ -12,6 +12,7 @@ import echomskfan.gmail.com.utils.fromIoToMain
 class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel() {
 
     var lastLoadedPageNum: Int = 0
+    // TODO Why do I need this property insted of useing method getCastsLiveDataForPerson with the param
     var personId: Int? = null
 
     val navigateToPlayerFragmentLiveData: LiveData<OneShotEvent<String>>

@@ -47,7 +47,12 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
             it.getContentIfNotHandled()?.let { id -> mainActivityRouter?.navigateToCastsFromPersons(id) }
         })
 
-        savedInstanceState ?: run { viewModel.loadData() }
+        viewModel.navigateToPersonInfoLiveDate.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()
+                ?.let { id -> mainActivityRouter?.navigateToPersonInfoFromPersons(id) }
+        })
+
+        savedInstanceState ?: let { viewModel.loadData() }
 
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.adapter = adapter

@@ -171,6 +171,13 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
         )
     }
 
+    override fun navigateToPersonInfoFromPersons(personId: Int) {
+        navController.navigate(
+            R.id.action_personsFragment_to_personInfoFragment,
+            bundleOf(EXTRA_PERSON_ID to personId)
+        )
+    }
+
     override fun navigateToPlayerFromCasts(castId: String) {
         navController.navigate(
             R.id.action_castsFragment_to_playerFragment,

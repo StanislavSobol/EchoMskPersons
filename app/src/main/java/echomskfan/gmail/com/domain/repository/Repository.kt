@@ -105,6 +105,10 @@ class Repository(
         }
     }
 
+    override fun getPersonLiveData(personId: Int): LiveData<PersonEntity> {
+        return personsDao.getPersonLiveData(personId)
+    }
+
     override var isFavOn: Boolean
         get() = sharedPrefs.isFavOn
         set(value) {

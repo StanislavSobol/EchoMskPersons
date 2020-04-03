@@ -12,9 +12,12 @@ import echomskfan.gmail.com.utils.fromIoToMain
 class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewModel() {
 
     private val _navigateToCastsLiveDate = MutableLiveData<OneShotEvent<Int>>()
-
     val navigateToCastsLiveDate: LiveData<OneShotEvent<Int>>
         get() = _navigateToCastsLiveDate
+
+    private val _navigateToPersonInfoLiveDate = MutableLiveData<OneShotEvent<Int>>()
+    val navigateToPersonInfoLiveDate: LiveData<OneShotEvent<Int>>
+        get() = _navigateToPersonInfoLiveDate
 
     fun getPersonsLiveData(): LiveData<List<PersonListItem>> {
         return Transformations.map(interactor.getPersonsLiveData()) { list -> PersonListItem.from(list) }
@@ -29,7 +32,7 @@ class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewMod
             .unsubscribeOnClear()
     }
 
-    fun itemIdNotificationClicked(id: Int) {
+    fun personItemNotificationClicked(id: Int) {
         interactor.personIdNotificationClicked(id)
             .fromIoToMain()
             .doOnError { e -> catchThrowable(e) }
@@ -37,7 +40,7 @@ class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewMod
             .unsubscribeOnClear()
     }
 
-    fun itemIdFavClicked(id: Int) {
+    fun personItemFavClicked(id: Int) {
         interactor.personIdFavClicked(id)
             .fromIoToMain()
             .doOnError { e -> catchThrowable(e) }
@@ -45,7 +48,11 @@ class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewMod
             .unsubscribeOnClear()
     }
 
-    fun itemIdClicked(id: Int) {
+    fun personItemClicked(id: Int) {
         _navigateToCastsLiveDate.value = OneShotEvent(id)
+    }
+
+    fun personItemInfoClicked(id: Int) {
+        _navigateToPersonInfoLiveDate.value = OneShotEvent(id)
     }
 }
