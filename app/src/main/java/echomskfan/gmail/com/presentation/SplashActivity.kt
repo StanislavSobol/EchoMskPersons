@@ -44,6 +44,7 @@ class SplashActivity : AppCompatActivity() {
             {
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
+//                ActivityNavigator.applyPopAnimationsToPendingTransition(this)
             },
             SPLASH_DELAY_MS
         )

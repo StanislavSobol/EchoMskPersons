@@ -3,7 +3,7 @@ package echomskfan.gmail.com.utils
 import android.util.Log
 
 private const val TAG_INFO = "Info"
-private const val TAG_WARNONG = "Warning"
+private const val TAG_WARNING = "Warning"
 private const val TAG_ERROR = "Error"
 
 fun logInfo(info: Any?) {
@@ -15,7 +15,7 @@ fun logInfo(info: String) {
 }
 
 fun logWarning(info: String) {
-    Log.w(TAG_WARNONG, info)
+    Log.w(TAG_WARNING, info)
 }
 
 fun logError(info: String) {

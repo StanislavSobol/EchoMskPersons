@@ -6,10 +6,20 @@
 
     <fragment android:id="@+id/personsFragment" android:name="echomskfan.gmail.com.presentation.persons.PersonsFragment"
               android:label="persons_fragment" tools:layout="@layout/fragment_recycler_view">
-        <action android:id="@+id/action_personsFragment_to_castsFragment" app:destination="@id/castsFragment"/>
+        <action
+            android:id="@+id/action_personsFragment_to_castsFragment"
+            app:destination="@id/castsFragment"
+            app:enterAnim="@anim/slide_in_right_anim"
+            app:exitAnim="@anim/slide_out_left_anim"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_personsFragment_to_personInfoFragment"
-            app:destination="@id/personInfoFragment" />
+            app:destination="@id/personInfoFragment"
+            app:enterAnim="@anim/slide_in_right_anim"
+            app:exitAnim="@anim/slide_out_left_anim"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment android:id="@+id/castsFragment" android:name="echomskfan.gmail.com.presentation.casts.CastsFragment"
               android:label="CastsFragment">
