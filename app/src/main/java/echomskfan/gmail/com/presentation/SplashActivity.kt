@@ -6,6 +6,7 @@ import android.os.Handler
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.ActivityNavigator
 import echomskfan.gmail.com.R
 import echomskfan.gmail.com.presentation.main.MainActivity
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -44,7 +45,7 @@ class SplashActivity : AppCompatActivity() {
             {
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
-//                ActivityNavigator.applyPopAnimationsToPendingTransition(this)
+                ActivityNavigator.applyPopAnimationsToPendingTransition(this)
             },
             SPLASH_DELAY_MS
         )

@@ -17,7 +17,8 @@ import kotlinx.android.synthetic.main.fragment_recycler_view.*
 import kotlinx.android.synthetic.main.full_progress_bar_content.*
 import javax.inject.Inject
 
-class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycler_view), IFavMenuItemClickListener {
+class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycler_view),
+    IFavMenuItemClickListener {
 
     @PersonsScope
     @Inject
@@ -44,12 +45,15 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
         subscribeToPersonsLiveData()
 
         viewModel.navigateToCastsLiveDate.observe(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let { id -> mainActivityRouter?.navigateToCastsFromPersons(id) }
+            it.getContentIfNotHandled()
+                ?.let { id -> mainActivityRouter?.navigateToCastsFromPersons(id) }
         })
 
         viewModel.navigateToPersonInfoLiveDate.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()
-                ?.let { id -> mainActivityRouter?.navigateToPersonInfoFromPersons(id) }
+                ?.let { pair ->
+                    mainActivityRouter?.navigateToPersonInfoFromPersons(pair.first, pair.second)
+                }
         })
 
         savedInstanceState ?: let { viewModel.loadData() }
@@ -69,7 +73,8 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
 
     private fun subscribeToPersonsLiveData() {
         viewModel.getPersonsLiveData().removeObservers(viewLifecycleOwner)
-        viewModel.getPersonsLiveData().observe(viewLifecycleOwner, Observer { list -> setItems(list) })
+        viewModel.getPersonsLiveData()
+            .observe(viewLifecycleOwner, Observer { list -> setItems(list) })
     }
 
     override fun isFavMenuItemVisible() = true

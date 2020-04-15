@@ -70,7 +70,9 @@ dependencies {
     // arch components
     implementation "android.arch.lifecycle:extensions:$acrh_components_version"
     annotationProcessor "android.arch.lifecycle:compiler:$acrh_components_version"
-    implementation 'android.arch.navigation:navigation-fragment:1.0.0'
+
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     // RX Java 2.0
     implementation 'io.reactivex.rxjava2:rxjava:2.1.13'

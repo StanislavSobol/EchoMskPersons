@@ -48,7 +48,7 @@ internal class PersonsAdapter(private val viewModel: PersonsViewModel) :
                 itemView.personItemInfoTextView.text = item.info
 
                 itemView.personItemInfoImageView.setOnClickListener {
-                    viewModel.personItemInfoClicked(item.id)
+                    viewModel.personItemInfoClicked(item.id, itemView.personItemImageView)
                 }
 
                 itemView.personItemNotificationImageView.setImageResource(

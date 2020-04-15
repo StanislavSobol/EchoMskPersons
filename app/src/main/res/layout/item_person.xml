@@ -39,6 +39,7 @@
             android:id="@+id/personItemImageView"
             android:layout_width="@dimen/vip_image_size"
             android:layout_height="@dimen/vip_image_size"
+            android:transitionName="imageView"
             tools:ignore="ContentDescription" />
 
         <TextView

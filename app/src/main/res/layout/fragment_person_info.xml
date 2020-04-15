@@ -13,6 +13,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
+        android:transitionName="imageView"
         android:layout_marginTop="@dimen/medium_margin" />
 
     <TextView

@@ -1,5 +1,6 @@
 package echomskfan.gmail.com.presentation.persons
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -15,8 +16,8 @@ class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewMod
     val navigateToCastsLiveDate: LiveData<OneShotEvent<Int>>
         get() = _navigateToCastsLiveDate
 
-    private val _navigateToPersonInfoLiveDate = MutableLiveData<OneShotEvent<Int>>()
-    val navigateToPersonInfoLiveDate: LiveData<OneShotEvent<Int>>
+    private val _navigateToPersonInfoLiveDate = MutableLiveData<OneShotEvent<Pair<Int, View?>>>()
+    val navigateToPersonInfoLiveDate: LiveData<OneShotEvent<Pair<Int, View?>>>
         get() = _navigateToPersonInfoLiveDate
 
     fun getPersonsLiveData(): LiveData<List<PersonListItem>> {
@@ -52,7 +53,7 @@ class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewMod
         _navigateToCastsLiveDate.value = OneShotEvent(id)
     }
 
-    fun personItemInfoClicked(id: Int) {
-        _navigateToPersonInfoLiveDate.value = OneShotEvent(id)
+    fun personItemInfoClicked(id: Int, personItemImageView: View?) {
+        _navigateToPersonInfoLiveDate.value = OneShotEvent(Pair(id, personItemImageView))
     }
 }

@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.forEach
@@ -16,6 +17,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.Navigator
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import echomskfan.gmail.com.*
 import echomskfan.gmail.com.utils.bundleOf
 import echomskfan.gmail.com.utils.gone
@@ -171,10 +174,17 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
         )
     }
 
-    override fun navigateToPersonInfoFromPersons(personId: Int) {
+    override fun navigateToPersonInfoFromPersons(personId: Int, sharedView: View?) {
+        var extras: Navigator.Extras? = null
+        sharedView?.let {
+            extras = FragmentNavigatorExtras(it to ARG_SHARED_VIEW)
+        }
+
         navController.navigate(
             R.id.action_personsFragment_to_personInfoFragment,
-            bundleOf(EXTRA_PERSON_ID to personId)
+            bundleOf(EXTRA_PERSON_ID to personId),
+            null,
+            extras
         )
     }
 

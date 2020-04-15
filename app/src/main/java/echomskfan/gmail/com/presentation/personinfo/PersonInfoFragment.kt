@@ -1,6 +1,7 @@
 package echomskfan.gmail.com.presentation.personinfo
 
 import android.os.Bundle
+import android.transition.TransitionInflater
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.squareup.picasso.Picasso
@@ -29,6 +30,12 @@ class PersonInfoFragment : BaseFragment(FragmentType.Child, R.layout.fragment_pe
             .appComponent(MApplication.getAppComponent())
             .build()
             .inject(this)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition =
+            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
