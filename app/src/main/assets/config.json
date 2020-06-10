@@ -7,5 +7,11 @@
   },
   {
     "showOnlineStateDelayMSec": 2000
+  },
+  {
+    "showSplashAnimation": true
+  },
+  {
+    "splashDelayMSec": 500
   }
 ]

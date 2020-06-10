@@ -6,37 +6,57 @@ import android.os.Handler
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.ActivityNavigator
+import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
+import echomskfan.gmail.com.domain.interactor.config.IConfigProvider
 import echomskfan.gmail.com.presentation.main.MainActivity
 import kotlinx.android.synthetic.main.activity_splash.*
+import javax.inject.Inject
 
 /**
  * Splash-screen activity
  */
 class SplashActivity : AppCompatActivity() {
+    @Inject
+    internal lateinit var configProvider: IConfigProvider
+
+    private var realStart = false
+
+    init {
+        MApplication.getAppComponent().inject(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         supportActionBar?.hide()
+        realStart = savedInstanceState == null
     }
 
     override fun onResume() {
         super.onResume()
-        val anim: Animation = AnimationUtils.loadAnimation(this, R.anim.splash_anim)
-        anim.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationRepeat(p0: Animation?) {
-            }
+        if (!realStart) {
+            return
+        }
 
-            override fun onAnimationEnd(p0: Animation?) {
-                startMainActivity()
-            }
+        if (configProvider.showSplashAnimation) {
+            val anim: Animation = AnimationUtils.loadAnimation(this, R.anim.splash_anim)
+            anim.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationRepeat(p0: Animation?) {
+                }
 
-            override fun onAnimationStart(p0: Animation?) {
-            }
-        })
+                override fun onAnimationEnd(p0: Animation?) {
+                    startMainActivity()
+                }
 
-        splashActivityLogoImageView.animation = anim
+                override fun onAnimationStart(p0: Animation?) {
+                }
+            })
+            splashActivityLogoImageView.animation = anim
+        } else {
+            startMainActivity()
+        }
     }
 
     private fun startMainActivity() {
@@ -44,13 +64,9 @@ class SplashActivity : AppCompatActivity() {
             {
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
-//                ActivityNavigator.applyPopAnimationsToPendingTransition(this)
+                ActivityNavigator.applyPopAnimationsToPendingTransition(this)
             },
-            SPLASH_DELAY_MS
+            configProvider.splashDelayMSec
         )
-    }
-
-    companion object {
-        const val SPLASH_DELAY_MS = 500L
     }
 }

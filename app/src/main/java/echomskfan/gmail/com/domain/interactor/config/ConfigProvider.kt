@@ -2,7 +2,7 @@ package echomskfan.gmail.com.domain.interactor.config
 
 import echomskfan.gmail.com.domain.repository.IConfigRepository
 
-class ConfigInteractor(private val configRepository: IConfigRepository) : IConfigInteractor {
+class ConfigProvider(private val configRepository: IConfigRepository) : IConfigProvider {
 
     override val isDebugPanelEnabled: Boolean
         get() = configRepository.isDebugPanelEnabled
@@ -12,4 +12,10 @@ class ConfigInteractor(private val configRepository: IConfigRepository) : IConfi
 
     override val showOnlineStateDelayMSec: Long
         get() = configRepository.showOnlineStateDelayMSec
+
+    override val showSplashAnimation: Boolean
+        get() = configRepository.showSplashAnimation
+
+    override val splashDelayMSec: Long
+        get() = configRepository.splashDelayMSec
 }

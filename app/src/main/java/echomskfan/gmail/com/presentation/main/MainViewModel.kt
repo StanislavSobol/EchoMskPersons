@@ -2,14 +2,14 @@ package echomskfan.gmail.com.presentation.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import echomskfan.gmail.com.domain.interactor.config.IConfigInteractor
+import echomskfan.gmail.com.domain.interactor.config.IConfigProvider
 import echomskfan.gmail.com.domain.interactor.main.IMainInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.presentation.OneShotEvent
 
 class MainViewModel(
     private val interactor: IMainInteractor,
-    private val configInteractor: IConfigInteractor
+    private val configProvider: IConfigProvider
 ) : BaseViewModel() {
 
     private var isFavOn: Boolean = false
@@ -43,13 +43,13 @@ class MainViewModel(
         isFavOn = interactor.isFavOn
         _favOnLiveDate.value = isFavOn
 
-        _debugPanelEnabledLiveDate.value = configInteractor.isDebugPanelEnabled
+        _debugPanelEnabledLiveDate.value = configProvider.isDebugPanelEnabled
     }
 
     fun loadData() {
         loadMenuData()
-        _disclaimerEnabledLiveDate.value = OneShotEvent(configInteractor.isDisclaimerEnabled)
-        _showOnlineStateDelayMSec.value = OneShotEvent(configInteractor.showOnlineStateDelayMSec)
+        _disclaimerEnabledLiveDate.value = OneShotEvent(configProvider.isDisclaimerEnabled)
+        _showOnlineStateDelayMSec.value = OneShotEvent(configProvider.showOnlineStateDelayMSec)
     }
 
     fun favMenuItemClicked() {

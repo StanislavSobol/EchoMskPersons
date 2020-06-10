@@ -35,6 +35,12 @@ class ConfigRepository(private val appContext: Context) : IConfigRepository {
     override val showOnlineStateDelayMSec: Long
         get() = propertiesDelegate.showOnlineStateDelayMSec
 
+    override val showSplashAnimation
+        get() = propertiesDelegate.showSplashAnimation
+
+    override val splashDelayMSec: Long
+        get() = propertiesDelegate.splashDelayMSec
+
     private fun getConfigFileAsString(): String {
         val inputStream = appContext.assets.open(CONFIG_JSON_NAME)
         val size = inputStream.available()
@@ -48,6 +54,8 @@ class ConfigRepository(private val appContext: Context) : IConfigRepository {
         val debugPanelEnabled: Boolean by map
         val disclaimerEnabled: Boolean by map
         val showOnlineStateDelayMSec: Long by map
+        val showSplashAnimation: Boolean by map
+        val splashDelayMSec: Long by map
     }
 
     companion object {
