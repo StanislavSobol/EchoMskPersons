@@ -11,6 +11,8 @@ import echomskfan.gmail.com.data.prefs.ISharedPrefs
 import echomskfan.gmail.com.data.prefs.SharedPrefs
 import echomskfan.gmail.com.domain.assetextractor.AssetExtractor
 import echomskfan.gmail.com.domain.assetextractor.IAssetExtractor
+import echomskfan.gmail.com.domain.interactor.config.ConfigInteractor
+import echomskfan.gmail.com.domain.interactor.config.IConfigInteractor
 import echomskfan.gmail.com.domain.interactor.main.IMainInteractor
 import echomskfan.gmail.com.domain.interactor.main.MainInteractor
 import echomskfan.gmail.com.domain.repository.ConfigRepository
@@ -63,24 +65,29 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideConfigManager(appContext: Context): IConfigRepository {
+    fun provideConfigRepository(appContext: Context): IConfigRepository {
         return ConfigRepository(appContext)
     }
 
     @Singleton
     @Provides
-    fun provideMainInteractor(
-        repository: IRepository,
-        configRepository: IConfigRepository
-    ): IMainInteractor {
-        return MainInteractor(repository, configRepository)
+    fun provideMainInteractor(repository: IRepository): IMainInteractor {
+        return MainInteractor(repository)
     }
-
 
     @Singleton
     @Provides
-    fun provideMainViewModelFactory(interactor: IMainInteractor): MainViewModelFactory {
-        return MainViewModelFactory(interactor)
+    fun provideConfigInteractor(configRepository: IConfigRepository): IConfigInteractor {
+        return ConfigInteractor(configRepository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideMainViewModelFactory(
+        interactor: IMainInteractor,
+        configInteractor: IConfigInteractor
+    ): MainViewModelFactory {
+        return MainViewModelFactory(interactor, configInteractor)
     }
 
     companion object {
