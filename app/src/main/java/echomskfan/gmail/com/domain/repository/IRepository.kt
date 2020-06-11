@@ -1,6 +1,7 @@
 package echomskfan.gmail.com.domain.repository
 
 import androidx.lifecycle.LiveData
+import echomskfan.gmail.com.annotations.AppTodoMinor
 import echomskfan.gmail.com.data.db.entity.CastEntity
 import echomskfan.gmail.com.data.db.entity.PersonEntity
 import echomskfan.gmail.com.presentation.player.PlayerItem
@@ -19,6 +20,6 @@ interface IRepository {
 
     fun getPersonLiveData(personId: Int): LiveData<PersonEntity>
 
-    // TODO Move it in a brand new repo ISharedPrefsRepository
+    @AppTodoMinor("IRepository: Move it in a brand new repo ISharedPrefsRepository")
     var isFavOn: Boolean
 }

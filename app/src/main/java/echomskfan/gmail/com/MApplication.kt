@@ -1,13 +1,15 @@
 package echomskfan.gmail.com
 
-import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.widget.Toast
+import androidx.multidex.MultiDexApplication
+import echomskfan.gmail.com.annotations.AppTodoMainPackage
 import echomskfan.gmail.com.di.AppComponent
 import echomskfan.gmail.com.di.DaggerAppComponent
 
-class MApplication : Application() {
+@AppTodoMainPackage
+class MApplication : MultiDexApplication() {
 
     private lateinit var daggerAppComponent: AppComponent
 

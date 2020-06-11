@@ -21,10 +21,15 @@ class SplashActivity : AppCompatActivity() {
     @Inject
     internal lateinit var configProvider: IConfigProvider
 
+    //    @ConfigBooleanValue("showAnimation")
+    internal var showAnimationRRR: Boolean = false
+
     private var realStart = false
 
     init {
         MApplication.getAppComponent().inject(this)
+//        Log.d("SSS", ">>> " + ConfigManager().greeting())
+//        ConfigManager.inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
