@@ -27,7 +27,7 @@ abstract class BaseFragment(
 
     // TODO mainActivityRouter -> to NonNull
     protected val mainActivityRouter: IMainActivityRouter?
-        get() = mainActivity
+        get() = mainActivity.mainActivityRouter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(layoutId, container, false)

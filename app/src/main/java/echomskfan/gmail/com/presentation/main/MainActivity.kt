@@ -16,8 +16,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import echomskfan.gmail.com.*
-import echomskfan.gmail.com.utils.bundleOf
+import echomskfan.gmail.com.EXTRA_PLAYER_ITEM_CAST_ID
+import echomskfan.gmail.com.MApplication
+import echomskfan.gmail.com.R
 import echomskfan.gmail.com.utils.gone
 import echomskfan.gmail.com.utils.setTextFromStringId
 import echomskfan.gmail.com.utils.visible
@@ -26,16 +27,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 
-class MainActivity : AppCompatActivity(), IMainActivityRouter {
-
-    @Singleton
-    @Inject
-    internal lateinit var viewModelFactory: MainViewModelFactory
-
-    private var favOn = false
-    private var debugPanelEnabled = false
-    private var connectivityBroadcastReceiver: BroadcastReceiver? = null
-    private var showOnlineStateDelayMSec = 0L
+class MainActivity : AppCompatActivity() {
 
     var favMenuItemClickListener: IFavMenuItemClickListener? = null
         set(value) {
@@ -49,8 +41,22 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
             invalidateOptionsMenu()
         }
 
+    val mainActivityRouter: IMainActivityRouter
+        get() = router
+
+    @Singleton
+    @Inject
+    internal lateinit var viewModelFactory: MainViewModelFactory
+
+    private var favOn = false
+    private var debugPanelEnabled = false
+    private var connectivityBroadcastReceiver: BroadcastReceiver? = null
+    private var showOnlineStateDelayMSec = 0L
+
     private lateinit var viewModel: MainViewModel
     private lateinit var navController: NavController
+    private lateinit var router: MainActivityRouter
+
 
     init {
         MApplication.getAppComponent().inject(this)
@@ -60,6 +66,8 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        router = MainActivityRouter(navController)
+
         applyIntent(intent)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
@@ -76,7 +84,7 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
         })
 
         viewModel.navigateToDebugPanelLiveDate.observe(this, Observer {
-            it.getContentIfNotHandled()?.let { navigateToDebugPanel(); }
+            it.getContentIfNotHandled()?.let { router.navigateToDebugPanel(); }
         })
 
         viewModel.disclaimerEnabledLiveDate.observe(this, Observer { event ->
@@ -164,47 +172,10 @@ class MainActivity : AppCompatActivity(), IMainActivityRouter {
         }
     }
 
-    override fun navigateToCastsFromPersons(personId: Int) {
-        navController.navigate(
-            R.id.action_personsFragment_to_castsFragment,
-            bundleOf(EXTRA_PERSON_ID to personId)
-        )
-    }
-
-    override fun navigateToPersonInfoFromPersons(personId: Int) {
-        navController.navigate(
-            R.id.action_personsFragment_to_personInfoFragment,
-            bundleOf(EXTRA_PERSON_ID to personId)
-        )
-    }
-
-    override fun navigateToPlayerFromCasts(castId: String) {
-        navController.navigate(
-            R.id.action_castsFragment_to_playerFragment,
-            bundleOf(EXTRA_CAST_ID to castId)
-        )
-    }
-
-    override fun closePlayerFragment() {
-        navController.popBackStack(R.id.playerFragment, true)
-    }
-
-    override fun navigateToPlayerAndResumePlaying(castId: String) {
-        closePlayerFragment()
-        navController.navigate(
-            R.id.playerFragment,
-            bundleOf(EXTRA_CAST_ID to castId, EXTRA_PLAYER_RESUME to true)
-        )
-    }
-
-    override fun navigateToDebugPanel() {
-        navController.navigate(R.id.debugPanelFragment)
-    }
-
     private fun applyIntent(intent: Intent?) {
         if (intent != null) {
             val castId: String? = intent.getStringExtra(EXTRA_PLAYER_ITEM_CAST_ID)
-            castId?.let { navigateToPlayerAndResumePlaying(it) }
+            castId?.let { router.navigateToPlayerAndResumePlaying(it) }
         }
     }
 
