@@ -3,7 +3,7 @@ package echomskfan.gmail.com.presentation.persons
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import echomskfan.gmail.com.annotations.AppTodoMajor
+import echomskfan.gmail.com.annotations.apptodo.AppTodoMajor
 import echomskfan.gmail.com.domain.interactor.persons.IPersonsInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.presentation.OneShotEvent

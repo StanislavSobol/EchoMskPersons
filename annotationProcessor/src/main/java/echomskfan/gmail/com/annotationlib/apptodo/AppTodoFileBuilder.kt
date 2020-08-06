@@ -1,4 +1,4 @@
-package echomskfan.gmail.com.annotationlib
+package echomskfan.gmail.com.annotationlib.apptodo
 
 import java.io.File
 
@@ -48,7 +48,10 @@ class AppTodoBuilder {
     }
 
     fun save(dirName: String) {
-        val file = File(dirName, FILE_NAME)
+        val file = File(
+            dirName,
+            FILE_NAME
+        )
         file.writeText(content)
     }
 

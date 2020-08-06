@@ -1,12 +1,15 @@
-package echomskfan.gmail.com.annotationlib
+package echomskfan.gmail.com.annotationlib.apptodo
 
-import echomskfan.gmail.com.annotations.*
+import com.google.auto.service.AutoService
+import echomskfan.gmail.com.annotationlib.AnnotationProcessorException
+import echomskfan.gmail.com.annotations.apptodo.*
 import javax.annotation.processing.AbstractProcessor
+import javax.annotation.processing.Processor
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.TypeElement
 
-//@AutoService(Processor::class)
+@AutoService(Processor::class)
 class AppTodoAnnotationProcessor : AbstractProcessor() {
 
     override fun getSupportedAnnotationTypes(): MutableSet<String> {
@@ -27,7 +30,9 @@ class AppTodoAnnotationProcessor : AbstractProcessor() {
     ): Boolean {
         if (roundEnvironment == null) {
             // TODO File name to consts
-            throw AnnotationProcessorException("Enable to generate AppTodoFile")
+            throw AnnotationProcessorException(
+                "Enable to generate AppTodoFile"
+            )
         }
 
         var pack: String? = javaClass.`package`.name
@@ -38,7 +43,10 @@ class AppTodoAnnotationProcessor : AbstractProcessor() {
                 }
             }
 
-        val fileBuilder = AppTodoFileBuilder(pack ?: "")
+        val fileBuilder =
+            AppTodoFileBuilder(
+                pack ?: ""
+            )
 
         roundEnvironment.getElementsAnnotatedWith(AppTodoCritical::class.java)?.forEach {
             fileBuilder.addTodoCritical(it.getAnnotation(AppTodoCritical::class.java).info)

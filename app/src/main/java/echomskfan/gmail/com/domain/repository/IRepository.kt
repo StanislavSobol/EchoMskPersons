@@ -1,7 +1,7 @@
 package echomskfan.gmail.com.domain.repository
 
 import androidx.lifecycle.LiveData
-import echomskfan.gmail.com.annotations.AppTodoMinor
+import echomskfan.gmail.com.annotations.apptodo.AppTodoMinor
 import echomskfan.gmail.com.data.db.entity.CastEntity
 import echomskfan.gmail.com.data.db.entity.PersonEntity
 import echomskfan.gmail.com.presentation.player.PlayerItem

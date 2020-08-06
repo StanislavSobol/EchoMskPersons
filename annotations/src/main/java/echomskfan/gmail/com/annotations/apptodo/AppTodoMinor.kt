@@ -1,4 +1,4 @@
-package echomskfan.gmail.com.annotations
+package echomskfan.gmail.com.annotations.apptodo
 
 @Target(
     AnnotationTarget.CLASS,
@@ -7,4 +7,4 @@ package echomskfan.gmail.com.annotations
     AnnotationTarget.FUNCTION
 )
 @Retention(AnnotationRetention.SOURCE)
-annotation class AppTodoCritical(val info: String)
+annotation class AppTodoMinor(val info: String)

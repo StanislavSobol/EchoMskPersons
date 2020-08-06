@@ -1,8 +1,9 @@
 package echomskfan.gmail.com.domain.repository
 
-@Deprecated("Use KAPT generated ConfigManager")
+/**
+ * All feature toggles must be provided via FeatureNavigator using KAPT
+ */
 interface IConfigRepository {
-    val isDebugPanelEnabled: Boolean
     val isDisclaimerEnabled: Boolean
     val showOnlineStateDelayMSec: Long
     val showSplashAnimation: Boolean

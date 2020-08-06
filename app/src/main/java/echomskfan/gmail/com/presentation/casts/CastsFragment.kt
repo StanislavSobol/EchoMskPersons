@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import echomskfan.gmail.com.EXTRA_PERSON_ID
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
+import echomskfan.gmail.com.annotations.featurenavigator.ForFeatureNavigator
 import echomskfan.gmail.com.di.casts.CastsScope
 import echomskfan.gmail.com.di.casts.DaggerCastsComponent
 import echomskfan.gmail.com.presentation.BaseFragment
@@ -18,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_recycler_view.*
 import kotlinx.android.synthetic.main.full_progress_bar_content.*
 import javax.inject.Inject
 
+@ForFeatureNavigator(enabled = true)
 class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycler_view), IFavMenuItemClickListener {
 
     @CastsScope
@@ -73,9 +75,9 @@ class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycle
     private fun subscribeToCastsLiveDataForPerson() {
         viewModel.getCastsLiveDataForPerson().removeObservers(viewLifecycleOwner)
         viewModel.getCastsLiveDataForPerson().observe(viewLifecycleOwner, Observer { list ->
-                setItems(list)
-                viewModel.lastLoadedPageNum = if (list.isEmpty()) 0 else list.last().pageNum
-            })
+            setItems(list)
+            viewModel.lastLoadedPageNum = if (list.isEmpty()) 0 else list.last().pageNum
+        })
     }
 
     private fun setItems(items: List<CastListItem>) {

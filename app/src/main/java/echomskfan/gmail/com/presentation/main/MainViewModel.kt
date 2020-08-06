@@ -2,10 +2,12 @@ package echomskfan.gmail.com.presentation.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import echomskfan.gmail.com.annotationlib.FeatureNavigator
 import echomskfan.gmail.com.domain.interactor.config.IConfigProvider
 import echomskfan.gmail.com.domain.interactor.main.IMainInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.presentation.OneShotEvent
+import echomskfan.gmail.com.presentation.debugpanel.DebugPanelFragment
 
 class MainViewModel(
     private val interactor: IMainInteractor,
@@ -43,7 +45,8 @@ class MainViewModel(
         isFavOn = interactor.isFavOn
         _favOnLiveDate.value = isFavOn
 
-        _debugPanelEnabledLiveDate.value = configProvider.isDebugPanelEnabled
+        _debugPanelEnabledLiveDate.value =
+            FeatureNavigator.isFeatureEnabled(DebugPanelFragment::class.java)
     }
 
     fun loadData() {

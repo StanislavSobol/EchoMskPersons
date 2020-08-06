@@ -1,7 +1,6 @@
 package echomskfan.gmail.com.domain.repository
 
 import android.content.Context
-import echomskfan.gmail.com.BuildConfig
 import org.json.JSONArray
 import java.nio.charset.Charset
 
@@ -27,9 +26,6 @@ class ConfigRepository(private val appContext: Context) : IConfigRepository {
         propertiesDelegate = PropertiesDelegate(map)
     }
 
-    override val isDebugPanelEnabled
-        get() = BuildConfig.DEBUG && propertiesDelegate.debugPanelEnabled
-
     override val isDisclaimerEnabled
         get() = propertiesDelegate.disclaimerEnabled
 
@@ -52,7 +48,6 @@ class ConfigRepository(private val appContext: Context) : IConfigRepository {
     }
 
     inner class PropertiesDelegate(map: Map<String, Any>) {
-        val debugPanelEnabled: Boolean by map
         val disclaimerEnabled: Boolean by map
         val showOnlineStateDelayMSec: Long by map
         val showSplashAnimation: Boolean by map

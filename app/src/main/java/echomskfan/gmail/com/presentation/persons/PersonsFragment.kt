@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
-import echomskfan.gmail.com.annotations.HiddenFeature
+import echomskfan.gmail.com.annotations.featurenavigator.ForFeatureNavigator
 import echomskfan.gmail.com.di.persons.DaggerPersonsComponent
 import echomskfan.gmail.com.di.persons.PersonsScope
 import echomskfan.gmail.com.presentation.BaseFragment
@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_recycler_view.*
 import kotlinx.android.synthetic.main.full_progress_bar_content.*
 import javax.inject.Inject
 
-@HiddenFeature(hidden = false)
+@ForFeatureNavigator(enabled = true)
 class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycler_view), IFavMenuItemClickListener {
 
     @PersonsScope
