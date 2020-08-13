@@ -63,8 +63,6 @@ android {
 
 }
 
-
-
 dependencies {
     kapt project(':annotationProcessor')
     implementation project(':annotations')
@@ -107,7 +105,13 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
 
     // Tests
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
+    testImplementation 'org.mockito:mockito-core:2.8.9'
+
+    testImplementation "org.powermock:powermock-core:1.7.3"
+    testImplementation "org.powermock:powermock-module-junit4:1.7.3"
+    testImplementation "org.powermock:powermock-api-mockito2:1.7.3"
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'

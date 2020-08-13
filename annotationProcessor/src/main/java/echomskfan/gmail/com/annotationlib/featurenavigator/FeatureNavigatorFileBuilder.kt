@@ -41,6 +41,10 @@ internal class FeatureNavigatorFileBuilder() {
                    ${buildAllowedElements()}
                 }
                 
+                fun addAllowedElement(className: String, onlyForDebug: Boolean) {
+                    allowedElements.add(AllowedPair(className, onlyForDebug))
+                }
+                
                 fun <T : Fragment> navigate(fragmentClass: Class<T>, function: () -> Unit) {
                         if (appContext == null) {
                             throwExceptionForAppContextNull()
@@ -102,7 +106,7 @@ internal class FeatureNavigatorFileBuilder() {
 
     private fun buildAllowedElements(): String {
         var result = ""
-        allowedElements.forEach { result += "allowedElements.add(AllowedPair(\"${it.className}\", ${it.forDebug}))\n" }
+        allowedElements.forEach { result += "addAllowedElement(\"${it.className}\", ${it.forDebug})\n" }
         return result.dropLast(1)
     }
 
