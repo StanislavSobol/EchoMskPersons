@@ -83,6 +83,10 @@ class MainActivity : AppCompatActivity() {
             invalidateOptionsMenu()
         })
 
+        viewModel.navigateToSettingsLiveDate.observe(this, Observer {
+            it.getContentIfNotHandled()?.let { router.navigateToSettings(); }
+        })
+
         viewModel.navigateToDebugPanelLiveDate.observe(this, Observer {
             it.getContentIfNotHandled()?.let { router.navigateToDebugPanel(); }
         })
@@ -160,6 +164,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.favMainMenuItem -> {
                 viewModel.favMenuItemClicked()
+                true
+            }
+            R.id.settingsMainMenuItem -> {
+                viewModel.settingsMenuItemClicked()
                 true
             }
             R.id.debugPanelMainMenuItem -> {

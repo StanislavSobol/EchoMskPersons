@@ -7,4 +7,5 @@ interface IMainActivityRouter {
     fun closePlayerFragment()
     fun navigateToPlayerAndResumePlaying(castId: String)
     fun navigateToDebugPanel()
+    fun navigateToSettings()
 }
