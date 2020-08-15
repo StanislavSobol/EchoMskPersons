@@ -20,13 +20,6 @@
             app:exitAnim="@anim/slide_out_left_anim"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
-        <action
-            android:id="@+id/action_personsFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment"
-            app:enterAnim="@anim/slide_in_right_anim"
-            app:exitAnim="@anim/slide_out_left_anim"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment android:id="@+id/castsFragment" android:name="echomskfan.gmail.com.presentation.casts.CastsFragment"
               android:label="CastsFragment">
