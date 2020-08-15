@@ -102,10 +102,6 @@ class MainActivity : AppCompatActivity() {
         viewModel.showOnlineStateDelayMSec.observe(this, Observer {
             it.getContentIfNotHandled()?.let { delay -> showOnlineStateDelayMSec = delay }
         })
-
-        if (savedInstanceState == null) {
-            viewModel.loadData()
-        }
     }
 
     override fun onStart() {

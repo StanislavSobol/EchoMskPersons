@@ -11,7 +11,7 @@ import echomskfan.gmail.com.presentation.debugpanel.DebugPanelFragment
 
 class MainViewModel(
     private val interactor: IMainInteractor,
-    private val configProvider: IConfigProvider
+    configProvider: IConfigProvider
 ) : BaseViewModel() {
 
     private var isFavOn: Boolean = false
@@ -41,18 +41,18 @@ class MainViewModel(
     val goesOnlineLiveDate: LiveData<OneShotEvent<Boolean>>
         get() = _goesOnlineLiveDate
 
+    init {
+        loadMenuData()
+        _disclaimerEnabledLiveDate.value = OneShotEvent(configProvider.isDisclaimerEnabled)
+        _showOnlineStateDelayMSec.value = OneShotEvent(configProvider.showOnlineStateDelayMSec)
+    }
+
     fun loadMenuData() {
         isFavOn = interactor.isFavOn
         _favOnLiveDate.value = isFavOn
 
         _debugPanelEnabledLiveDate.value =
             FeatureNavigator.isFeatureEnabled(DebugPanelFragment::class.java)
-    }
-
-    fun loadData() {
-        loadMenuData()
-        _disclaimerEnabledLiveDate.value = OneShotEvent(configProvider.isDisclaimerEnabled)
-        _showOnlineStateDelayMSec.value = OneShotEvent(configProvider.showOnlineStateDelayMSec)
     }
 
     fun favMenuItemClicked() {
