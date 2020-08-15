@@ -1,7 +1,7 @@
 package echomskfan.gmail.com.presentation.settings
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
@@ -20,8 +20,6 @@ class SettingsFragment : BaseFragment(FragmentType.None, R.layout.fragment_setti
     @Inject
     internal lateinit var viewModelFactory: SettingsViewModelFactory
 
-    private lateinit var viewModel: SettingsViewModel
-
     init {
         DaggerSettingsComponent.builder()
             .appComponent(MApplication.getAppComponent())
@@ -34,15 +32,16 @@ class SettingsFragment : BaseFragment(FragmentType.None, R.layout.fragment_setti
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SettingsViewModel::class.java)
-
-        with(nightModeSwitch) {
-            isChecked = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
-            setOnCheckedChangeListener { _, checked ->
-                AppCompatDelegate.setDefaultNightMode(
-                    if (checked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
-                )
+        ViewModelProviders.of(this, viewModelFactory).get(SettingsViewModel::class.java)
+            .apply {
+                nightModeLiveData.observe(
+                    viewLifecycleOwner,
+                    Observer { checked -> nightModeSwitch.isChecked = checked })
             }
-        }
+            .run {
+                nightModeSwitch.setOnCheckedChangeListener { _, checked ->
+                    onNightModeSwitchChecked(checked)
+                }
+            }
     }
 }
