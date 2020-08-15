@@ -38,7 +38,7 @@ internal class MainActivityRouter(
     }
 
     override fun navigateToPlayerFromCasts(castId: String) {
-        FeatureNavigator.navigate(PersonInfoFragment::class.java) {
+        FeatureNavigator.navigate(PlayerFragment::class.java) {
             navController.navigate(
                 R.id.action_castsFragment_to_playerFragment,
                 bundleOf(EXTRA_CAST_ID to castId)
