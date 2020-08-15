@@ -25,7 +25,6 @@ abstract class BaseFragment(
     protected val mainActivity: MainActivity
         get() = requireActivity() as MainActivity
 
-    // TODO mainActivityRouter -> to NonNull
     protected val mainActivityRouter: IMainActivityRouter?
         get() = mainActivity.mainActivityRouter
 
@@ -55,9 +54,12 @@ abstract class BaseFragment(
         }
 
         mainActivity.favMenuItemVisible = isFavMenuItemVisible()
+        mainActivity.settingsMenuItemVisible = isSettingsMenuItemVisible()
     }
 
     abstract fun isFavMenuItemVisible(): Boolean
+
+    protected open fun isSettingsMenuItemVisible() = true
 }
 
 enum class FragmentType {

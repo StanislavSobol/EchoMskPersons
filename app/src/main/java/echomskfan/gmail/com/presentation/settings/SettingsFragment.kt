@@ -44,4 +44,6 @@ class SettingsFragment : BaseFragment(FragmentType.None, R.layout.fragment_setti
                 }
             }
     }
+
+    override fun isSettingsMenuItemVisible() = false
 }
