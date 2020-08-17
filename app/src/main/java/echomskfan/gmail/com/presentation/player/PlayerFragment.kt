@@ -54,6 +54,7 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
         })
 
         if (savedInstanceState == null) {
+            showProgress(true)
             viewModel.loadData(castId)
         }
     }
@@ -86,8 +87,6 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
     override fun isFavMenuItemVisible() = false
 
     private fun initViews(playerItem: PlayerItem) {
-        showProgress(true)
-
         playerFragmentPersonTextView?.text = playerItem.personName
         playerFragmentTypeSubtypeTextView?.text = playerItem.typeSubtype
         playerFragmentDateTextView?.text = playerItem.formattedDate
