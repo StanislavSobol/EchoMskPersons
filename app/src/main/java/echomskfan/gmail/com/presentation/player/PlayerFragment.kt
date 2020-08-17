@@ -55,6 +55,7 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
 
         if (savedInstanceState == null) {
             showProgress(true)
+            // TODO Provide castId via constructor of the viewModel
             viewModel.loadData(castId)
         }
     }
