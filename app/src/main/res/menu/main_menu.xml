@@ -7,8 +7,13 @@
         android:title="@string/menu_fav"
         app:showAsAction="always" />
     <item
+        android:id="@+id/settingsMainMenuItem"
+        android:icon="@drawable/ic_baseline_settings_white_24dp"
+        android:title="@string/menu_settings"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/debugPanelMainMenuItem"
         android:icon="@drawable/ic_bug_report_white_24dp"
-        android:title="@string/menu_fav"
+        android:title="@string/menu_debug"
         app:showAsAction="ifRoom" />
 </menu>

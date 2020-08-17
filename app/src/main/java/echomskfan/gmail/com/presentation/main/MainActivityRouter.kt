@@ -8,6 +8,7 @@ import echomskfan.gmail.com.presentation.casts.CastsFragment
 import echomskfan.gmail.com.presentation.debugpanel.DebugPanelFragment
 import echomskfan.gmail.com.presentation.personinfo.PersonInfoFragment
 import echomskfan.gmail.com.presentation.player.PlayerFragment
+import echomskfan.gmail.com.presentation.settings.SettingsFragment
 import echomskfan.gmail.com.utils.bundleOf
 
 internal class MainActivityRouter(
@@ -63,6 +64,12 @@ internal class MainActivityRouter(
     override fun navigateToDebugPanel() {
         FeatureNavigator.navigate(DebugPanelFragment::class.java) {
             navController.navigate(R.id.debugPanelFragment)
+        }
+    }
+
+    override fun navigateToSettings() {
+        FeatureNavigator.navigate(SettingsFragment::class.java) {
+            navController.navigate(R.id.settingsFragment)
         }
     }
 }

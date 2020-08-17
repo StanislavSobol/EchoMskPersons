@@ -41,6 +41,12 @@ class MainActivity : AppCompatActivity() {
             invalidateOptionsMenu()
         }
 
+    var settingsMenuItemVisible: Boolean = false
+        set(value) {
+            field = value
+            invalidateOptionsMenu()
+        }
+
     val mainActivityRouter: IMainActivityRouter
         get() = router
 
@@ -81,6 +87,10 @@ class MainActivity : AppCompatActivity() {
         viewModel.debugPanelEnabledLiveDate.observe(this, Observer {
             this.debugPanelEnabled = it
             invalidateOptionsMenu()
+        })
+
+        viewModel.navigateToSettingsLiveDate.observe(this, Observer {
+            it.getContentIfNotHandled()?.let { router.navigateToSettings(); }
         })
 
         viewModel.navigateToDebugPanelLiveDate.observe(this, Observer {
@@ -128,16 +138,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
-        menu?.findItem(R.id.favMainMenuItem)?.let {
-            it.isVisible = favMenuItemVisible
-            it.setIcon(if (favOn) R.drawable.ic_favorite_white_24dp else R.drawable.ic_favorite_border_black_24dp)
-        }
 
         menu?.forEach {
             when (it.itemId) {
                 R.id.favMainMenuItem -> {
                     it.isVisible = favMenuItemVisible
                     it.setIcon(if (favOn) R.drawable.ic_favorite_white_24dp else R.drawable.ic_favorite_border_black_24dp)
+                }
+                R.id.settingsMainMenuItem -> {
+                    it.isVisible = settingsMenuItemVisible
                 }
                 R.id.debugPanelMainMenuItem -> {
                     it.isVisible = debugPanelEnabled
@@ -156,6 +165,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.favMainMenuItem -> {
                 viewModel.favMenuItemClicked()
+                true
+            }
+            R.id.settingsMainMenuItem -> {
+                viewModel.settingsMenuItemClicked()
                 true
             }
             R.id.debugPanelMainMenuItem -> {

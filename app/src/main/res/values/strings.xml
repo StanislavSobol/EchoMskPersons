@@ -20,6 +20,7 @@
     <string name="empty_time_code">00:00</string>
     <!--Menu-->
     <string name="menu_fav">Избранное</string>
+    <string name="menu_settings">Настройки</string>
     <string name="menu_debug">Отладка</string>
     <!--Debug panel-->
     <string name="debug_delete_last_nevzorov_cast">Удалить последний каст Невзорова</string>
@@ -29,5 +30,7 @@
     <!--Connectivity monitor-->
     <string name="online">Online again!</string>
     <string name="offline">Offline :(</string>
+    <!--Settings-->
+    <string name="settings_night_mode">Night mode</string>
 
 </resources>

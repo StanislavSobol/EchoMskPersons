@@ -26,8 +26,10 @@
         <argument android:name="personId" app:argType="integer"/>
         <action android:id="@+id/action_castsFragment_to_playerFragment" app:destination="@id/playerFragment"/>
     </fragment>
-    <fragment android:id="@+id/playerFragment" android:name="echomskfan.gmail.com.presentation.player.PlayerFragment"
-              android:label="PlayerFragment"/>
+    <fragment
+        android:id="@+id/playerFragment"
+        android:name="echomskfan.gmail.com.presentation.player.PlayerFragment"
+        android:label="PlayerFragment" />
     <fragment
         android:id="@+id/debugPanelFragment"
         android:name="echomskfan.gmail.com.presentation.debugpanel.DebugPanelFragment"
@@ -36,4 +38,8 @@
         android:id="@+id/personInfoFragment"
         android:name="echomskfan.gmail.com.presentation.personinfo.PersonInfoFragment"
         android:label="PersonInfoFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="echomskfan.gmail.com.presentation.settings.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>

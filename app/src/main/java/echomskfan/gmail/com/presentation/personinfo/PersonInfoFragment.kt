@@ -15,7 +15,7 @@ import echomskfan.gmail.com.presentation.FragmentType
 import kotlinx.android.synthetic.main.fragment_person_info.*
 import javax.inject.Inject
 
-@ForFeatureNavigator(enabled = false)
+@ForFeatureNavigator(enabled = true)
 class PersonInfoFragment : BaseFragment(FragmentType.Child, R.layout.fragment_person_info) {
 
     @PersonsScope

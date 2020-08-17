@@ -77,7 +77,7 @@ internal class CastsAdapter(private val viewModel: CastsViewModel) : RecyclerVie
                     if (item.fav) {
                         R.drawable.ic_baseline_favorite_black_32dp
                     } else {
-                        R.drawable.ic_baseline_favorite_none_24dp
+                        R.drawable.ic_baseline_favorite_none_black_32dp
                     }
                 )
 

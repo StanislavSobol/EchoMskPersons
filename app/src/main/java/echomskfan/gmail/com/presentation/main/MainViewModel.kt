@@ -33,6 +33,10 @@ class MainViewModel(
     val showOnlineStateDelayMSec: LiveData<OneShotEvent<Long>>
         get() = _showOnlineStateDelayMSec
 
+    private val _navigateToSettingLiveDate = MutableLiveData<OneShotEvent<Unit>>()
+    val navigateToSettingsLiveDate: LiveData<OneShotEvent<Unit>>
+        get() = _navigateToSettingLiveDate
+
     private val _navigateToDebugPanelLiveDate = MutableLiveData<OneShotEvent<Unit>>()
     val navigateToDebugPanelLiveDate: LiveData<OneShotEvent<Unit>>
         get() = _navigateToDebugPanelLiveDate
@@ -58,6 +62,10 @@ class MainViewModel(
     fun favMenuItemClicked() {
         interactor.isFavOn = !isFavOn
         loadMenuData()
+    }
+
+    fun settingsMenuItemClicked() {
+        _navigateToSettingLiveDate.value = OneShotEvent(Unit)
     }
 
     fun debugPanelMenuItemClicked() {
