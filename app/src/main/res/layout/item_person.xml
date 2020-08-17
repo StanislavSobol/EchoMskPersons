@@ -83,7 +83,7 @@
             android:src="@drawable/ic_baseline_notifications_black_32dp"
             tools:ignore="ContentDescription" />
 
-        <ImageView
+        <echomskfan.gmail.com.widgetslib.NightModeAwareIconImage
             android:id="@+id/personItemFavImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

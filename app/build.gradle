@@ -61,11 +61,16 @@ android {
         }
     }
 
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
 }
 
 dependencies {
     kapt project(':annotationProcessor')
     implementation project(':annotations')
+    implementation project(':widgetsLib')
 
     implementation 'com.android.support:multidex:1.0.3'
 
