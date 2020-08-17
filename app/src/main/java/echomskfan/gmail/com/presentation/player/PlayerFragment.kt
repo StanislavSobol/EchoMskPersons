@@ -42,7 +42,6 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
         super.onActivityCreated(savedInstanceState)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(PlayerViewModel::class.java)
-        viewModel.loadData(castId)
         viewModel.playerItemLiveData.observe(this, Observer {
             it?.let { playerItem ->
                 initViews(playerItem)
@@ -53,6 +52,10 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
                 }
             }
         })
+
+        if (savedInstanceState == null) {
+            viewModel.loadData(castId)
+        }
     }
 
     override fun onDestroy() {
