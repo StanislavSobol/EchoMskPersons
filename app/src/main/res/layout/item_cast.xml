@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@id/item_content_date_text_view"
         tools:text="Small Text" />
 
-    <ImageView
+    <echomskfan.gmail.com.widgetslib.NightModeAwareIconImage
         android:id="@+id/item_content_favorite_image_view"
         style="@style/SmallIcon"
         android:layout_marginStart="@dimen/smaller_margin"

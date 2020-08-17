@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorTextBackground"
     android:padding="@dimen/small_padding"
     tools:context=".presentation.persons.PersonsFragment">
 
@@ -92,7 +91,7 @@
             android:layout_toEndOf="@+id/progressTextView"
             android:layout_toRightOf="@+id/progressTextView">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/fragmentPlayerPlayButton"
                 android:layout_width="@dimen/notification_button_size"
                 android:layout_height="@dimen/notification_button_size"
@@ -101,7 +100,7 @@
                 tools:visibility="gone"
                 android:visibility="invisible" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/fragmentPlayerPauseButton"
                 android:layout_width="@dimen/notification_button_size"
                 android:layout_height="@dimen/notification_button_size"

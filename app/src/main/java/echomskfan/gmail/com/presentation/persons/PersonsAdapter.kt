@@ -53,7 +53,7 @@ internal class PersonsAdapter(private val viewModel: PersonsViewModel) :
 
                 itemView.personItemNotificationImageView.setImageResource(
                     if (item.notification) R.drawable.ic_baseline_notifications_black_32dp
-                    else R.drawable.ic_baseline_notifications_none_24dp
+                    else R.drawable.ic_baseline_notifications_none_black_32dp
                 )
 
                 itemView.personItemNotificationImageView.setOnClickListener {
@@ -62,7 +62,7 @@ internal class PersonsAdapter(private val viewModel: PersonsViewModel) :
 
                 itemView.personItemFavImageView.setImageResource(
                     if (item.fav) R.drawable.ic_baseline_favorite_black_32dp
-                    else R.drawable.ic_baseline_favorite_none_24dp
+                    else R.drawable.ic_baseline_favorite_none_black_32dp
                 )
 
                 itemView.personItemFavImageView.setOnClickListener {
