@@ -1,4 +1,4 @@
-package echomskfan.gmail.com.widgetslib
+package echomskfan.gmail.com.viewslib
 
 import android.content.Context
 import android.graphics.Color

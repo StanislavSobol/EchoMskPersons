@@ -1,4 +1,4 @@
-package echomskfan.gmail.com.widgetslib
+package echomskfan.gmail.com.viewslib
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

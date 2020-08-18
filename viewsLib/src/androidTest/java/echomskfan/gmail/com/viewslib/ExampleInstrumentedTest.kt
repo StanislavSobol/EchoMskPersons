@@ -1,4 +1,4 @@
-package echomskfan.gmail.com.widgetslib
+package echomskfan.gmail.com.viewslib
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry

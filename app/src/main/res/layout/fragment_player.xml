@@ -91,7 +91,7 @@
             android:layout_toEndOf="@+id/progressTextView"
             android:layout_toRightOf="@+id/progressTextView">
 
-            <echomskfan.gmail.com.widgetslib.NightModeAwareButton
+            <echomskfan.gmail.com.viewslib.NightModeAwareButton
                 android:id="@+id/fragmentPlayerPlayButton"
                 android:layout_width="@dimen/notification_button_size"
                 android:layout_height="@dimen/notification_button_size"
@@ -100,7 +100,7 @@
                 android:visibility="invisible"
                 tools:visibility="gone" />
 
-            <echomskfan.gmail.com.widgetslib.NightModeAwareButton
+            <echomskfan.gmail.com.viewslib.NightModeAwareButton
                 android:id="@+id/fragmentPlayerPauseButton"
                 android:layout_width="@dimen/notification_button_size"
                 android:layout_height="@dimen/notification_button_size"

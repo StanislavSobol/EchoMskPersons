@@ -1,4 +1,4 @@
 include ':app'
 include ':annotationProcessor'
 include ':annotations'
-include ':widgetsLib'
+include ':viewsLib'

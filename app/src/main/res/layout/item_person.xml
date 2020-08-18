@@ -55,7 +55,7 @@
             tools:text="23 декабря 1987 года вышла в эфир и просуществовала шесть лет информационная программа Ленинградского телевидения «600 секунд», шеф-редактором и ведущим которой стал Александр Невзоров. Передача стала культовой и вошла в Книгу рекордов Гиннеса как самый рейтинговый телепроект.Как репортер и как солдат был участником войн в Югославии, Приднестровье, Карабахе, Прибалтике, Ираке и Чечне, одним из первых, вместе с генералом Рохлиным вошел в Грозный.О чеченской войне Невзоровым сняты документальный фильм «Ад» (1995) и художественная лента «Чистилище» (1997)." />
     </RelativeLayout>
 
-    <echomskfan.gmail.com.widgetslib.NightModeAwareIconImage
+    <echomskfan.gmail.com.viewslib.NightModeAwareIconImage
         android:id="@+id/personItemInfoImageView"
         style="@style/SmallIcon"
         android:layout_marginTop="@dimen/small_margin"
@@ -75,13 +75,13 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/personItemCentralLayout">
 
-        <echomskfan.gmail.com.widgetslib.NightModeAwareIconImage
+        <echomskfan.gmail.com.viewslib.NightModeAwareIconImage
             android:id="@+id/personItemNotificationImageView"
             style="@style/SmallIcon"
             android:src="@drawable/ic_baseline_notifications_black_32dp"
             tools:ignore="ContentDescription" />
 
-        <echomskfan.gmail.com.widgetslib.NightModeAwareIconImage
+        <echomskfan.gmail.com.viewslib.NightModeAwareIconImage
             android:id="@+id/personItemFavImageView"
             style="@style/SmallIcon"
             android:layout_marginStart="@dimen/small_margin"
