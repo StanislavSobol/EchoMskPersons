@@ -16,16 +16,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.example.corelib.gone
+import com.example.corelib.visible
 import echomskfan.gmail.com.EXTRA_PLAYER_ITEM_CAST_ID
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
-import echomskfan.gmail.com.utils.gone
-import echomskfan.gmail.com.utils.setTextFromStringId
-import echomskfan.gmail.com.utils.visible
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import javax.inject.Singleton
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -62,7 +60,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var navController: NavController
     private lateinit var router: MainActivityRouter
-
 
     init {
         MApplication.getAppComponent().inject(this)
@@ -217,7 +214,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showConnectivityState(online: Boolean) {
         connectivityStatusTextView.visible()
-        connectivityStatusTextView.setTextFromStringId(if (online) R.string.online else R.string.offline)
+        connectivityStatusTextView.setText(if (online) R.string.online else R.string.offline)
         val color = resources.getColor(if (online) R.color.onlineGreen else R.color.offlineRed)
         connectivityStatusTextView.setBackgroundColor(color)
         if (online && showOnlineStateDelayMSec > 0) {

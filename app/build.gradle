@@ -70,6 +70,7 @@ android {
 dependencies {
     kapt project(':annotationProcessor')
     implementation project(':annotations')
+    implementation project(':coreLib')
     implementation project(':viewsLib')
 
     implementation 'com.android.support:multidex:1.0.3'

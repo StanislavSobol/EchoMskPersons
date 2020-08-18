@@ -3,10 +3,10 @@ package echomskfan.gmail.com.viewslib
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.FrameLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
+import com.example.corelib.visibleOrGone
 import kotlinx.android.synthetic.main.online_person_image_view.view.*
 import java.net.MalformedURLException
 import java.net.URL
@@ -62,11 +62,6 @@ class OnlinePersonImageView @JvmOverloads constructor(
         onlinePersonImageViewCircleView.visibleOrGone(isCircleCropped)
         onlinePersonImageEmptyView.visibleOrGone(imageUrl.isNullOrBlank())
         onlinePersonImageViewImageView.visibleOrGone(!imageUrl.isNullOrBlank())
-    }
-
-    // TODO to common lib
-    private fun View.visibleOrGone(visible: Boolean) {
-        this.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
     private fun <TranscodeType> RequestBuilder<TranscodeType>.adjustCircleCrop(): RequestBuilder<TranscodeType> {

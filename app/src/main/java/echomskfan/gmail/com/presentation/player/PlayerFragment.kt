@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.widget.SeekBar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.corelib.gone
+import com.example.corelib.visibleOrGone
+import com.example.corelib.visibleOrInvisible
 import echomskfan.gmail.com.EXTRA_CAST_ID
 import echomskfan.gmail.com.EXTRA_PLAYER_RESUME
 import echomskfan.gmail.com.MApplication
@@ -13,7 +16,8 @@ import echomskfan.gmail.com.di.player.DaggerPlayerComponent
 import echomskfan.gmail.com.di.player.PlayerScope
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
-import echomskfan.gmail.com.utils.*
+import echomskfan.gmail.com.utils.fromMSecSec
+import echomskfan.gmail.com.utils.fromSecToAudioDuration
 import kotlinx.android.synthetic.main.fragment_player.*
 import javax.inject.Inject
 
@@ -74,12 +78,10 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
 
         if (PlayerItemVisualState.isPlaying) {
             progressTextView?.text = progressSec.fromSecToAudioDuration()
-            fragmentPlayerPlayButton?.gone()
-            fragmentPlayerPauseButton?.visible()
-        } else {
-            fragmentPlayerPlayButton?.visible()
-            fragmentPlayerPauseButton?.gone()
         }
+
+        fragmentPlayerPlayButton.visibleOrGone(!PlayerItemVisualState.isPlaying)
+        fragmentPlayerPauseButton.visibleOrGone(PlayerItemVisualState.isPlaying)
 
         playerFragmentAudioSeekBar?.progress = progressSec
     }
@@ -118,18 +120,9 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
     }
 
     private fun showProgress(show: Boolean) {
-        if (show) {
-            fragmentPlayerPlayButton.gone()
-            fragmentPlayerPauseButton.gone()
-            playerFragmentAudioSeekBar.invisible()
-
-            fragmentPlayerProgressBar.visible()
-        } else {
-            fragmentPlayerPlayButton.gone()
-            fragmentPlayerPauseButton.visible()
-            playerFragmentAudioSeekBar.visible()
-
-            fragmentPlayerProgressBar.gone()
-        }
+        fragmentPlayerPlayButton.gone()
+        fragmentPlayerPauseButton.visibleOrGone(!show)
+        playerFragmentAudioSeekBar.visibleOrInvisible(!show)
+        fragmentPlayerProgressBar.visibleOrGone(show)
     }
 }

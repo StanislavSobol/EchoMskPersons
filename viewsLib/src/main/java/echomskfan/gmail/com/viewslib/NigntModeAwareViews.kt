@@ -4,9 +4,9 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import com.example.corelib.isNightMode
 
 class NightModeAwareButton @JvmOverloads constructor(
     context: Context,
@@ -37,7 +37,3 @@ class NightModeAwareIconImage @JvmOverloads constructor(
         }
     }
 }
-
-// TODO to common lib
-private fun isNightMode() =
-    AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES

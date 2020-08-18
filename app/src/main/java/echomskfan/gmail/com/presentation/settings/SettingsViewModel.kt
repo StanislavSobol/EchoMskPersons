@@ -1,8 +1,9 @@
 package echomskfan.gmail.com.presentation.settings
 
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.corelib.isNightMode
+import com.example.corelib.setDefaultNightMode
 import echomskfan.gmail.com.presentation.BaseViewModel
 
 class SettingsViewModel : BaseViewModel() {
@@ -17,16 +18,11 @@ class SettingsViewModel : BaseViewModel() {
     }
 
     fun onNightModeSwitchChecked(checked: Boolean) {
-        AppCompatDelegate.setDefaultNightMode(
-            if (checked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
-        )
-
+        setDefaultNightMode(checked)
         applyNightModeLiveData()
     }
 
     private fun applyNightModeLiveData() {
-        _nightModeLiveData.value =
-            AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+        _nightModeLiveData.value = isNightMode()
     }
-
 }

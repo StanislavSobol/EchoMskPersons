@@ -4,10 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.corelib.visibleOrGone
 import echomskfan.gmail.com.R
 import echomskfan.gmail.com.utils.fromSecToAudioDuration
-import echomskfan.gmail.com.utils.gone
-import echomskfan.gmail.com.utils.visible
 import kotlinx.android.synthetic.main.item_cast.view.*
 
 // TODO Unable to load pages in favs on mode! Message about it/
@@ -54,24 +53,22 @@ internal class CastsAdapter(private val viewModel: CastsViewModel) : RecyclerVie
 
         fun bind(item: ICastsListItemDelegate) {
             if (item is CastListItem) {
+                // Camel style for ids
                 itemView.item_content_type_text_view.text = item.typeSubtype
                 itemView.item_content_date_text_view.text = item.formattedDate
                 itemView.item_content_short_text_view.text = item.shortText
 
                 if (item.mp3Url.isNotEmpty()) {
-                    itemView.item_content_audio_duration_text_view.text = item.mp3Duration.fromSecToAudioDuration()
+                    itemView.item_content_audio_duration_text_view.text =
+                        item.mp3Duration.fromSecToAudioDuration()
                     itemView.item_content_audio_play_image_button.setOnClickListener {
                         viewModel.playButtonClicked(item)
                     }
-
-                    itemView.item_content_audio_play_image_button.visible()
-                    itemView.item_content_audio_duration_text_view.visible()
-                    itemView.itemCastAudioTitleTextView.visible()
-                } else {
-                    itemView.item_content_audio_play_image_button.gone()
-                    itemView.item_content_audio_duration_text_view.gone()
-                    itemView.itemCastAudioTitleTextView.gone()
                 }
+
+                itemView.item_content_audio_play_image_button.visibleOrGone(item.mp3Url.isNotEmpty())
+                itemView.item_content_audio_duration_text_view.visibleOrGone(item.mp3Url.isNotEmpty())
+                itemView.itemCastAudioTitleTextView.visibleOrGone(item.mp3Url.isNotEmpty())
 
                 itemView.item_content_favorite_image_view.setImageResource(
                     if (item.fav) {

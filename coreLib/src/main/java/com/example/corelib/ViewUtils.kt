@@ -1,14 +1,9 @@
-package echomskfan.gmail.com.utils
+package com.example.corelib
 
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
-import android.widget.TextView
 import java.io.Serializable
-
-fun <T : TextView> T.setTextFromStringId(stringId: Int) {
-    this.text = this.context.getString(stringId)
-}
 
 fun bundleOf(vararg params: Pair<String, Any>): Bundle {
     val b = Bundle()
@@ -59,10 +54,14 @@ fun <T : View> T.visible() {
     this.visibility = View.VISIBLE
 }
 
-fun <T : View> T.invisible() {
-    this.visibility = View.INVISIBLE
-}
-
 fun <T : View> T.gone() {
     this.visibility = View.GONE
+}
+
+fun View.visibleOrGone(visible: Boolean) {
+    this.visibility = if (visible) View.VISIBLE else View.GONE
+}
+
+fun View.visibleOrInvisible(visible: Boolean) {
+    this.visibility = if (visible) View.VISIBLE else View.INVISIBLE
 }

@@ -9,7 +9,6 @@ import echomskfan.gmail.com.presentation.debugpanel.DebugPanelFragment
 import echomskfan.gmail.com.presentation.personinfo.PersonInfoFragment
 import echomskfan.gmail.com.presentation.player.PlayerFragment
 import echomskfan.gmail.com.presentation.settings.SettingsFragment
-import echomskfan.gmail.com.utils.bundleOf
 
 internal class MainActivityRouter(
     appContext: Context, private val navController: NavController
@@ -24,7 +23,7 @@ internal class MainActivityRouter(
         FeatureNavigator.navigate(CastsFragment::class.java) {
             navController.navigate(
                 R.id.action_personsFragment_to_castsFragment,
-                bundleOf(EXTRA_PERSON_ID to personId)
+                com.example.corelib.bundleOf(EXTRA_PERSON_ID to personId)
             )
         }
     }
@@ -33,7 +32,7 @@ internal class MainActivityRouter(
         FeatureNavigator.navigate(PersonInfoFragment::class.java) {
             navController.navigate(
                 R.id.action_personsFragment_to_personInfoFragment,
-                bundleOf(EXTRA_PERSON_ID to personId)
+                com.example.corelib.bundleOf(EXTRA_PERSON_ID to personId)
             )
         }
     }
@@ -42,7 +41,7 @@ internal class MainActivityRouter(
         FeatureNavigator.navigate(PlayerFragment::class.java) {
             navController.navigate(
                 R.id.action_castsFragment_to_playerFragment,
-                bundleOf(EXTRA_CAST_ID to castId)
+                com.example.corelib.bundleOf(EXTRA_CAST_ID to castId)
             )
         }
     }
@@ -56,7 +55,10 @@ internal class MainActivityRouter(
         FeatureNavigator.navigate(PlayerFragment::class.java) {
             navController.navigate(
                 R.id.playerFragment,
-                bundleOf(EXTRA_CAST_ID to castId, EXTRA_PLAYER_RESUME to true)
+                com.example.corelib.bundleOf(
+                    EXTRA_CAST_ID to castId,
+                    EXTRA_PLAYER_RESUME to true
+                )
             )
         }
     }
