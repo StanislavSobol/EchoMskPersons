@@ -38,5 +38,6 @@ class NightModeAwareIconImage @JvmOverloads constructor(
     }
 }
 
+// TODO to common lib
 private fun isNightMode() =
     AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES

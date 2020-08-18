@@ -7,10 +7,10 @@
     android:padding="@dimen/small_padding"
     tools:context=".presentation.persons.PersonsFragment">
 
-    <ImageView
+    <echomskfan.gmail.com.viewslib.OnlinePersonImageView
         android:id="@+id/personInfoImageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/person_info_image_size"
+        android:layout_height="@dimen/person_info_image_size"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/medium_margin" />
 

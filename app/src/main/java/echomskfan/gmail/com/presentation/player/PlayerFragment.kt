@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.SeekBar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.squareup.picasso.Picasso
 import echomskfan.gmail.com.EXTRA_CAST_ID
 import echomskfan.gmail.com.EXTRA_PLAYER_RESUME
 import echomskfan.gmail.com.MApplication
@@ -92,10 +91,11 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
         playerFragmentTypeSubtypeTextView?.text = playerItem.typeSubtype
         playerFragmentDateTextView?.text = playerItem.formattedDate
 
-        Picasso.with(requireContext()).load(playerItem.personPhotoUrl).into(playerFragmentImageView)
+        playerFragmentImageView.imageUrl = playerItem.personPhotoUrl
 
         playerFragmentAudioSeekBar.max = playerItem.mp3Duration
-        playerFragmentAudioSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        playerFragmentAudioSeekBar.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}

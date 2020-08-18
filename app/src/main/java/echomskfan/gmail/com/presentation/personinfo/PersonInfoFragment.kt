@@ -3,7 +3,6 @@ package echomskfan.gmail.com.presentation.personinfo
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.squareup.picasso.Picasso
 import echomskfan.gmail.com.EXTRA_PERSON_ID
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
@@ -49,10 +48,7 @@ class PersonInfoFragment : BaseFragment(FragmentType.Child, R.layout.fragment_pe
             throw IllegalStateException("Cannot load the person from DB")
         }
 
-        Picasso.with(personInfoImageView.context)
-            .load(personInfoViewEntity.photoUrl)
-            .into(personInfoImageView)
-
+        personInfoImageView.imageUrl = personInfoViewEntity.photoUrl
         personInfoFullNameTextView.text = personInfoViewEntity.fullName
         personInfoProfessionTextView.text = personInfoViewEntity.profession
         personInfoInfoTextView.text = personInfoViewEntity.info

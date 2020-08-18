@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/onlinePersonImageViewCircleImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:civ_border_color="@color/online_person_image_view_border_default_color"
+        app:civ_border_width="@dimen/online_person_image_view_border_default_width" />
+
+    <View
+        android:id="@+id/onlinePersonImageViewRectView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rect_shape" />
+
+    <View
+        android:id="@+id/onlinePersonImageViewCircleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/circle_shape" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/onlinePersonImageEmptyView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_baseline_person_24"
+        android:padding="@dimen/online_person_image_view_border_default_width" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/onlinePersonImageViewImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/online_person_image_view_border_default_width" />
+
+</FrameLayout>

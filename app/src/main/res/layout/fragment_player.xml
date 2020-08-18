@@ -40,7 +40,7 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:text="14 марта 2008" />
 
-    <ImageView
+    <echomskfan.gmail.com.viewslib.OnlinePersonImageView
         android:id="@+id/playerFragmentImageView"
         android:layout_width="@dimen/person_image_player_size"
         android:layout_height="@dimen/person_image_player_size"

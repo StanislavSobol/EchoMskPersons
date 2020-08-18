@@ -35,11 +35,11 @@
         android:layout_marginEnd="@dimen/small_margin"
         app:layout_constraintTop_toBottomOf="@+id/personItemProfessionTextView">
 
-        <ImageView
+        <echomskfan.gmail.com.viewslib.OnlinePersonImageView
             android:id="@+id/personItemImageView"
-            android:layout_width="@dimen/vip_image_size"
-            android:layout_height="@dimen/vip_image_size"
-            tools:ignore="ContentDescription" />
+            android:layout_width="@dimen/person_image_in_list_size"
+            android:layout_height="@dimen/person_image_in_list_size"
+            app:circleCropped="true" />
 
         <TextView
             android:id="@+id/personItemInfoTextView"
@@ -47,8 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginLeft="@dimen/small_margin"
-            android:layout_toEndOf="@+id/personItemImageView"
-            android:layout_toRightOf="@+id/personItemImageView"
+            android:layout_toEndOf="@id/personItemImageView"
+            android:layout_toRightOf="@id/personItemImageView"
             android:ellipsize="end"
             android:maxLines="5"
             android:textSize="@dimen/regular_text_size"
