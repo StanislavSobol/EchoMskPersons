@@ -15,21 +15,21 @@ import kotlinx.android.synthetic.main.activity_splash.*
 import javax.inject.Inject
 
 /**
- * Splash-screen activity
+ * Splash-screen activity with an animation.
+ *
+ * The animation can be disabled via [@IConfigProvider].
+ * The activity without its ViewModel to make it light as much as possible and to avoid overengineering.
+ *
+ * So, [@IConfigProvider] is injected right here
  */
 class SplashActivity : AppCompatActivity() {
     @Inject
     internal lateinit var configProvider: IConfigProvider
 
-    //    @ConfigBooleanValue("showAnimation")
-    internal var showAnimationRRR: Boolean = false
-
     private var realStart = false
 
     init {
         MApplication.getAppComponent().inject(this)
-//        Log.d("SSS", ">>> " + ConfigManager().greeting())
-//        ConfigManager.inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,27 +41,28 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (!realStart) {
-            return
+        if (realStart) {
+            if (configProvider.showSplashAnimation) {
+                splashActivityLogoImageView.animation = prepareSplashAnimation()
+            } else {
+                startMainActivity()
+            }
         }
+    }
 
-        if (configProvider.showSplashAnimation) {
-            val anim: Animation = AnimationUtils.loadAnimation(this, R.anim.splash_anim)
-            anim.setAnimationListener(object : Animation.AnimationListener {
-                override fun onAnimationRepeat(p0: Animation?) {
-                }
+    private fun prepareSplashAnimation(): Animation? {
+        return AnimationUtils.loadAnimation(this, R.anim.splash_anim)
+            .apply {
+                setAnimationListener(object : Animation.AnimationListener {
+                    override fun onAnimationRepeat(p0: Animation?) {}
 
-                override fun onAnimationEnd(p0: Animation?) {
-                    startMainActivity()
-                }
+                    override fun onAnimationEnd(p0: Animation?) {
+                        startMainActivity()
+                    }
 
-                override fun onAnimationStart(p0: Animation?) {
-                }
-            })
-            splashActivityLogoImageView.animation = anim
-        } else {
-            startMainActivity()
-        }
+                    override fun onAnimationStart(p0: Animation?) {}
+                })
+            }
     }
 
     private fun startMainActivity() {
