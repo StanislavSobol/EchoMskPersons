@@ -17,7 +17,14 @@ interface PersonsDao {
     fun getById(id: Int): PersonEntity?
 
     @Query("UPDATE PersonEntity SET url = :url, firstName= :firstName, lastName= :lastName , profession = :profession, info =:info WHERE id=:id")
-    fun initialUpdate(url: String, firstName: String, lastName: String, profession: String, info: String, id: Int)
+    fun initialUpdate(
+        url: String,
+        firstName: String,
+        lastName: String,
+        profession: String,
+        info: String,
+        id: Int
+    )
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun add(item: PersonEntity)
@@ -33,4 +40,7 @@ interface PersonsDao {
 
     @Query("SELECT * FROM PersonEntity WHERE id=:id")
     fun getPersonLiveData(id: Int): LiveData<PersonEntity>
+
+//    @Query("SELECT * FROM PersonEntity WHERE notification=1 ORDER BY id")
+//    fun getNotifiedPersonsSingle(): Single<List<PersonEntity>>
 }

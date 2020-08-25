@@ -71,8 +71,8 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideMainInteractor(repository: IRepository): IMainInteractor {
-        return MainInteractor(repository)
+    fun provideMainInteractor(appContext: Context, repository: IRepository): IMainInteractor {
+        return MainInteractor(appContext, repository)
     }
 
     @Singleton

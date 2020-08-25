@@ -20,6 +20,8 @@ interface IRepository {
 
     fun getPersonLiveData(personId: Int): LiveData<PersonEntity>
 
+//    fun getNotifiedPersonsSingle():Single<List<PersonEntity>>
+
     @AppTodoMinor("IRepository: Move it in a brand new repo ISharedPrefsRepository")
     var isFavOn: Boolean
 }

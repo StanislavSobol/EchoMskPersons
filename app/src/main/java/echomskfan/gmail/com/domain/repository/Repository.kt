@@ -109,6 +109,10 @@ class Repository(
         return personsDao.getPersonLiveData(personId)
     }
 
+//    override fun getNotifiedPersonsSingle(): Single<List<PersonEntity>> {
+//        return personsDao.getNotifiedPersonsSingle()
+//    }
+
     override var isFavOn: Boolean
         get() = sharedPrefs.isFavOn
         set(value) {
