@@ -8,12 +8,22 @@ import echomskfan.gmail.com.presentation.player.PlayerItem
 
 interface IRepository {
     fun getPersonsLiveData(): LiveData<List<PersonEntity>>
+
+    // TODO move this logic to the proper interactor
     fun transferPersonsFromXmlToDb()
+
+    // TODO rename according the repo functionality
     fun personIdNotificationClicked(personId: Int)
+
+    // TODO rename according the repo functionality
     fun personIdFavClicked(personId: Int)
 
     fun getCastsLiveDataForPerson(personId: Int): LiveData<List<CastEntity>>
+
+    // TODO move this logic to the proper interactor
     fun transferCastsFromWebToDb(personId: Int, pageNum: Int)
+
+    // TODO rename according the repo functionality
     fun castIdFavClicked(castId: String)
 
     fun getPlayerItem(castId: String): PlayerItem
