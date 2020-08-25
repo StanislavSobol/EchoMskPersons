@@ -109,8 +109,8 @@ class Repository(
         return personsDao.getPersonLiveData(personId)
     }
 
-//    override fun getNotifiedPersonsSingle(): Single<List<PersonEntity>> {
-//        return personsDao.getNotifiedPersonsSingle()
+//    override fun getPersonWithLatestCastDate(): Any {
+//        return personsDao.getPersonWithLatestCastDate(1)
 //    }
 
     override var isFavOn: Boolean

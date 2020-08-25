@@ -19,8 +19,7 @@ interface IRepository {
     fun getPlayerItem(castId: String): PlayerItem
 
     fun getPersonLiveData(personId: Int): LiveData<PersonEntity>
-
-//    fun getNotifiedPersonsSingle():Single<List<PersonEntity>>
+//    fun getPersonWithLatestCastDate(): Any
 
     @AppTodoMinor("IRepository: Move it in a brand new repo ISharedPrefsRepository")
     var isFavOn: Boolean

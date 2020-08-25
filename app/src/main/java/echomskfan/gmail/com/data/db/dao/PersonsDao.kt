@@ -41,6 +41,9 @@ interface PersonsDao {
     @Query("SELECT * FROM PersonEntity WHERE id=:id")
     fun getPersonLiveData(id: Int): LiveData<PersonEntity>
 
-//    @Query("SELECT * FROM PersonEntity WHERE notification=1 ORDER BY id")
-//    fun getNotifiedPersonsSingle(): Single<List<PersonEntity>>
+    /*
+//    @Query("SELECT p.*, c.date FROM PersonEntity p LEFT JOIN CastEntity c ON p.id=c.personId WHERE c.date = (SELECT MAX(c1.date) FROM CastEntity c1 WHERE c1.personId=c.personId)")
+    @Query("SELECT p.*,c.date FROM PersonEntity p LEFT JOIN CastEntity c ON p.id=c.personId WHERE p.notification=1 AND c.date = (SELECT MAX(c1.date) FROM CastEntity c1 WHERE c1.personId=c.personId)")
+    fun getPersonWithLatestCastDate(id: Int): Pair<PersonEntity, Date>
+     */
 }

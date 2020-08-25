@@ -5,6 +5,7 @@ import dagger.Provides
 import echomskfan.gmail.com.data.db.PersonsDatabase
 import echomskfan.gmail.com.domain.interactor.debugpanel.DebugPanelInteractor
 import echomskfan.gmail.com.domain.interactor.debugpanel.IDebugPanelInteractor
+import echomskfan.gmail.com.domain.interactor.main.IMainInteractor
 import echomskfan.gmail.com.domain.repository.DebugRepository
 import echomskfan.gmail.com.domain.repository.IDebugRepository
 import echomskfan.gmail.com.presentation.debugpanel.DebugPanelViewModelFactory
@@ -26,7 +27,10 @@ class DebugPanelModule {
 
     @DebugPanelScope
     @Provides
-    fun providePersonsViewModelFactory(interactor: IDebugPanelInteractor): DebugPanelViewModelFactory {
-        return DebugPanelViewModelFactory(interactor)
+    fun providePersonsViewModelFactory(
+        debugPanelInteractor: IDebugPanelInteractor,
+        mainInteractor: IMainInteractor
+    ): DebugPanelViewModelFactory {
+        return DebugPanelViewModelFactory(debugPanelInteractor, mainInteractor)
     }
 }

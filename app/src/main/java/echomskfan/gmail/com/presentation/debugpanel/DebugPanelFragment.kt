@@ -42,6 +42,7 @@ class DebugPanelFragment : BaseFragment(FragmentType.None, R.layout.fragment_deb
         viewModel.showProgressLiveData.observe(viewLifecycleOwner, Observer { showProgress(it) })
 
         deleteLastNevzorovButton.setOnClickListener { viewModel.deleteLastNevzorovCastButtonClicked() }
+        workManagerActionButton.setOnClickListener { viewModel.workManagerActionButtonClicked() }
     }
 
     // TODO Replace it with CustomButton with progress bar or smth

@@ -15,17 +15,6 @@ class MainInteractor(private val appContext: Context, private val repository: IR
             repository.isFavOn = value
         }
 
-//    override fun setupWorkManager(): Completable {
-//        return Completable.create { emitter ->
-//            repository.getNotifiedPersonsSingle().fromIoToMain().subscribe({
-//                processWorkManager(it)
-//            }, {
-//                catchThrowable(it)
-//            })
-//            emitter.onComplete()
-//        }
-//    }
-
     override fun setupWorkManager2() {
         val uploadWorkRequest: WorkRequest =
             PeriodicWorkRequestBuilder<MyWorker>(15, TimeUnit.MINUTES)
@@ -39,25 +28,19 @@ class MainInteractor(private val appContext: Context, private val repository: IR
         Log.d("SSS", "setupWorkManager2")
     }
 
-//    private fun processWorkManager(persons: List<PersonEntity>) {
-//        val uploadWorkRequest: WorkRequest =
-//            PeriodicWorkRequestBuilder<MyWorker>(15, TimeUnit.MINUTES)
-//                .build()
-//
-//        WorkManager
-//            .getInstance(appContext)
-//            .enqueue(uploadWorkRequest)
-//    }
+    fun workManagerMainAction() {
+        Log.d("SSS", "workManagerMainAction")
+        //  repository.getPersonWithLatestCastDate()
+    }
 
     /**
      * Must be public
      * https://stackoverflow.com/questions/52657196/android-work-manager-could-not-instantiate-worker
      */
-    class MyWorker(appContext: Context, workerParams: WorkerParameters) :
+    inner class MyWorker(appContext: Context, workerParams: WorkerParameters) :
         Worker(appContext, workerParams) {
         override fun doWork(): Result {
-            Log.d("SSS", "WORKMANAGER works!")
-
+            workManagerMainAction()
             return Result.success()
         }
     }
