@@ -8,6 +8,7 @@ import echomskfan.gmail.com.data.parser.IEchoParser
 import echomskfan.gmail.com.data.prefs.ISharedPrefs
 import echomskfan.gmail.com.domain.assetextractor.IAssetExtractor
 import echomskfan.gmail.com.presentation.player.PlayerItem
+import java.util.*
 
 class Repository(
     private val assetExtractor: IAssetExtractor,
@@ -48,7 +49,8 @@ class Repository(
     }
 
     override fun personIdNotificationClicked(personId: Int) {
-        personsDao.getById(personId)?.let { personsDao.setNotificationById(!it.notification, personId) }
+        personsDao.getById(personId)
+            ?.let { personsDao.setNotificationById(!it.notification, personId) }
     }
 
     override fun personIdFavClicked(personId: Int) {
@@ -64,6 +66,7 @@ class Repository(
     }
 
     override fun transferCastsFromWebToDb(personId: Int, pageNum: Int) {
+        // TODO use insertOrUpdateCasts method
         personsDao.getById(personId)?.let {
             val newCasts = echoParser.getCasts(it, pageNum)
             newCasts.forEach { newCast ->
@@ -109,9 +112,36 @@ class Repository(
         return personsDao.getPersonLiveData(personId)
     }
 
-//    override fun getPersonWithLatestCastDate(): Any {
-//        return personsDao.getPersonWithLatestCastDate(1)
-//    }
+    override fun getPersonsWithNotification(): List<PersonEntity> {
+        return personsDao.getPersonsWithNotification()
+    }
+
+    override fun getMaxCastDateForPerson(personId: Int): Date {
+        return castsDao.getMaxCastDateForPerson(personId)
+
+    }
+
+    override fun getCastsFromWebForPerson(personEntity: PersonEntity): List<CastEntity> {
+        return echoParser.getCasts(personEntity)
+    }
+
+    override fun insertOrUpdateCasts(newCasts: List<CastEntity>) {
+        newCasts.forEach { newCast ->
+            castsDao.getCastByDateAndPersonId(newCast.date, newCast.personId)?.let {
+                castsDao.updateContent(
+                    fullTextURL = newCast.fullTextURL,
+                    type = newCast.type,
+                    subtype = newCast.subtype,
+                    shortText = newCast.shortText,
+                    mp3Url = newCast.mp3Url,
+                    mp3Duration = newCast.mp3Duration,
+                    id = newCast.id
+                )
+            } ?: castsDao.insert(newCast)
+
+        }
+        castsDao.removeGarbage()
+    }
 
     override var isFavOn: Boolean
         get() = sharedPrefs.isFavOn

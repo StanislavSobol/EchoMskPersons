@@ -33,5 +33,7 @@
     <string name="offline">Offline :(</string>
     <!--Settings-->
     <string name="settings_night_mode">Night mode</string>
+    <!--Check new-->
+    <string name="check_new_notification_title">Новое! %s</string>
 
 </resources>

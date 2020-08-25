@@ -1,15 +1,16 @@
 package echomskfan.gmail.com.presentation.debugpanel
 
+import echomskfan.gmail.com.domain.interactor.checknew.ICheckNewInteractor
 import echomskfan.gmail.com.domain.interactor.debugpanel.IDebugPanelInteractor
-import echomskfan.gmail.com.domain.interactor.main.IMainInteractor
-import echomskfan.gmail.com.domain.interactor.main.MainInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.utils.fromIoToMain
+import io.reactivex.Completable
 import java.util.concurrent.TimeUnit
 
 class DebugPanelViewModel(
     private val debugPanelInteractor: IDebugPanelInteractor,
-    private val mainInteractor: IMainInteractor
+    private val checkNewInteractor: ICheckNewInteractor
+
 ) : BaseViewModel() {
 
     fun deleteLastNevzorovCastButtonClicked() {
@@ -22,7 +23,14 @@ class DebugPanelViewModel(
     }
 
     fun workManagerActionButtonClicked() {
-        (mainInteractor as MainInteractor).workManagerMainAction()
+        Completable.create {
+            checkNewInteractor.checkNewCast()
+            it.onComplete()
+        }
+            .fromIoToMain()
+            .withProgress()
+            .subscribe()
+            .unsubscribeOnClear()
     }
 
     companion object {

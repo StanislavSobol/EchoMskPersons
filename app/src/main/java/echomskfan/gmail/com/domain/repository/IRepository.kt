@@ -5,6 +5,7 @@ import echomskfan.gmail.com.annotations.apptodo.AppTodoMinor
 import echomskfan.gmail.com.data.db.entity.CastEntity
 import echomskfan.gmail.com.data.db.entity.PersonEntity
 import echomskfan.gmail.com.presentation.player.PlayerItem
+import java.util.*
 
 interface IRepository {
     fun getPersonsLiveData(): LiveData<List<PersonEntity>>
@@ -19,7 +20,14 @@ interface IRepository {
     fun getPlayerItem(castId: String): PlayerItem
 
     fun getPersonLiveData(personId: Int): LiveData<PersonEntity>
-//    fun getPersonWithLatestCastDate(): Any
+
+    fun getPersonsWithNotification(): List<PersonEntity>
+
+    fun getMaxCastDateForPerson(personId: Int): Date?
+
+    fun getCastsFromWebForPerson(personEntity: PersonEntity): List<CastEntity>
+
+    fun insertOrUpdateCasts(newCasts: List<CastEntity>)
 
     @AppTodoMinor("IRepository: Move it in a brand new repo ISharedPrefsRepository")
     var isFavOn: Boolean

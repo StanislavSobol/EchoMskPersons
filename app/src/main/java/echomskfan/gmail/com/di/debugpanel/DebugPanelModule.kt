@@ -3,9 +3,9 @@ package echomskfan.gmail.com.di.debugpanel
 import dagger.Module
 import dagger.Provides
 import echomskfan.gmail.com.data.db.PersonsDatabase
+import echomskfan.gmail.com.domain.interactor.checknew.ICheckNewInteractor
 import echomskfan.gmail.com.domain.interactor.debugpanel.DebugPanelInteractor
 import echomskfan.gmail.com.domain.interactor.debugpanel.IDebugPanelInteractor
-import echomskfan.gmail.com.domain.interactor.main.IMainInteractor
 import echomskfan.gmail.com.domain.repository.DebugRepository
 import echomskfan.gmail.com.domain.repository.IDebugRepository
 import echomskfan.gmail.com.presentation.debugpanel.DebugPanelViewModelFactory
@@ -29,8 +29,8 @@ class DebugPanelModule {
     @Provides
     fun providePersonsViewModelFactory(
         debugPanelInteractor: IDebugPanelInteractor,
-        mainInteractor: IMainInteractor
+        checkNewInteractor: ICheckNewInteractor
     ): DebugPanelViewModelFactory {
-        return DebugPanelViewModelFactory(debugPanelInteractor, mainInteractor)
+        return DebugPanelViewModelFactory(debugPanelInteractor, checkNewInteractor)
     }
 }

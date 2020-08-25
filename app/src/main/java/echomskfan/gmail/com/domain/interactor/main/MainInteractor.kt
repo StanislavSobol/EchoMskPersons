@@ -1,8 +1,8 @@
 package echomskfan.gmail.com.domain.interactor.main
 
 import android.content.Context
-import android.util.Log
 import androidx.work.*
+import echomskfan.gmail.com.domain.interactor.checknew.CheckNewWorker
 import echomskfan.gmail.com.domain.repository.IRepository
 import java.util.concurrent.TimeUnit
 
@@ -15,33 +15,29 @@ class MainInteractor(private val appContext: Context, private val repository: IR
             repository.isFavOn = value
         }
 
-    override fun setupWorkManager2() {
+    override fun setupWorkManager() {
+        // TODO Start only if there are persons with "notification" sign. Otherwise, stop the WorkManager
+
         val uploadWorkRequest: WorkRequest =
-            PeriodicWorkRequestBuilder<MyWorker>(15, TimeUnit.MINUTES)
-                .setInitialDelay(1, TimeUnit.MINUTES)
+            PeriodicWorkRequestBuilder<CheckNewWorker>(REPEAT_INTERVAL_MIN, TimeUnit.MINUTES)
+                .setInitialDelay(DURATION_MIN, TimeUnit.MINUTES)
+                .setConstraints(
+                    Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .build()
+                )
                 .build()
 
         WorkManager
             .getInstance(appContext)
             .enqueue(uploadWorkRequest)
-
-        Log.d("SSS", "setupWorkManager2")
     }
 
-    fun workManagerMainAction() {
-        Log.d("SSS", "workManagerMainAction")
-        //  repository.getPersonWithLatestCastDate()
-    }
+    companion object {
+        // TODO Move it to the config
+        private const val REPEAT_INTERVAL_MIN = 15L
 
-    /**
-     * Must be public
-     * https://stackoverflow.com/questions/52657196/android-work-manager-could-not-instantiate-worker
-     */
-    inner class MyWorker(appContext: Context, workerParams: WorkerParameters) :
-        Worker(appContext, workerParams) {
-        override fun doWork(): Result {
-            workManagerMainAction()
-            return Result.success()
-        }
+        // TODO Move it to the config
+        private const val DURATION_MIN = 1L
     }
 }

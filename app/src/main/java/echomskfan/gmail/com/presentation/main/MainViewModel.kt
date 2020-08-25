@@ -52,8 +52,7 @@ class MainViewModel(
     }
 
     override fun onCleared() {
-//        interactor.setupWorkManager()
-        interactor.setupWorkManager2()
+        interactor.setupWorkManager()
         super.onCleared()
     }
 

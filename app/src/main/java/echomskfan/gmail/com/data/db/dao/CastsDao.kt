@@ -51,4 +51,7 @@ interface CastsDao {
 
     @Query("UPDATE CastEntity SET fav=:fav WHERE id=:id")
     fun setFavById(fav: Boolean, id: String)
+
+    @Query("SELECT MAX(date) FROM CastEntity WHERE personId=:personId")
+    fun getMaxCastDateForPerson(personId: Int): Date
 }

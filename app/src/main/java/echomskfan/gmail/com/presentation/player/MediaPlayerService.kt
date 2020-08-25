@@ -146,7 +146,8 @@ class MediaPlayerService : Service() {
                 this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT
             )
 
-            notificationRemoteView = RemoteViews(this.packageName, R.layout.media_player_notification)
+            notificationRemoteView =
+                RemoteViews(this.packageName, R.layout.media_player_notification)
 
             if (notificationRemoteView == null) {
                 catchThrowable(IllegalStateException("MediaPlayerService: remote views are not created"))
@@ -156,6 +157,7 @@ class MediaPlayerService : Service() {
             initNotificationRemoteView()
 
             notificationBuilder = createNotificationBuilder()
+                // TODO icon to baseline version
                 .setSmallIcon(R.drawable.ic_volume_up_white_24dp)
                 .setContentTitle(it.typeSubtype)
                 .setContent(notificationRemoteView)
@@ -164,6 +166,7 @@ class MediaPlayerService : Service() {
                 .setOngoing(true)
 
             notificationBuilder?.build().let { notification ->
+                // TODO to string res with format
                 notification?.tickerText = appName + " " +
                         applicationContext.getString(R.string.notification_ticket)
                 startForeground(NOTIFICATION_ID, notification)
@@ -182,13 +185,14 @@ class MediaPlayerService : Service() {
 
     @TargetApi(Build.VERSION_CODES.O)
     private fun createChannel() {
-        val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_LOW)
-            .apply {
-                description = CHANNEL_DESCRIPTION
-                enableLights(true)
-                lightColor = Color.BLUE
-                setSound(null, null)
-            }
+        val channel =
+            NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_LOW)
+                .apply {
+                    description = CHANNEL_DESCRIPTION
+                    enableLights(true)
+                    lightColor = Color.BLUE
+                    setSound(null, null)
+                }
 
         getNotificationManager().createNotificationChannel(channel)
     }
@@ -217,9 +221,18 @@ class MediaPlayerService : Service() {
             notificationRemoteView!!
         )
 
-        notificationRemoteView?.setTextViewText(R.id.notificationPersonTextView, playerItem?.personName)
-        notificationRemoteView?.setTextViewText(R.id.notificationTypeSubtypeTextView, playerItem?.typeSubtype)
-        notificationRemoteView?.setTextViewText(R.id.notificationDateTextView, playerItem?.formattedDate)
+        notificationRemoteView?.setTextViewText(
+            R.id.notificationPersonTextView,
+            playerItem?.personName
+        )
+        notificationRemoteView?.setTextViewText(
+            R.id.notificationTypeSubtypeTextView,
+            playerItem?.typeSubtype
+        )
+        notificationRemoteView?.setTextViewText(
+            R.id.notificationDateTextView,
+            playerItem?.formattedDate
+        )
     }
 
     private fun startTracking() {
@@ -228,7 +241,8 @@ class MediaPlayerService : Service() {
         intervalDisposable = Observable.interval(1, TimeUnit.SECONDS)
             .fromComputationToMain()
             .subscribe {
-                PlayerItemVisualState.track(mediaPlayer.currentPosition).applyRemoteViewsAppearance()
+                PlayerItemVisualState.track(mediaPlayer.currentPosition)
+                    .applyRemoteViewsAppearance()
 
                 val isPlaying: Boolean = try {
                     mediaPlayer.isPlaying
@@ -246,7 +260,8 @@ class MediaPlayerService : Service() {
     }
 
     private fun isInForeground(): Boolean {
-        val manager = applicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val manager =
+            applicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         for (service in manager.getRunningServices(Integer.MAX_VALUE)) {
             if (javaClass.name == service.service.className) {
                 if (service.foreground) {
@@ -284,6 +299,7 @@ class MediaPlayerService : Service() {
         }
     }
 
+    // TODO -> NotificationManagerCompat.from(appContext). ?
     private fun getNotificationManager(): NotificationManager {
         return getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
@@ -316,8 +332,9 @@ class MediaPlayerService : Service() {
         private const val PAUSE_ACTION = "pause_action"
         private const val CLOSE_ACTION = "close_action"
 
-        private const val CHANNEL_NAME = "Echo Msk Persons' channel"
-        private const val CHANNEL_DESCRIPTION = "Echo Msk Persons' channel is dedicated to Echo Msk podcasts"
+        private const val CHANNEL_NAME = "Echo Msk Persons' media player channel"
+        private const val CHANNEL_DESCRIPTION =
+            "Echo Msk Persons' media player channel is dedicated to Echo Msk podcasts"
 
         private val NOTIFICATION_ID = UUID.randomUUID().mostSignificantBits.toInt()
         private val CHANNEL_ID = UUID.randomUUID().toString()

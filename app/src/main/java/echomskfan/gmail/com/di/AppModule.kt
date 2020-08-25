@@ -11,6 +11,8 @@ import echomskfan.gmail.com.data.prefs.ISharedPrefs
 import echomskfan.gmail.com.data.prefs.SharedPrefs
 import echomskfan.gmail.com.domain.assetextractor.AssetExtractor
 import echomskfan.gmail.com.domain.assetextractor.IAssetExtractor
+import echomskfan.gmail.com.domain.interactor.checknew.CheckNewInteractor
+import echomskfan.gmail.com.domain.interactor.checknew.ICheckNewInteractor
 import echomskfan.gmail.com.domain.interactor.config.ConfigProvider
 import echomskfan.gmail.com.domain.interactor.config.IConfigProvider
 import echomskfan.gmail.com.domain.interactor.main.IMainInteractor
@@ -73,6 +75,15 @@ class AppModule {
     @Provides
     fun provideMainInteractor(appContext: Context, repository: IRepository): IMainInteractor {
         return MainInteractor(appContext, repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideCheckNewInteractor(
+        appContext: Context,
+        repository: IRepository
+    ): ICheckNewInteractor {
+        return CheckNewInteractor(appContext, repository)
     }
 
     @Singleton
