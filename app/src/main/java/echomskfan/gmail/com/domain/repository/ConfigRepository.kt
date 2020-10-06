@@ -4,7 +4,6 @@ import android.content.Context
 import org.json.JSONArray
 import java.nio.charset.Charset
 
-@Deprecated("Use KAPT generated ConfigManager")
 class ConfigRepository(private val appContext: Context) : IConfigRepository {
 
     private val propertiesDelegate: PropertiesDelegate

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/main_graph"
-            app:startDestination="@id/personsFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/personsFragment">
 
-    <fragment android:id="@+id/personsFragment" android:name="echomskfan.gmail.com.presentation.persons.PersonsFragment"
-              android:label="persons_fragment" tools:layout="@layout/fragment_recycler_view">
+    <fragment
+        android:id="@+id/personsFragment"
+        android:name="echomskfan.gmail.com.presentation.persons.PersonsFragment"
+        android:label="persons_fragment"
+        tools:layout="@layout/fragment_recycler_view">
         <action
             android:id="@+id/action_personsFragment_to_castsFragment"
             app:destination="@id/castsFragment"
@@ -21,10 +25,16 @@
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
-    <fragment android:id="@+id/castsFragment" android:name="echomskfan.gmail.com.presentation.casts.CastsFragment"
-              android:label="CastsFragment">
-        <argument android:name="personId" app:argType="integer"/>
-        <action android:id="@+id/action_castsFragment_to_playerFragment" app:destination="@id/playerFragment"/>
+    <fragment
+        android:id="@+id/castsFragment"
+        android:name="echomskfan.gmail.com.presentation.casts.CastsFragment"
+        android:label="CastsFragment">
+        <argument
+            android:name="personId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_castsFragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
     </fragment>
     <fragment
         android:id="@+id/playerFragment"

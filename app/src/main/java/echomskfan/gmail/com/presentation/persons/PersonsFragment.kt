@@ -1,10 +1,12 @@
 package echomskfan.gmail.com.presentation.persons
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.corelib.visibleOrGone
+import echomskfan.gmail.com.EXTRA_PERSON_ID
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
 import echomskfan.gmail.com.annotations.featurenavigator.ForFeatureNavigator
@@ -63,6 +65,18 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
         mainActivity.favMenuItemClickListener = this
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mainActivity.intent?.getIntExtra(EXTRA_PERSON_ID, 0)?.let {
+            if (it != 0) {
+                mainActivityRouter?.navigateToCastsFromPersons(it)
+            }
+            mainActivity.intent = null
+        }
+    }
+
+    override fun isFavMenuItemVisible() = true
+
     override fun onFavMenuItemClick(favOn: Boolean) {
         this.favOn = favOn
         subscribeToPersonsLiveData()
@@ -70,10 +84,9 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
 
     private fun subscribeToPersonsLiveData() {
         viewModel.getPersonsLiveData().removeObservers(viewLifecycleOwner)
-        viewModel.getPersonsLiveData().observe(viewLifecycleOwner, Observer { list -> setItems(list) })
+        viewModel.getPersonsLiveData()
+            .observe(viewLifecycleOwner, Observer { list -> setItems(list) })
     }
-
-    override fun isFavMenuItemVisible() = true
 
     private fun setItems(items: List<PersonListItem>) {
         if (favOn) {

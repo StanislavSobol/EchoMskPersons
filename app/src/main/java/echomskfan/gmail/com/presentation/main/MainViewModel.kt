@@ -51,6 +51,11 @@ class MainViewModel(
         _showOnlineStateDelayMSec.value = OneShotEvent(configProvider.showOnlineStateDelayMSec)
     }
 
+    override fun onCleared() {
+        interactor.setupWorkManager()
+        super.onCleared()
+    }
+
     fun loadMenuData() {
         isFavOn = interactor.isFavOn
         _favOnLiveDate.value = isFavOn

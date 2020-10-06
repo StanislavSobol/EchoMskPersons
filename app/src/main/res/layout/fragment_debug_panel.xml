@@ -13,4 +13,10 @@
         android:layout_height="wrap_content"
         android:text="@string/debug_delete_last_nevzorov_cast" />
 
+    <Button
+        android:id="@+id/workManagerActionButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/debug_notification_work_manager_action" />
+
 </LinearLayout>

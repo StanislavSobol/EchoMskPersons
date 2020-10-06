@@ -179,9 +179,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun applyIntent(intent: Intent?) {
-        if (intent != null) {
-            val castId: String? = intent.getStringExtra(EXTRA_PLAYER_ITEM_CAST_ID)
-            castId?.let { router.navigateToPlayerAndResumePlaying(it) }
+        intent?.getStringExtra(EXTRA_PLAYER_ITEM_CAST_ID)?.let {
+            router.navigateToPlayerAndResumePlaying(it)
         }
     }
 

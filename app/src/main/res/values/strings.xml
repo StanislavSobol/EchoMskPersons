@@ -24,6 +24,7 @@
     <string name="menu_debug">Отладка</string>
     <!--Debug panel-->
     <string name="debug_delete_last_nevzorov_cast">Удалить последний каст Невзорова</string>
+    <string name="debug_notification_work_manager_action">Notification WorkManager action</string>
     <!-- Disclaimer-->
     <string name="disclaimer_title">Disclaimer</string>
     <string name="disclaimer_text">This app must not be used for commercial purpose! It pursues only educational goals. Any commercial use of the app and its assets is forbidden. If you use or fork this app, you must follow the same principles.</string>
@@ -32,5 +33,7 @@
     <string name="offline">Offline :(</string>
     <!--Settings-->
     <string name="settings_night_mode">Night mode</string>
+    <!--Check new-->
+    <string name="check_new_notification_title">Новое! %s</string>
 
 </resources>
