@@ -3,7 +3,6 @@ package echomskfan.gmail.com.presentation.persons
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.viewModelScope
 import echomskfan.gmail.com.BuildConfig
 import echomskfan.gmail.com.annotations.apptodo.AppTodoMajor
 import echomskfan.gmail.com.domain.interactor.persons.IPersonsCoInteractor
@@ -12,12 +11,12 @@ import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.presentation.OneShotEvent
 import echomskfan.gmail.com.utils.catchThrowable
 import echomskfan.gmail.com.utils.fromIoToMain
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 @AppTodoMajor("PersonsViewModel: shown loading in the case when the local data exists")
-class PersonsViewModel(private val interactor: IPersonsInteractor,
-                       private val coInteractor: IPersonsCoInteractor) : BaseViewModel() {
+class PersonsViewModel(
+    private val interactor: IPersonsInteractor,
+    private val coInteractor: IPersonsCoInteractor
+) : BaseViewModel() {
 
     private val _navigateToCastsLiveDate = MutableLiveData<OneShotEvent<Int>>()
     val navigateToCastsLiveDate: LiveData<OneShotEvent<Int>>
@@ -29,54 +28,46 @@ class PersonsViewModel(private val interactor: IPersonsInteractor,
 
     init {
         if (BuildConfig.COROUTINES) {
-            withProgress {
-                viewModelScope.launch {
-                    coInteractor.transferPersonsFromXmlToDb()
-                }
-            }
+            withProgress { coInteractor.transferPersonsFromXmlToDb() }
         } else {
             interactor.transferPersonsFromXmlToDb()
-                    .fromIoToMain()
-                    .withProgress()
-                    .doOnError { e -> catchThrowable(e) } // TODO to extension
-                    .subscribe()
-                    .unsubscribeOnClear()
+                .fromIoToMain()
+                .withProgress()
+                .doOnError { e -> catchThrowable(e) } // TODO to extension
+                .subscribe()
+                .unsubscribeOnClear()
         }
     }
 
     fun getPersonsLiveData(): LiveData<List<PersonListItem>> {
-        return Transformations.map(interactor.getPersonsLiveData()) { list -> PersonListItem.from(list) }
+        return Transformations.map(interactor.getPersonsLiveData()) { list ->
+            PersonListItem.from(
+                list
+            )
+        }
     }
 
     fun personItemNotificationClicked(id: Int) {
         if (BuildConfig.COROUTINES) {
-            withProgress {
-                viewModelScope.launch {
-                    coInteractor.personIdNotificationClicked(id)
-                }
-            }
+            withProgress { coInteractor.personIdNotificationClicked(id) }
         } else {
             interactor.personIdNotificationClicked(id)
-                    .fromIoToMain()
-                    .doOnError { e -> catchThrowable(e) }
-                    .subscribe()
-                    .unsubscribeOnClear()
+                .fromIoToMain()
+                .doOnError { e -> catchThrowable(e) }
+                .subscribe()
+                .unsubscribeOnClear()
         }
     }
 
     fun personItemFavClicked(id: Int) {
         if (BuildConfig.COROUTINES) {
-            withProgress {
-                viewModelScope.launch {
-                    coInteractor.personIdFavClicked(id)
-                }
-            }
+            withProgress { coInteractor.personIdFavClicked(id) }
         } else {
             interactor.personIdFavClicked(id)
-                    .fromIoToMain()
-                    .doOnError { e -> catchThrowable(e) }
-                    .subscribe()
-                    .unsubscribeOnClear()
+                .fromIoToMain()
+                .doOnError { e -> catchThrowable(e) }
+                .subscribe()
+                .unsubscribeOnClear()
         }
     }
 

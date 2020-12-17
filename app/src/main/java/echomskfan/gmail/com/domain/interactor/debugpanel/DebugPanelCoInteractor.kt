@@ -1,7 +1,6 @@
 package echomskfan.gmail.com.domain.interactor.debugpanel
 
 import echomskfan.gmail.com.domain.repository.IDebugRepository
-import io.reactivex.Completable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

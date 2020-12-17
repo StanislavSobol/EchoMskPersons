@@ -8,7 +8,6 @@ import echomskfan.gmail.com.utils.catchThrowable
 import io.reactivex.Completable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
@@ -52,16 +51,19 @@ abstract class BaseViewModel : ViewModel() {
     protected open fun hideProgress() {
         loading = false
         _showProgressLiveData.postValue(false)
+
     }
 
-    protected fun withProgress(function: () -> Job) {
-        showProgress()
-        try {
-            viewModelScope.launch { function.invoke() }
-        } catch (e: Exception) {
-            catchThrowable(e)
-        } finally {
-            hideProgress()
+    fun withProgress(block: suspend () -> Unit) {
+        viewModelScope.launch {
+            showProgress()
+            try {
+                block.invoke()
+            } catch (e: Exception) {
+                catchThrowable(e)
+            } finally {
+                hideProgress()
+            }
         }
     }
 }

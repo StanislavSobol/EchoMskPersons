@@ -3,7 +3,6 @@ package echomskfan.gmail.com.presentation.casts
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.viewModelScope
 import echomskfan.gmail.com.BuildConfig
 import echomskfan.gmail.com.domain.interactor.casts.ICastsCoInteractor
 import echomskfan.gmail.com.domain.interactor.casts.ICastsInteractor
@@ -11,7 +10,6 @@ import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.presentation.OneShotEvent
 import echomskfan.gmail.com.utils.catchThrowable
 import echomskfan.gmail.com.utils.fromIoToMain
-import kotlinx.coroutines.launch
 
 class CastsViewModel(
     private val interactor: ICastsInteractor,
@@ -49,9 +47,7 @@ class CastsViewModel(
 
     fun itemIdFavClicked(castId: String) {
         if (BuildConfig.COROUTINES) {
-            withProgress {
-                viewModelScope.launch { coInteractor.castIdFavClicked(castId) }
-            }
+            withProgress { coInteractor.castIdFavClicked(castId) }
         } else {
             interactor.castIdFavClicked(castId)
                 .doOnError { e -> catchThrowable(e) }
@@ -75,9 +71,7 @@ class CastsViewModel(
         val pageNum = lastLoadedPageNum + 1
 
         if (BuildConfig.COROUTINES) {
-            withProgress {
-                viewModelScope.launch { coInteractor.transferCastsFromWebToDb(id, pageNum) }
-            }
+            withProgress { coInteractor.transferCastsFromWebToDb(id, pageNum) }
         } else {
             interactor.transferCastsFromWebToDb(id, pageNum)
                 .fromIoToMain()

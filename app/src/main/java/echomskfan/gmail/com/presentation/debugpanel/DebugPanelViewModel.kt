@@ -1,6 +1,5 @@
 package echomskfan.gmail.com.presentation.debugpanel
 
-import androidx.lifecycle.viewModelScope
 import echomskfan.gmail.com.BuildConfig
 import echomskfan.gmail.com.domain.interactor.checknew.ICheckNewInteractor
 import echomskfan.gmail.com.domain.interactor.debugpanel.IDebugPanelCoInteractor
@@ -8,7 +7,7 @@ import echomskfan.gmail.com.domain.interactor.debugpanel.IDebugPanelInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.utils.fromIoToMain
 import io.reactivex.Completable
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 import java.util.concurrent.TimeUnit
 
 class DebugPanelViewModel(
@@ -20,7 +19,10 @@ class DebugPanelViewModel(
 
     fun deleteLastNevzorovCastButtonClicked() {
         if (BuildConfig.COROUTINES) {
-            withProgress { viewModelScope.launch { debugPanelCoInteractor.deleteLastNevzorovCast() } }
+            withProgress {
+                debugPanelCoInteractor.deleteLastNevzorovCast()
+                delay(DELIBERATE_DELAY_SEC * 1000)
+            }
         } else {
             debugPanelInteractor.deleteLastNevzorovCast()
                 .fromIoToMain()
