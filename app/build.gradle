@@ -33,24 +33,50 @@ android {
     productFlavors {
         def booleanType = "boolean"
         def fakeServerConfigParameter = "FAKE_SERVER"
+        def coroutinesConfigParameter = "COROUTINES"
 
         fakeServer {
             dimension "version"
             applicationIdSuffix ".fakeServer"
             versionNameSuffix "-fakeServer"
             buildConfigField booleanType, fakeServerConfigParameter, "true"
+            buildConfigField booleanType, coroutinesConfigParameter, "false"
         }
         full {
             dimension "version"
             applicationIdSuffix ".full"
             versionNameSuffix "-full"
             buildConfigField booleanType, fakeServerConfigParameter, "false"
+            buildConfigField booleanType, coroutinesConfigParameter, "false"
         }
         espresso {
             dimension "version"
             applicationIdSuffix ".espressoOnFakeServer"
             versionNameSuffix "-espressoOnFakeServer"
             buildConfigField booleanType, fakeServerConfigParameter, "true"
+            buildConfigField booleanType, coroutinesConfigParameter, "false"
+        }
+
+        fakeServerCoroutines {
+            dimension "version"
+            applicationIdSuffix ".fakeServer"
+            versionNameSuffix "-fakeServer"
+            buildConfigField booleanType, fakeServerConfigParameter, "true"
+            buildConfigField booleanType, coroutinesConfigParameter, "true"
+        }
+        fullCoroutines {
+            dimension "version"
+            applicationIdSuffix ".full"
+            versionNameSuffix "-full"
+            buildConfigField booleanType, fakeServerConfigParameter, "false"
+            buildConfigField booleanType, coroutinesConfigParameter, "true"
+        }
+        espressoCoroutines {
+            dimension "version"
+            applicationIdSuffix ".espressoOnFakeServer"
+            versionNameSuffix "-espressoOnFakeServer"
+            buildConfigField booleanType, fakeServerConfigParameter, "true"
+            buildConfigField booleanType, coroutinesConfigParameter, "true"
         }
     }
 
