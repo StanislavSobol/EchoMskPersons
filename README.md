@@ -25,6 +25,7 @@ famous Russian political and public persons (Nevzorov, Navalny, Latynina e.t.c.)
 - Android clean arch.
 - Dagger 2
 - RxJava 2
+- Coroutines
 - JSoup
 - MVVM
 - LiveData
@@ -39,9 +40,12 @@ famous Russian political and public persons (Nevzorov, Navalny, Latynina e.t.c.)
 ### Gradle flavors
 
 Gradle flavors are used
-- full - absolute full version of real data
-- fakeServer - takes data from local assets storage in case if the server is out of reach.
-- espresso - similar to fakeServer flavor. For UI testing.
+- fakeServer - takes data from local assets storage in case if the server is out of reach. Uses LiveData + RxJava 2.
+- full - absolute full version of real data. Uses LiveData + RxJava 2.
+- espresso - similar to fakeServer flavor. For UI testing. Uses LiveData + RxJava 2.
+- fakeServerCoroutines - takes data from local assets storage in case if the server is out of reach.  Uses LiveData + Coroutines.
+- fullCoroutines - absolute full version of real data Uses LiveData + RxJava 2.
+- espressoCoroutines - similar to fakeServerCoroutines flavor. For UI testing Uses LiveData + RxJava 2.
 
 ### Screenshots
 <img src="images/persons.png" alt="scheme" title="scheme" width="360" height="640" />
