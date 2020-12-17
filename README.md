@@ -44,8 +44,8 @@ Gradle flavors are used
 - full - absolute full version of real data. Uses LiveData + RxJava 2.
 - espresso - similar to fakeServer flavor. For UI testing. Uses LiveData + RxJava 2.
 - fakeServerCoroutines - takes data from local assets storage in case if the server is out of reach.  Uses LiveData + Coroutines.
-- fullCoroutines - absolute full version of real data Uses LiveData + RxJava 2.
-- espressoCoroutines - similar to fakeServerCoroutines flavor. For UI testing Uses LiveData + RxJava 2.
+- fullCoroutines - absolute full version of real data Uses LiveData + Coroutines.
+- espressoCoroutines - similar to fakeServerCoroutines flavor. For UI testing Uses LiveData + Coroutines.
 
 ### Screenshots
 <img src="images/persons.png" alt="scheme" title="scheme" width="360" height="640" />
