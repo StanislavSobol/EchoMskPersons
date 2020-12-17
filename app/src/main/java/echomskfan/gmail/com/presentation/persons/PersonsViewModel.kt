@@ -1,6 +1,5 @@
 package echomskfan.gmail.com.presentation.persons
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -13,6 +12,7 @@ import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.presentation.OneShotEvent
 import echomskfan.gmail.com.utils.catchThrowable
 import echomskfan.gmail.com.utils.fromIoToMain
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 @AppTodoMajor("PersonsViewModel: shown loading in the case when the local data exists")
@@ -29,9 +29,10 @@ class PersonsViewModel(private val interactor: IPersonsInteractor,
 
     init {
         if (BuildConfig.COROUTINES) {
-            viewModelScope.launch {
-                Log.d("SSS", "dfsfsdf")
-                coInteractor.transferPersonsFromXmlToDb()
+            withProgress {
+                viewModelScope.launch {
+                    coInteractor.transferPersonsFromXmlToDb()
+                }
             }
         } else {
             interactor.transferPersonsFromXmlToDb()
@@ -48,19 +49,35 @@ class PersonsViewModel(private val interactor: IPersonsInteractor,
     }
 
     fun personItemNotificationClicked(id: Int) {
-        interactor.personIdNotificationClicked(id)
-                .fromIoToMain()
-                .doOnError { e -> catchThrowable(e) }
-                .subscribe()
-                .unsubscribeOnClear()
+        if (BuildConfig.COROUTINES) {
+            withProgress {
+                viewModelScope.launch {
+                    coInteractor.personIdNotificationClicked(id)
+                }
+            }
+        } else {
+            interactor.personIdNotificationClicked(id)
+                    .fromIoToMain()
+                    .doOnError { e -> catchThrowable(e) }
+                    .subscribe()
+                    .unsubscribeOnClear()
+        }
     }
 
     fun personItemFavClicked(id: Int) {
-        interactor.personIdFavClicked(id)
-                .fromIoToMain()
-                .doOnError { e -> catchThrowable(e) }
-                .subscribe()
-                .unsubscribeOnClear()
+        if (BuildConfig.COROUTINES) {
+            withProgress {
+                viewModelScope.launch {
+                    coInteractor.personIdFavClicked(id)
+                }
+            }
+        } else {
+            interactor.personIdFavClicked(id)
+                    .fromIoToMain()
+                    .doOnError { e -> catchThrowable(e) }
+                    .subscribe()
+                    .unsubscribeOnClear()
+        }
     }
 
     fun personItemClicked(id: Int) {
