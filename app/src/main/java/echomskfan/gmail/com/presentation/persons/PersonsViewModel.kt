@@ -1,17 +1,23 @@
 package echomskfan.gmail.com.presentation.persons
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.viewModelScope
+import echomskfan.gmail.com.BuildConfig
 import echomskfan.gmail.com.annotations.apptodo.AppTodoMajor
+import echomskfan.gmail.com.domain.interactor.persons.IPersonsCoInteractor
 import echomskfan.gmail.com.domain.interactor.persons.IPersonsInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.presentation.OneShotEvent
 import echomskfan.gmail.com.utils.catchThrowable
 import echomskfan.gmail.com.utils.fromIoToMain
+import kotlinx.coroutines.launch
 
 @AppTodoMajor("PersonsViewModel: shown loading in the case when the local data exists")
-class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewModel() {
+class PersonsViewModel(private val interactor: IPersonsInteractor,
+                       private val coInteractor: IPersonsCoInteractor) : BaseViewModel() {
 
     private val _navigateToCastsLiveDate = MutableLiveData<OneShotEvent<Int>>()
     val navigateToCastsLiveDate: LiveData<OneShotEvent<Int>>
@@ -21,33 +27,40 @@ class PersonsViewModel(private val interactor: IPersonsInteractor) : BaseViewMod
     val navigateToPersonInfoLiveDate: LiveData<OneShotEvent<Int>>
         get() = _navigateToPersonInfoLiveDate
 
+    init {
+        if (BuildConfig.COROUTINES) {
+            viewModelScope.launch {
+                Log.d("SSS", "dfsfsdf")
+                coInteractor.transferPersonsFromXmlToDb()
+            }
+        } else {
+            interactor.transferPersonsFromXmlToDb()
+                    .fromIoToMain()
+                    .withProgress()
+                    .doOnError { e -> catchThrowable(e) } // TODO to extension
+                    .subscribe()
+                    .unsubscribeOnClear()
+        }
+    }
+
     fun getPersonsLiveData(): LiveData<List<PersonListItem>> {
         return Transformations.map(interactor.getPersonsLiveData()) { list -> PersonListItem.from(list) }
     }
 
-    fun loadData() {
-        interactor.transferPersonsFromXmlToDb()
-            .fromIoToMain()
-            .withProgress()
-            .doOnError { e -> catchThrowable(e) } // TODO to extension
-            .subscribe()
-            .unsubscribeOnClear()
-    }
-
     fun personItemNotificationClicked(id: Int) {
         interactor.personIdNotificationClicked(id)
-            .fromIoToMain()
-            .doOnError { e -> catchThrowable(e) }
-            .subscribe()
-            .unsubscribeOnClear()
+                .fromIoToMain()
+                .doOnError { e -> catchThrowable(e) }
+                .subscribe()
+                .unsubscribeOnClear()
     }
 
     fun personItemFavClicked(id: Int) {
         interactor.personIdFavClicked(id)
-            .fromIoToMain()
-            .doOnError { e -> catchThrowable(e) }
-            .subscribe()
-            .unsubscribeOnClear()
+                .fromIoToMain()
+                .doOnError { e -> catchThrowable(e) }
+                .subscribe()
+                .unsubscribeOnClear()
     }
 
     fun personItemClicked(id: Int) {

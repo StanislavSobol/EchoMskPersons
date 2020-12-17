@@ -55,8 +55,6 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
                 ?.let { id -> mainActivityRouter?.navigateToPersonInfoFromPersons(id) }
         })
 
-        savedInstanceState ?: let { viewModel.loadData() }
-
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.adapter = adapter
 
