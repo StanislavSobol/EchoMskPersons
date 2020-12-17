@@ -3,16 +3,24 @@ package echomskfan.gmail.com.presentation.casts
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.viewModelScope
+import echomskfan.gmail.com.BuildConfig
+import echomskfan.gmail.com.domain.interactor.casts.ICastsCoInteractor
 import echomskfan.gmail.com.domain.interactor.casts.ICastsInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.presentation.OneShotEvent
 import echomskfan.gmail.com.utils.catchThrowable
 import echomskfan.gmail.com.utils.fromIoToMain
+import kotlinx.coroutines.launch
 
-class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel() {
+class CastsViewModel(
+    private val interactor: ICastsInteractor,
+    private val coInteractor: ICastsCoInteractor
+) : BaseViewModel() {
 
     var lastLoadedPageNum: Int = 0
-    // TODO Why do I need this property insted of useing method getCastsLiveDataForPerson with the param
+
+    // TODO Why do I need this property instead of using method getCastsLiveDataForPerson with the param
     var personId: Int? = null
 
     val navigateToPlayerFragmentLiveData: LiveData<OneShotEvent<String>>
@@ -21,16 +29,18 @@ class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel()
 
     private val _navigateToPlayerFragmentLiveData = MutableLiveData<OneShotEvent<String>>()
 
+    fun loadData() {
+        subscribeToTransferCastsFromWebToDb()
+    }
+
     fun getCastsLiveDataForPerson(): LiveData<List<CastListItem>> {
         if (personId == null) {
             personIdIsNull()
         }
 
-        return Transformations.map(interactor.getCastsLiveDataForPerson(personId!!)) { list -> CastListItem.from(list) }
-    }
-
-    fun loadData() {
-        subscribeToTransferCastsFromWebToDb()
+        return Transformations.map(interactor.getCastsLiveDataForPerson(personId!!)) { list ->
+            CastListItem.from(list)
+        }
     }
 
     fun playButtonClicked(castListItem: CastListItem) {
@@ -38,11 +48,17 @@ class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel()
     }
 
     fun itemIdFavClicked(castId: String) {
-        interactor.castIdFavClicked(castId)
-            .doOnError { e -> catchThrowable(e) }
-            .fromIoToMain()
-            .subscribe()
-            .unsubscribeOnClear()
+        if (BuildConfig.COROUTINES) {
+            withProgress {
+                viewModelScope.launch { coInteractor.castIdFavClicked(castId) }
+            }
+        } else {
+            interactor.castIdFavClicked(castId)
+                .doOnError { e -> catchThrowable(e) }
+                .fromIoToMain()
+                .subscribe()
+                .unsubscribeOnClear()
+        }
     }
 
     fun scrolledToBottom() {
@@ -54,17 +70,21 @@ class CastsViewModel(private val interactor: ICastsInteractor) : BaseViewModel()
             return
         }
 
-        if (personId == null) {
-            personIdIsNull()
-        }
+        val id = personId ?: personIdIsNull()
 
         val pageNum = lastLoadedPageNum + 1
 
-        interactor.transferCastsFromWebToDb(personId!!, pageNum)
-            .fromIoToMain()
-            .withProgressOnFirstPage(pageNum)
-            .subscribe({}, { catchThrowable(it) })
-            .unsubscribeOnClear()
+        if (BuildConfig.COROUTINES) {
+            withProgress {
+                viewModelScope.launch { coInteractor.transferCastsFromWebToDb(id, pageNum) }
+            }
+        } else {
+            interactor.transferCastsFromWebToDb(id, pageNum)
+                .fromIoToMain()
+                .withProgressOnFirstPage(pageNum)
+                .subscribe({}, { catchThrowable(it) })
+                .unsubscribeOnClear()
+        }
     }
 
     private fun personIdIsNull(): Nothing {

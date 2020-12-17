@@ -54,7 +54,6 @@ abstract class BaseViewModel : ViewModel() {
         _showProgressLiveData.postValue(false)
     }
 
-
     protected fun withProgress(function: () -> Job) {
         showProgress()
         try {
@@ -65,5 +64,4 @@ abstract class BaseViewModel : ViewModel() {
             hideProgress()
         }
     }
-
 }
