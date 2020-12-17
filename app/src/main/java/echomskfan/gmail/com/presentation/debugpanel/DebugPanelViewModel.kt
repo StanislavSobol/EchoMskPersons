@@ -1,25 +1,34 @@
 package echomskfan.gmail.com.presentation.debugpanel
 
+import androidx.lifecycle.viewModelScope
+import echomskfan.gmail.com.BuildConfig
 import echomskfan.gmail.com.domain.interactor.checknew.ICheckNewInteractor
+import echomskfan.gmail.com.domain.interactor.debugpanel.IDebugPanelCoInteractor
 import echomskfan.gmail.com.domain.interactor.debugpanel.IDebugPanelInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.utils.fromIoToMain
 import io.reactivex.Completable
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 class DebugPanelViewModel(
     private val debugPanelInteractor: IDebugPanelInteractor,
+    private val debugPanelCoInteractor: IDebugPanelCoInteractor,
     private val checkNewInteractor: ICheckNewInteractor
 
 ) : BaseViewModel() {
 
     fun deleteLastNevzorovCastButtonClicked() {
-        debugPanelInteractor.deleteLastNevzorovCast()
-            .fromIoToMain()
-            .delay(DELIBERATE_DELAY_SEC, TimeUnit.SECONDS)
-            .withProgress()
-            .subscribe()
-            .unsubscribeOnClear()
+        if (BuildConfig.COROUTINES) {
+            withProgress { viewModelScope.launch { debugPanelCoInteractor.deleteLastNevzorovCast() } }
+        } else {
+            debugPanelInteractor.deleteLastNevzorovCast()
+                .fromIoToMain()
+                .delay(DELIBERATE_DELAY_SEC, TimeUnit.SECONDS)
+                .withProgress()
+                .subscribe()
+                .unsubscribeOnClear()
+        }
     }
 
     fun workManagerActionButtonClicked() {
