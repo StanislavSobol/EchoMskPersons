@@ -6,7 +6,7 @@ import io.reactivex.Single
 
 class PlayerInteractor(private val repository: IRepository) : IPlayerInteractor {
 
-    override fun getPlayerItemSingle(castId: String): Single<PlayerItem> {
+    override fun getPlayerItem(castId: String): Single<PlayerItem> {
         return Single.create {
             it.onSuccess(repository.getPlayerItem(castId))
         }

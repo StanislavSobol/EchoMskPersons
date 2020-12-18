@@ -2,7 +2,9 @@ package echomskfan.gmail.com.di.player
 
 import dagger.Module
 import dagger.Provides
+import echomskfan.gmail.com.domain.interactor.player.IPlayerCoInteractor
 import echomskfan.gmail.com.domain.interactor.player.IPlayerInteractor
+import echomskfan.gmail.com.domain.interactor.player.PlayerCoInteractor
 import echomskfan.gmail.com.domain.interactor.player.PlayerInteractor
 import echomskfan.gmail.com.domain.repository.IRepository
 import echomskfan.gmail.com.presentation.player.PlayerViewModelFactory
@@ -18,7 +20,16 @@ class PlayerModule {
 
     @PlayerScope
     @Provides
-    fun providePlayerViewModelFactory(interactor: IPlayerInteractor): PlayerViewModelFactory {
-        return PlayerViewModelFactory(interactor)
+    fun providePlayerCoIntercator(repository: IRepository): IPlayerCoInteractor {
+        return PlayerCoInteractor(repository)
+    }
+
+    @PlayerScope
+    @Provides
+    fun providePlayerViewModelFactory(
+        interactor: IPlayerInteractor,
+        coInteractor: IPlayerCoInteractor
+    ): PlayerViewModelFactory {
+        return PlayerViewModelFactory(interactor, coInteractor)
     }
 }
