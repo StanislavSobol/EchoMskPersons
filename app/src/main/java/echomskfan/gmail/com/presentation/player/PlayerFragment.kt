@@ -1,6 +1,7 @@
 package echomskfan.gmail.com.presentation.player
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.SeekBar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -84,6 +85,9 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
         fragmentPlayerPauseButton.visibleOrGone(PlayerItemVisualState.isPlaying)
 
         playerFragmentAudioSeekBar?.progress = progressSec
+
+        Log.d("SSS", "notifyPlayerItemChanged progressSec = $progressSec")
+        viewModel.playedTimeChanged(castId, progressSec)
     }
 
     override fun isFavMenuItemVisible() = false

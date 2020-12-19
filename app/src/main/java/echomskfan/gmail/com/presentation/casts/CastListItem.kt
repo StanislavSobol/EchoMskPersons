@@ -36,7 +36,7 @@ data class CastListItem(
                 typeSubtype = castEntity.getTypeSubtype(),
                 shortText = castEntity.shortText,
                 mp3Url = castEntity.mp3Url,
-                mp3Duration = castEntity.mp3Duration,
+                mp3Duration = castEntity.mp3DurationSec,
                 formattedDate = castEntity.formattedDate,
                 date = castEntity.date,
                 pageNum = castEntity.pageNum,

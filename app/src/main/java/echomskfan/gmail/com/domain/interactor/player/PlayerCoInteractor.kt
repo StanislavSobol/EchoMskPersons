@@ -10,4 +10,8 @@ class PlayerCoInteractor(private val repository: IRepository) : IPlayerCoInterac
     override suspend fun getPlayerItem(castId: String): PlayerItem {
         return withContext(Dispatchers.IO) { repository.getPlayerItem(castId) }
     }
+
+    override suspend fun updatePlayedTime(castId: String, progressSec: Int) {
+        withContext(Dispatchers.IO) { repository.updatePlayedTime(castId, progressSec) }
+    }
 }

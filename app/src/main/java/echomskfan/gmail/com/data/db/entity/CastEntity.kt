@@ -18,10 +18,11 @@ data class CastEntity(
     val subtype: String, // Персонально Ваш
     val shortText: String,
     val mp3Url: String,
-    val mp3Duration: Int,
+    val mp3DurationSec: Int, // SEC
     val formattedDate: String,
     val date: Date,
-    var fav: Boolean = false
+    var fav: Boolean = false,
+    val playedTimeSec: Int = 0
 ) {
     fun getTypeSubtype(): String {
         var result = type

@@ -39,6 +39,8 @@ interface IRepository {
 
     fun insertOrUpdateCasts(newCasts: List<CastEntity>)
 
+    fun updatePlayedTime(castId: String, progressSec: Int)
+
     @AppTodoMinor("IRepository: Move it in a brand new repo ISharedPrefsRepository")
     var isFavOn: Boolean
 }

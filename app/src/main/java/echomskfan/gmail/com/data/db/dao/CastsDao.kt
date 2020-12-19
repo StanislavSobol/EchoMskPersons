@@ -36,7 +36,7 @@ interface CastsDao {
         subtype=:subtype,
         shortText=:shortText,
         mp3Url=:mp3Url,
-        mp3Duration=:mp3Duration
+        mp3DurationSec=:mp3Duration
         WHERE id=:id"""
     )
     fun updateContent(
@@ -54,4 +54,7 @@ interface CastsDao {
 
     @Query("SELECT MAX(date) FROM CastEntity WHERE personId=:personId")
     fun getMaxCastDateForPerson(personId: Int): Date
+
+    @Query("UPDATE CastEntity  SET playedTimeSec=:progressSec WHERE id=:castId")
+    fun updatePlayedTime(castId: String, progressSec: Int)
 }

@@ -155,7 +155,7 @@ class EchoParser(private val assetExtractor: IAssetExtractor) : IEchoParser {
                     subtype = subtype,
                     shortText = shortText,
                     mp3Url = mp3Url,
-                    mp3Duration = mp3Duration,
+                    mp3DurationSec = mp3Duration,
                     formattedDate = formattedDate,
                     date = CastEntity.dateFromString(formattedDate)
                 )

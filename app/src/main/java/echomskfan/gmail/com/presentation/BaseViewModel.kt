@@ -56,7 +56,7 @@ abstract class BaseViewModel : ViewModel() {
 
     fun withProgress(block: suspend () -> Unit) {
         viewModelScope.launch {
-         //   showProgress()
+            showProgress()
             try {
                 block.invoke()
             } catch (e: Exception) {

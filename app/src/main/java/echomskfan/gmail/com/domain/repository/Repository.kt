@@ -78,7 +78,7 @@ class Repository(
                         subtype = newCast.subtype,
                         shortText = newCast.shortText,
                         mp3Url = newCast.mp3Url,
-                        mp3Duration = newCast.mp3Duration,
+                        mp3Duration = newCast.mp3DurationSec,
                         id = newCast.id
                     )
                 } ?: castsDao.insert(newCast)
@@ -101,7 +101,7 @@ class Repository(
                 typeSubtype = castEntity.getTypeSubtype(),
                 formattedDate = castEntity.formattedDate,
                 mp3Url = castEntity.mp3Url,
-                mp3Duration = castEntity.mp3Duration
+                mp3Duration = castEntity.mp3DurationSec
             )
         } else {
             throw IllegalStateException("Not enough info about the cast or the person")
@@ -134,13 +134,17 @@ class Repository(
                     subtype = newCast.subtype,
                     shortText = newCast.shortText,
                     mp3Url = newCast.mp3Url,
-                    mp3Duration = newCast.mp3Duration,
+                    mp3Duration = newCast.mp3DurationSec,
                     id = newCast.id
                 )
             } ?: castsDao.insert(newCast)
 
         }
         castsDao.removeGarbage()
+    }
+
+    override fun updatePlayedTime(castId: String, progressSec: Int) {
+        castsDao.updatePlayedTime(castId, progressSec)
     }
 
     override var isFavOn: Boolean
