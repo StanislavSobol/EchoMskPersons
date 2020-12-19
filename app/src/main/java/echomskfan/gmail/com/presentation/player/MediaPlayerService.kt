@@ -90,22 +90,27 @@ class MediaPlayerService : Service() {
 
     fun play(playingItem: PlayerItem) {
         this.playerItem = playingItem
-        try {
+        mediaPlayer.let {
             try {
-                mediaPlayer.reset()
-            } catch (e: IllegalStateException) {
+                try {
+                    it.reset()
+                } catch (e: IllegalStateException) {
+                    catchThrowable(e)
+                }
+                it.setDataSource(playingItem.mp3Url)
+                it.setOnPreparedListener {
+                    if (playingItem.playedTimeSec > 0) {
+                        it.seekTo(playingItem.playedTimeSec * 1000)
+                    }
+                    it.start()
+                    startForeground()
+                    startTracking()
+                    playerBridge?.mp3Loaded()
+                }
+                it.prepareAsync()
+            } catch (e: IOException) {
                 catchThrowable(e)
             }
-            mediaPlayer.setDataSource(playingItem.mp3Url)
-            mediaPlayer.setOnPreparedListener {
-                mediaPlayer.start()
-                startForeground()
-                startTracking()
-                playerBridge?.mp3Loaded()
-            }
-            mediaPlayer.prepareAsync()
-        } catch (e: IOException) {
-            catchThrowable(e)
         }
 
         PlayerItemVisualState.play()

@@ -7,6 +7,7 @@ data class PlayerItem(
     val typeSubtype: String,
     val formattedDate: String,
     val mp3Url: String,
-    val mp3Duration: Int
+    val mp3DurationSec: Int,
+    val playedTimeSec: Int
 )
 

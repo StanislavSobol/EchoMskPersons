@@ -99,7 +99,7 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
 
         playerFragmentImageView.imageUrl = playerItem.personPhotoUrl
 
-        playerFragmentAudioSeekBar.max = playerItem.mp3Duration
+        playerFragmentAudioSeekBar.max = playerItem.mp3DurationSec
         playerFragmentAudioSeekBar.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
@@ -113,7 +113,7 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
             }
         })
 
-        maxProgressTextView?.text = playerItem.mp3Duration.fromSecToAudioDuration()
+        maxProgressTextView?.text = playerItem.mp3DurationSec.fromSecToAudioDuration()
 
         fragmentPlayerPlayButton?.setOnClickListener { playerBridge.resume() }
         fragmentPlayerPauseButton?.setOnClickListener { playerBridge.pause() }

@@ -101,7 +101,8 @@ class Repository(
                 typeSubtype = castEntity.getTypeSubtype(),
                 formattedDate = castEntity.formattedDate,
                 mp3Url = castEntity.mp3Url,
-                mp3Duration = castEntity.mp3DurationSec
+                mp3DurationSec = castEntity.mp3DurationSec,
+                playedTimeSec = castEntity.playedTimeSec
             )
         } else {
             throw IllegalStateException("Not enough info about the cast or the person")
