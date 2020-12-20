@@ -16,7 +16,7 @@ import echomskfan.gmail.com.di.player.DaggerPlayerComponent
 import echomskfan.gmail.com.di.player.PlayerScope
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
-import echomskfan.gmail.com.utils.fromMSecSec
+import echomskfan.gmail.com.utils.fromMilliSecToSec
 import echomskfan.gmail.com.utils.fromSecToAudioDuration
 import kotlinx.android.synthetic.main.fragment_player.*
 import javax.inject.Inject
@@ -74,7 +74,7 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
             return
         }
 
-        val progressSec = PlayerItemVisualState.progressMSec.fromMSecSec()
+        val progressSec = PlayerItemVisualState.progressMSec.fromMilliSecToSec()
 
         if (PlayerItemVisualState.isPlaying) {
             progressTextView?.text = progressSec.fromSecToAudioDuration()

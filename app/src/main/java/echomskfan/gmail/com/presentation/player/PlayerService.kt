@@ -16,16 +16,20 @@ import androidx.annotation.IdRes
 import androidx.core.app.NotificationCompat
 import echomskfan.gmail.com.BuildConfig
 import echomskfan.gmail.com.EXTRA_PLAYER_ITEM_CAST_ID
+import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
 import echomskfan.gmail.com.presentation.main.MainActivity
 import echomskfan.gmail.com.utils.*
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class MediaPlayerService : Service() {
+class PlayerService : Service() {
 
     internal var playerItem: PlayerItem? = null
     internal var playerBridge: PlayerBridge? = null
@@ -54,7 +58,6 @@ class MediaPlayerService : Service() {
                             playerBridge?.notifyPlayerItemChanged()
                         }
                         CLOSE_ACTION -> {
-                            stop()
                             fullStop()
                             playerBridge?.notifyPlayerItemChanged()
                         }
@@ -241,11 +244,30 @@ class MediaPlayerService : Service() {
     }
 
     private fun startTracking() {
+        val castId = playerItem?.castId ?: throw java.lang.IllegalStateException()
+
         intervalDisposable?.dispose()
 
         intervalDisposable = Observable.interval(1, TimeUnit.SECONDS)
             .fromComputationToMain()
             .subscribe {
+                if (BuildConfig.COROUTINES) {
+                    // TODO PlayerSeviceScope
+                    GlobalScope.launch {
+                        MApplication.getAppComponent().playCoInteractor()
+                            .updatePlayedTime(
+                                castId,
+                                mediaPlayer.currentPosition.fromMilliSecToSec()
+                            )
+                    }
+                } else {
+                    MApplication.getAppComponent().playInteractor()
+                        .updatePlayedTime(castId, mediaPlayer.currentPosition.fromMilliSecToSec())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe()
+                        .dispose()
+                }
+
                 PlayerItemVisualState.track(mediaPlayer.currentPosition)
                     .applyRemoteViewsAppearance()
 
@@ -288,13 +310,14 @@ class MediaPlayerService : Service() {
 
         notificationRemoteView?.setTextViewText(
             R.id.notificationTimeCodeTextView,
-            progressMSec.fromMSecSec().fromSecToAudioDuration()
+            progressMSec.fromMilliSecToSec().fromSecToAudioDuration()
         )
 
         getNotificationManager().notify(NOTIFICATION_ID, notificationBuilder?.build())
     }
 
     private fun fullStop() {
+        stop()
         PlayerItemVisualState.close()
         stopForeground(true)
         stopSelf()
@@ -310,8 +333,8 @@ class MediaPlayerService : Service() {
     }
 
     inner class MediaServiceBinder : Binder() {
-        val service: MediaPlayerService
-            get() = this@MediaPlayerService
+        val service: PlayerService
+            get() = this@PlayerService
     }
 
     class NotificationPlayButtonHandler : BroadcastReceiver() {

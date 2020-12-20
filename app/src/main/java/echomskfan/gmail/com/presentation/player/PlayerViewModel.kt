@@ -1,15 +1,14 @@
 package echomskfan.gmail.com.presentation.player
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import echomskfan.gmail.com.BuildConfig
 import echomskfan.gmail.com.domain.interactor.player.IPlayerCoInteractor
 import echomskfan.gmail.com.domain.interactor.player.IPlayerInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.utils.catchThrowable
 import echomskfan.gmail.com.utils.fromIoToMain
-import kotlinx.coroutines.launch
 
 class PlayerViewModel(
     private val interactor: IPlayerInteractor,
@@ -50,14 +49,7 @@ class PlayerViewModel(
             castIdIsNull()
         }
 
-        if (BuildConfig.COROUTINES) {
-            viewModelScope.launch { coInteractor.updatePlayedTime(castId, progressSec) }
-        } else {
-            interactor.updatePlayedTime(castId, progressSec)
-                .fromIoToMain()
-                .subscribe()
-                .unsubscribeOnClear()
-        }
+        Log.d("SSS", "progressSec = $progressSec")
 
     }
 

@@ -27,7 +27,6 @@ internal object PlayerItemVisualState {
     }
 
     fun track(progressMSec: Int): PlayerItemVisualState {
-
         this.progressMSec = progressMSec
         isPlaying = true
         isClosed = false

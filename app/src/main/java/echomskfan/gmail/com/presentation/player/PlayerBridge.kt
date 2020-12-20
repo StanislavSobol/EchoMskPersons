@@ -17,39 +17,39 @@ internal class PlayerBridge(private val playerFragment: PlayerFragment) {
 
     private var mediaPlayerServiceIntent: Intent? = null
     private var mediaPlayerServiceConnection: ServiceConnection? = null
-    private var mediaPlayerService: MediaPlayerService? = null
+    private var playerService: PlayerService? = null
     private var playerItem: PlayerItem? = null
     private var bound = false
 
     fun bindServiceAndPlay(playerItem: PlayerItem) {
         this.playerItem = playerItem
-        mediaPlayerService ?: bindService()
+        playerService ?: bindService()
     }
 
     fun bindServiceAndResume() {
         playerItem = null
-        mediaPlayerService ?: bindService()
+        playerService ?: bindService()
     }
 
     private fun bindService() {
         getMainActivity().let {
-            mediaPlayerServiceIntent = Intent(it, MediaPlayerService::class.java)
+            mediaPlayerServiceIntent = Intent(it, PlayerService::class.java)
             mediaPlayerServiceConnection = object : ServiceConnection {
                 override fun onServiceConnected(name: ComponentName, service: IBinder) {
-                    mediaPlayerService = (service as MediaPlayerService.MediaServiceBinder).service
-                    mediaPlayerService!!.playerBridge = this@PlayerBridge
+                    playerService = (service as PlayerService.MediaServiceBinder).service
+                    playerService!!.playerBridge = this@PlayerBridge
                     if (playerItem != null) {
-                        mediaPlayerService?.play(playerItem!!)
+                        playerService?.play(playerItem!!)
                     } else {
-                        playerItem = mediaPlayerService?.playerItem
-                        mediaPlayerService?.resume()
+                        playerItem = playerService?.playerItem
+                        playerService?.resume()
                     }
 
                     bound = true
                 }
 
                 override fun onServiceDisconnected(name: ComponentName) {
-                    mediaPlayerService = null
+                    playerService = null
                 }
             }
 
@@ -75,21 +75,21 @@ internal class PlayerBridge(private val playerFragment: PlayerFragment) {
     }
 
     fun seekTo(progress: Int) {
-        mediaPlayerService?.seekTo(progress)
+        playerService?.seekTo(progress)
     }
 
     fun resume() {
-        mediaPlayerService?.resume()
+        playerService?.resume()
     }
 
     fun pause() {
-        mediaPlayerService?.pause()
+        playerService?.pause()
     }
 
     fun unbindService() {
         if (bound) {
             mediaPlayerServiceConnection?.let {
-                mediaPlayerService?.playerBridge = null
+                playerService?.playerBridge = null
                 try {
                     bound = false
                     getMainActivity().unbindService(it)

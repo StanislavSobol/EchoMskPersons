@@ -6,6 +6,8 @@ import dagger.Component
 import echomskfan.gmail.com.data.db.PersonsDatabase
 import echomskfan.gmail.com.domain.interactor.checknew.CheckNewWorker
 import echomskfan.gmail.com.domain.interactor.checknew.ICheckNewInteractor
+import echomskfan.gmail.com.domain.interactor.player.IPlayerCoInteractor
+import echomskfan.gmail.com.domain.interactor.player.IPlayerInteractor
 import echomskfan.gmail.com.domain.repository.IRepository
 import echomskfan.gmail.com.presentation.SplashActivity
 import echomskfan.gmail.com.presentation.main.MainActivity
@@ -17,6 +19,8 @@ interface AppComponent {
     fun repository(): IRepository
     fun db(): PersonsDatabase
     fun checkNewInteractor(): ICheckNewInteractor
+    fun playInteractor(): IPlayerInteractor
+    fun playCoInteractor(): IPlayerCoInteractor
 
     fun inject(checkNewWorker: CheckNewWorker)
     fun inject(splashActivity: SplashActivity)

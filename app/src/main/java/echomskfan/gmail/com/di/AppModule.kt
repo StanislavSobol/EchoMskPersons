@@ -17,6 +17,10 @@ import echomskfan.gmail.com.domain.interactor.config.ConfigProvider
 import echomskfan.gmail.com.domain.interactor.config.IConfigProvider
 import echomskfan.gmail.com.domain.interactor.main.IMainInteractor
 import echomskfan.gmail.com.domain.interactor.main.MainInteractor
+import echomskfan.gmail.com.domain.interactor.player.IPlayerCoInteractor
+import echomskfan.gmail.com.domain.interactor.player.IPlayerInteractor
+import echomskfan.gmail.com.domain.interactor.player.PlayerCoInteractor
+import echomskfan.gmail.com.domain.interactor.player.PlayerInteractor
 import echomskfan.gmail.com.domain.repository.ConfigRepository
 import echomskfan.gmail.com.domain.repository.IConfigRepository
 import echomskfan.gmail.com.domain.repository.IRepository
@@ -99,6 +103,19 @@ class AppModule {
         configProvider: IConfigProvider
     ): MainViewModelFactory {
         return MainViewModelFactory(interactor, configProvider)
+    }
+
+
+    @Singleton
+    @Provides
+    fun providePlayerIntercator(repository: IRepository): IPlayerInteractor {
+        return PlayerInteractor(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun providePlayerCoIntercator(repository: IRepository): IPlayerCoInteractor {
+        return PlayerCoInteractor(repository)
     }
 
     companion object {

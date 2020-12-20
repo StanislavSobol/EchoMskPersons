@@ -34,13 +34,13 @@
             android:launchMode="singleTop" />
 
         <service
-            android:name=".presentation.player.MediaPlayerService"
+            android:name=".presentation.player.PlayerService"
             android:enabled="true"
             android:exported="false" />
 
-        <receiver android:name=".presentation.player.MediaPlayerService$NotificationPlayButtonHandler" />
-        <receiver android:name=".presentation.player.MediaPlayerService$NotificationPauseButtonHandler" />
-        <receiver android:name=".presentation.player.MediaPlayerService$NotificationCloseButtonHandler" />
+        <receiver android:name=".presentation.player.PlayerService$NotificationPlayButtonHandler" />
+        <receiver android:name=".presentation.player.PlayerService$NotificationPauseButtonHandler" />
+        <receiver android:name=".presentation.player.PlayerService$NotificationCloseButtonHandler" />
     </application>
 
 </manifest>

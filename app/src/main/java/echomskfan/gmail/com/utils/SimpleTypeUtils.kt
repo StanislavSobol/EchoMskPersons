@@ -56,5 +56,5 @@ fun Int.fromSecToAudioDuration(): String {
 /**
  * Converts milliseconds to seconds
  */
-fun Int.fromMSecSec() = this / 1000
+fun Int.fromMilliSecToSec() = this / 1000
 
