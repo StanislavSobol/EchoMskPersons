@@ -1,9 +1,9 @@
 # Persons of "Echo of Moscow"
 
 ### Disclaimer
-It's a personal "pet" project of Stanislav Sobol (stanislav.i.sobol@gmail.com).
-It's forbidden to use for any commercial purpose or to be published as an app on any kind of web resources (e.g. Google Play).
-The only goal of the app is to discover Android development process, approaches, technologies and sharpening my personal skills as an Android developer.
+It's a personal "pet" project of Stanislav Sobol (stanislav.i.sobol@gmail.com). It's forbidden to use for any commercial purpose or
+to be published as an app on any kind of web resources (e.g. Google Play). The only goal of the app is to discover the Android
+development process, approaches, technologies, and sharpening my personal skills as an Android developer.
 
 ### Common notes
 The app is a classical app for parsing different web data. It parses data of "Echo of Moscow" radio station web site and extracts
