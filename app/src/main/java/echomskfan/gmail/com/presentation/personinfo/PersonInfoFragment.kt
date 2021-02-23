@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProviders
 import echomskfan.gmail.com.EXTRA_PERSON_ID
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
-import echomskfan.gmail.com.annotations.featurenavigator.ForFeatureNavigator
 import echomskfan.gmail.com.di.personinfo.DaggerPersonInfoComponent
 import echomskfan.gmail.com.di.persons.PersonsScope
 import echomskfan.gmail.com.presentation.BaseFragment
@@ -14,7 +13,6 @@ import echomskfan.gmail.com.presentation.FragmentType
 import kotlinx.android.synthetic.main.fragment_person_info.*
 import javax.inject.Inject
 
-@ForFeatureNavigator(enabled = true)
 class PersonInfoFragment : BaseFragment(FragmentType.Child, R.layout.fragment_person_info) {
 
     @PersonsScope

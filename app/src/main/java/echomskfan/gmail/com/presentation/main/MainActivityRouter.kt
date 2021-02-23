@@ -1,49 +1,32 @@
 package echomskfan.gmail.com.presentation.main
 
-import android.content.Context
 import androidx.navigation.NavController
-import echomskfan.gmail.com.*
-import echomskfan.gmail.com.annotationlib.FeatureNavigator
-import echomskfan.gmail.com.presentation.casts.CastsFragment
-import echomskfan.gmail.com.presentation.debugpanel.DebugPanelFragment
-import echomskfan.gmail.com.presentation.personinfo.PersonInfoFragment
-import echomskfan.gmail.com.presentation.player.PlayerFragment
-import echomskfan.gmail.com.presentation.settings.SettingsFragment
+import echomskfan.gmail.com.EXTRA_CAST_ID
+import echomskfan.gmail.com.EXTRA_PERSON_ID
+import echomskfan.gmail.com.EXTRA_PLAYER_RESUME
+import echomskfan.gmail.com.R
 
-internal class MainActivityRouter(
-    appContext: Context, private val navController: NavController
-) : IMainActivityRouter {
-
-    init {
-        FeatureNavigator.appContext = appContext
-        FeatureNavigator.isBuildConfigDebug = BuildConfig.DEBUG
-    }
+internal class MainActivityRouter(private val navController: NavController) : IMainActivityRouter {
 
     override fun navigateToCastsFromPersons(personId: Int) {
-        FeatureNavigator.navigate(CastsFragment::class.java) {
-            navController.navigate(
-                R.id.action_personsFragment_to_castsFragment,
-                com.example.corelib.bundleOf(EXTRA_PERSON_ID to personId)
-            )
-        }
+        navController.navigate(
+            R.id.action_personsFragment_to_castsFragment,
+            com.example.corelib.bundleOf(EXTRA_PERSON_ID to personId)
+        )
     }
 
     override fun navigateToPersonInfoFromPersons(personId: Int) {
-        FeatureNavigator.navigate(PersonInfoFragment::class.java) {
-            navController.navigate(
-                R.id.action_personsFragment_to_personInfoFragment,
-                com.example.corelib.bundleOf(EXTRA_PERSON_ID to personId)
-            )
-        }
+        navController.navigate(
+            R.id.action_personsFragment_to_personInfoFragment,
+            com.example.corelib.bundleOf(EXTRA_PERSON_ID to personId)
+        )
     }
 
     override fun navigateToPlayerFromCasts(castId: String) {
-        FeatureNavigator.navigate(PlayerFragment::class.java) {
-            navController.navigate(
-                R.id.action_castsFragment_to_playerFragment,
-                com.example.corelib.bundleOf(EXTRA_CAST_ID to castId)
-            )
-        }
+        navController.navigate(
+            R.id.action_castsFragment_to_playerFragment,
+            com.example.corelib.bundleOf(EXTRA_CAST_ID to castId)
+        )
     }
 
     override fun closePlayerFragment() {
@@ -52,26 +35,20 @@ internal class MainActivityRouter(
 
     override fun navigateToPlayerAndResumePlaying(castId: String) {
         closePlayerFragment()
-        FeatureNavigator.navigate(PlayerFragment::class.java) {
-            navController.navigate(
-                R.id.playerFragment,
-                com.example.corelib.bundleOf(
-                    EXTRA_CAST_ID to castId,
-                    EXTRA_PLAYER_RESUME to true
-                )
+        navController.navigate(
+            R.id.playerFragment,
+            com.example.corelib.bundleOf(
+                EXTRA_CAST_ID to castId,
+                EXTRA_PLAYER_RESUME to true
             )
-        }
+        )
     }
 
     override fun navigateToDebugPanel() {
-        FeatureNavigator.navigate(DebugPanelFragment::class.java) {
-            navController.navigate(R.id.debugPanelFragment)
-        }
+        navController.navigate(R.id.debugPanelFragment)
     }
 
     override fun navigateToSettings() {
-        FeatureNavigator.navigate(SettingsFragment::class.java) {
-            navController.navigate(R.id.settingsFragment)
-        }
+        navController.navigate(R.id.settingsFragment)
     }
 }

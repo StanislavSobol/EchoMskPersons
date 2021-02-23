@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-        router = MainActivityRouter(applicationContext, navController)
+        router = MainActivityRouter(navController)
 
         applyIntent(intent)
 

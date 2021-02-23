@@ -14,9 +14,8 @@ famous Russian political and public persons (Nevzorov, Navalny, Latynina e.t.c.)
 - Mediaplayer, able to play the audio-podcasts both on background and foreground. The player remembers last track position for every podcast.
 - Single activity
 - Reach notification (Remote views) for the mediaplayer
-- Config files with various parameters
 - Offline work. Detects and shows when the device goes offline and back (only for the foreground state)
-- KAPT for feature routing annotation
+- KAPT for direct injecting config values for different params from JSON-file
 - Night mode (dark theme) is widely supported
 - Any person who has a personal channel on "Echo of Moscow", can be easily added to the lists of persons via xml-file
 
@@ -26,12 +25,12 @@ famous Russian political and public persons (Nevzorov, Navalny, Latynina e.t.c.)
 - Dagger 2
 - RxJava 2
 - Coroutines
-- JSoup
 - MVVM
 - LiveData
 - Room
-- Glide
 - Kapt
+- JSoup
+- Glide
 - Navigation
 - WorkManager
 - JUnit (Mockito, PowerMockito)

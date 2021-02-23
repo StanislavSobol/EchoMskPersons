@@ -5,7 +5,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
-import echomskfan.gmail.com.annotations.featurenavigator.ForFeatureNavigator
 import echomskfan.gmail.com.di.debugpanel.DebugPanelScope
 import echomskfan.gmail.com.di.settings.DaggerSettingsComponent
 import echomskfan.gmail.com.presentation.BaseFragment
@@ -13,7 +12,6 @@ import echomskfan.gmail.com.presentation.FragmentType
 import kotlinx.android.synthetic.main.fragment_settings.*
 import javax.inject.Inject
 
-@ForFeatureNavigator(enabled = true)
 class SettingsFragment : BaseFragment(FragmentType.None, R.layout.fragment_settings) {
 
     @DebugPanelScope

@@ -3,12 +3,10 @@ package echomskfan.gmail.com.presentation.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import echomskfan.gmail.com.ConfigInjector
-import echomskfan.gmail.com.annotationlib.FeatureNavigator
 import echomskfan.gmail.com.annotations.configinjector.ConfigParam
 import echomskfan.gmail.com.domain.interactor.main.IMainInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.presentation.OneShotEvent
-import echomskfan.gmail.com.presentation.debugpanel.DebugPanelFragment
 
 class MainViewModel(private val interactor: IMainInteractor) : BaseViewModel() {
 
@@ -25,6 +23,7 @@ class MainViewModel(private val interactor: IMainInteractor) : BaseViewModel() {
     val favOnLiveDate: LiveData<Boolean>
         get() = _favOnLiveDate
 
+    // TODO Do I need it?
     private val _debugPanelEnabledLiveDate = MutableLiveData<Boolean>()
     val debugPanelEnabledLiveDate: LiveData<Boolean>
         get() = _debugPanelEnabledLiveDate
@@ -65,8 +64,7 @@ class MainViewModel(private val interactor: IMainInteractor) : BaseViewModel() {
         isFavOn = interactor.isFavOn
         _favOnLiveDate.value = isFavOn
 
-        _debugPanelEnabledLiveDate.value =
-            FeatureNavigator.isFeatureEnabled(DebugPanelFragment::class.java)
+        _debugPanelEnabledLiveDate.value = true
     }
 
     fun favMenuItemClicked() {

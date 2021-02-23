@@ -11,7 +11,6 @@ import echomskfan.gmail.com.EXTRA_CAST_ID
 import echomskfan.gmail.com.EXTRA_PLAYER_RESUME
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
-import echomskfan.gmail.com.annotations.featurenavigator.ForFeatureNavigator
 import echomskfan.gmail.com.di.player.DaggerPlayerComponent
 import echomskfan.gmail.com.di.player.PlayerScope
 import echomskfan.gmail.com.presentation.BaseFragment
@@ -21,7 +20,6 @@ import echomskfan.gmail.com.utils.fromSecToAudioDuration
 import kotlinx.android.synthetic.main.fragment_player.*
 import javax.inject.Inject
 
-@ForFeatureNavigator(enabled = true)
 class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player) {
 
     @PlayerScope

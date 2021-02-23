@@ -9,7 +9,6 @@ import com.example.corelib.visibleOrGone
 import echomskfan.gmail.com.EXTRA_PERSON_ID
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
-import echomskfan.gmail.com.annotations.featurenavigator.ForFeatureNavigator
 import echomskfan.gmail.com.di.persons.DaggerPersonsComponent
 import echomskfan.gmail.com.di.persons.PersonsScope
 import echomskfan.gmail.com.presentation.BaseFragment
@@ -19,7 +18,6 @@ import kotlinx.android.synthetic.main.fragment_recycler_view.*
 import kotlinx.android.synthetic.main.full_progress_bar_content.*
 import javax.inject.Inject
 
-@ForFeatureNavigator(enabled = true)
 class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycler_view), IFavMenuItemClickListener {
 
     @PersonsScope
