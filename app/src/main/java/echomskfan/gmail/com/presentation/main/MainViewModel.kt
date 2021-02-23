@@ -2,17 +2,19 @@ package echomskfan.gmail.com.presentation.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import echomskfan.gmail.com.FeatureConfigurator
 import echomskfan.gmail.com.annotationlib.FeatureNavigator
+import echomskfan.gmail.com.annotations.featureconfigurator.FeatureToggleBoolean
 import echomskfan.gmail.com.domain.interactor.config.IConfigProvider
 import echomskfan.gmail.com.domain.interactor.main.IMainInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.presentation.OneShotEvent
 import echomskfan.gmail.com.presentation.debugpanel.DebugPanelFragment
 
-class MainViewModel(
-    private val interactor: IMainInteractor,
-    configProvider: IConfigProvider
-) : BaseViewModel() {
+class MainViewModel(private val interactor: IMainInteractor, configProvider: IConfigProvider) : BaseViewModel() {
+
+    @FeatureToggleBoolean("disclaimerEnabled")
+    var isDisclaimerEnabled: Boolean = true
 
     private var isFavOn: Boolean = false
     private var firstOnlineFired: Boolean = false
@@ -46,8 +48,9 @@ class MainViewModel(
         get() = _goesOnlineLiveDate
 
     init {
+        FeatureConfigurator.bind(this)
         loadMenuData()
-        _disclaimerEnabledLiveDate.value = OneShotEvent(configProvider.isDisclaimerEnabled)
+        _disclaimerEnabledLiveDate.value = OneShotEvent(isDisclaimerEnabled)
         _showOnlineStateDelayMSec.value = OneShotEvent(configProvider.showOnlineStateDelayMSec)
     }
 

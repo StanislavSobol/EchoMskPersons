@@ -25,9 +25,6 @@ class ConfigRepository(private val appContext: Context) : IConfigRepository {
         propertiesDelegate = PropertiesDelegate(map)
     }
 
-    override val isDisclaimerEnabled
-        get() = propertiesDelegate.disclaimerEnabled
-
     override val showOnlineStateDelayMSec: Long
         get() = propertiesDelegate.showOnlineStateDelayMSec
 

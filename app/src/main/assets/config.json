@@ -1,6 +1,6 @@
 [
   {
-    "disclaimerEnabled": false
+    "disclaimerEnabled": true
   },
   {
     "showOnlineStateDelayMSec": 2000

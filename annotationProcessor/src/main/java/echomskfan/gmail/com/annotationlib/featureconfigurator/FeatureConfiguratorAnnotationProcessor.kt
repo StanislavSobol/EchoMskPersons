@@ -17,7 +17,6 @@ class FeatureConfiguratorAnnotationProcessor : AbstractProcessor() {
 
     private val fileBuilder = FeatureConfiguratorFileBuilder()
 
-
     override fun getSupportedAnnotationTypes(): MutableSet<String> {
         return mutableSetOf(FeatureToggleBoolean::class.java.name)
     }
@@ -46,13 +45,15 @@ class FeatureConfiguratorAnnotationProcessor : AbstractProcessor() {
           //  fileBuilder.addTestSting("// it =  ${it}    ")
             fileBuilder.addTestSting("// param =  ${param}    ")
             */
+            // fileBuilder.addTestSting("//" + Class.forName(it.enclosingElement.toString()).name)
+            //  fileBuilder.addTestSting("//" + it.enclosingElement.toString())
+
             fileBuilder.addBooleanDataFormProcessor(
-                className = it.enclosingElement.simpleName.toString(),
+                className = it.enclosingElement.toString(),
                 fieldName = it.simpleName.toString().replace("\$annotations", ""),
                 paramName = it.getAnnotation(FeatureToggleBoolean::class.java).param
             )
         }
-
 
         round++
 

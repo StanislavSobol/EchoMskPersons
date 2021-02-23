@@ -2,11 +2,9 @@ package echomskfan.gmail.com
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.util.Log
 import android.widget.Toast
 import androidx.multidex.MultiDexApplication
 import echomskfan.gmail.com.annotations.apptodo.AppTodoMainPackage
-import echomskfan.gmail.com.annotations.featureconfigurator.FeatureToggleBoolean
 import echomskfan.gmail.com.di.AppComponent
 import echomskfan.gmail.com.di.DaggerAppComponent
 
@@ -15,8 +13,8 @@ class MApplication : MultiDexApplication() {
 
     private lateinit var daggerAppComponent: AppComponent
 
-    @FeatureToggleBoolean("disclaimerEnabled")
-    var testDisclaimerEnabled: Boolean = true
+//    @FeatureToggleBoolean("disclaimerEnabled")
+//    var testDisclaimerEnabled: Boolean = true
 
     override fun onCreate() {
         super.onCreate()
@@ -27,14 +25,17 @@ class MApplication : MultiDexApplication() {
             .appContext(this.applicationContext)
             .build()
 
-        FeatureConfiguratorExample.install(
-            appContext = instance.applicationContext,
-            configJsonName = CONFIG_JSON_NAME
-        )
-        // FeatureConfiguratorExample.addBoolean(MApplication::class, "disclaimerEnabled", "testDisclaimerEnabled")
-        FeatureConfiguratorExample.bind(this)
+        FeatureConfigurator.install(appContext = instance.applicationContext, configJsonName = CONFIG_JSON_NAME)
 
-        Log.d("SSS", "testDisclaimerEnabled = $testDisclaimerEnabled")
+
+//        FeatureConfiguratorExample.install(
+//            appContext = instance.applicationContext,
+//            configJsonName = CONFIG_JSON_NAME
+//        )
+        // FeatureConfiguratorExample.addBoolean(MApplication::class, "disclaimerEnabled", "testDisclaimerEnabled")
+        // FeatureConfiguratorExample.bind(this)
+
+        // Log.d("SSS", "testDisclaimerEnabled = $testDisclaimerEnabled")
     }
 
     fun isOnlineWithToast(showToastIfNot: Boolean): Boolean {
