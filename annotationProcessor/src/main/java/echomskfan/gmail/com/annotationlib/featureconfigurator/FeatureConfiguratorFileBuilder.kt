@@ -4,22 +4,26 @@ import java.io.File
 
 internal class FeatureConfiguratorFileBuilder {
 
-    private var log: String = ""
+    private val dataStringBuilder = StringBuilder()
 
-    fun writeLog(logInfo: String) {
-        log = logInfo
+    fun addBooleanDataFormProcessor(className: String, fieldName: String, paramName: String) {
+        dataStringBuilder
+            .append("\n")
+            .append("addBoolean($className::class, ${fieldName.quote()}, ${paramName.quote()})")
     }
 
-
-    fun addBooleanPair(name: String, value: Any) {
+    fun addTestSting(testString: String) {
+        dataStringBuilder.append("$testString")
     }
 
     fun save(dirName: String) {
-        String.format(FILE_BODY, "// COMMENT").let { File(dirName, FILE_NAME).writeText(it) }
+        String.format(FILE_BODY, dataStringBuilder.toString()).let { File(dirName, FILE_NAME).writeText(it) }
     }
 
+    private fun String.quote() = "\"" + this + "\""
+
     companion object {
-        const val PACKAGE_NAME = "echomskfan.gmail.com"//.annotationlib"
+        const val PACKAGE_NAME = "echomskfan.gmail.com"
         const val OBJECT_NAME = "FeatureConfigurator"
         const val FILE_NAME = "$OBJECT_NAME.kt"
 
@@ -62,12 +66,11 @@ internal class FeatureConfiguratorFileBuilder {
                     }
                 }
 
-                private fun addBoolean(clazz: KClass<*>, paramName: String, fieldName: String) {
+                private fun addBoolean(clazz: KClass<*>, fieldName: String, paramName: String) {
                     jsonMap[paramName]?.let { booleans[clazz] = BooleanData(fieldName, it as Boolean) }
                 }
 
                 private fun fromProcessor() {
-                    // addBoolean(MApplication::class, "disclaimerEnabled", "testDisclaimerEnabled")
                     %s
                 }
 

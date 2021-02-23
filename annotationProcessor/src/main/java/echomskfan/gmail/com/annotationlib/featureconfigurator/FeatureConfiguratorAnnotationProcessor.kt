@@ -15,7 +15,8 @@ import javax.lang.model.element.TypeElement
 @AutoService(Processor::class)
 class FeatureConfiguratorAnnotationProcessor : AbstractProcessor() {
 
-    // private var
+    private val fileBuilder = FeatureConfiguratorFileBuilder()
+
 
     override fun getSupportedAnnotationTypes(): MutableSet<String> {
         return mutableSetOf(FeatureToggleBoolean::class.java.name)
@@ -31,20 +32,31 @@ class FeatureConfiguratorAnnotationProcessor : AbstractProcessor() {
             throw AnnotationProcessorException("RoundEnvironment got lost")
         }
 
-        val fileBuilder = FeatureConfiguratorFileBuilder()
 
         roundEnvironment.getElementsAnnotatedWith(FeatureToggleBoolean::class.java)?.forEach {
+            /*
             val param = it.getAnnotation(FeatureToggleBoolean::class.java).param
-            fileBuilder.addBooleanPair(it.simpleName.toString(), param)
+//            val clazz = it.enclosingElement
+//            fileBuilder.addBooleanData(it.simpleName.toString(), param)
+//            fileBuilder.addBooleanDataFormProcessor(it.simpleName.toString(), param)
+//            fileBuilder.addTestSting("// TEST!String!!")
+            fileBuilder.addTestSting("// className =  ${it.enclosingElement.simpleName}    ")
+      //      fileBuilder.addTestSting("// fieldName =  ${it.simpleName}    ")
+            fileBuilder.addTestSting("// fieldName =  ${it.simpleName.toString().replace("\$annotations" ,"")}    ")
+          //  fileBuilder.addTestSting("// it =  ${it}    ")
+            fileBuilder.addTestSting("// param =  ${param}    ")
+            */
+            fileBuilder.addBooleanDataFormProcessor(
+                className = it.enclosingElement.simpleName.toString(),
+                fieldName = it.simpleName.toString().replace("\$annotations", ""),
+                paramName = it.getAnnotation(FeatureToggleBoolean::class.java).param
+            )
         }
 
 
-        fileBuilder.writeLog("Round = $round")
         round++
 
-        fileBuilder.run {
-            save(dirName = processingEnv.options[KAPT_KOTLIN_GENERATED_OPTION_NAME]!!)
-        }
+        fileBuilder.save(dirName = processingEnv.options[KAPT_KOTLIN_GENERATED_OPTION_NAME]!!)
 
         return true
     }
