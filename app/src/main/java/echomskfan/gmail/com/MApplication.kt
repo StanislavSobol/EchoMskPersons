@@ -11,16 +11,7 @@ import echomskfan.gmail.com.di.DaggerAppComponent
 @AppTodoMainPackage
 class MApplication : MultiDexApplication() {
 
-    //    @FeatureToggleBoolean("showSplashAnimation")
-    var isShowSplashAnimation = true
-
-    //    @FeatureToggleLong("splashDelayMSec")
-    var splashDelayMSec = 20
-
     private lateinit var daggerAppComponent: AppComponent
-
-//    @FeatureToggleBoolean("disclaimerEnabled")
-//    var testDisclaimerEnabled: Boolean = true
 
     override fun onCreate() {
         super.onCreate()
@@ -31,16 +22,7 @@ class MApplication : MultiDexApplication() {
             .appContext(this.applicationContext)
             .build()
 
-        FeatureConfigurator.install(appContext = instance.applicationContext, configJsonName = CONFIG_JSON_NAME)
-
-//        FeatureConfiguratorExample.install(appContext = instance.applicationContext, configJsonName = CONFIG_JSON_NAME)
-//        FeatureConfiguratorExample.bind(this)
-
-        // FeatureConfiguratorExample.addBoolean(MApplication::class, "disclaimerEnabled", "testDisclaimerEnabled")
-        // FeatureConfiguratorExample.bind(this)
-
-//         Log.d("SSS", "isShowSplashAnimation = $isShowSplashAnimation")
-//         Log.d("SSS", "splashDelayMSec = $splashDelayMSec")
+        ConfigInjector.install(appContext = instance.applicationContext, configJsonName = CONFIG_JSON_NAME)
     }
 
     fun isOnlineWithToast(showToastIfNot: Boolean): Boolean {

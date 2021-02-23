@@ -2,10 +2,9 @@ package echomskfan.gmail.com.presentation.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import echomskfan.gmail.com.FeatureConfigurator
+import echomskfan.gmail.com.ConfigInjector
 import echomskfan.gmail.com.annotationlib.FeatureNavigator
-import echomskfan.gmail.com.annotations.featureconfigurator.FeatureToggleBoolean
-import echomskfan.gmail.com.annotations.featureconfigurator.FeatureToggleInteger
+import echomskfan.gmail.com.annotations.configinjector.ConfigParam
 import echomskfan.gmail.com.domain.interactor.main.IMainInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.presentation.OneShotEvent
@@ -13,10 +12,10 @@ import echomskfan.gmail.com.presentation.debugpanel.DebugPanelFragment
 
 class MainViewModel(private val interactor: IMainInteractor) : BaseViewModel() {
 
-    @FeatureToggleBoolean("disclaimerEnabled")
+    @ConfigParam("disclaimerEnabled")
     var isDisclaimerEnabled = true
 
-    @FeatureToggleInteger("showOnlineStateDelayMSec")
+    @ConfigParam("showOnlineStateDelayMSec")
     var showOnlineStateDelayMSec = 0
 
     private var isFavOn: Boolean = false
@@ -51,7 +50,7 @@ class MainViewModel(private val interactor: IMainInteractor) : BaseViewModel() {
         get() = _goesOnlineLiveDate
 
     init {
-        FeatureConfigurator.bind(this)
+        ConfigInjector.bind(this)
         loadMenuData()
         _disclaimerEnabledLiveDate.value = OneShotEvent(isDisclaimerEnabled)
         _showOnlineStateDelayMSecLiveData.value = OneShotEvent(showOnlineStateDelayMSec.toLong())

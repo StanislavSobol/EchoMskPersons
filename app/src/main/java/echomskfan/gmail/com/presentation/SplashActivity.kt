@@ -7,11 +7,10 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ActivityNavigator
-import echomskfan.gmail.com.FeatureConfigurator
+import echomskfan.gmail.com.ConfigInjector
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
-import echomskfan.gmail.com.annotations.featureconfigurator.FeatureToggleBoolean
-import echomskfan.gmail.com.annotations.featureconfigurator.FeatureToggleInteger
+import echomskfan.gmail.com.annotations.configinjector.ConfigParam
 import echomskfan.gmail.com.presentation.main.MainActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 
@@ -23,17 +22,17 @@ import kotlinx.android.synthetic.main.activity_splash.*
  */
 class SplashActivity : AppCompatActivity() {
 
-    @FeatureToggleBoolean("showSplashAnimation")
+    @ConfigParam("showSplashAnimation")
     var isShowSplashAnimation = true
 
-    @FeatureToggleInteger("splashDelayMSec")
+    @ConfigParam("splashDelayMSec")
     var splashDelayMSec = 0
 
     private var realStart = false
 
     init {
         MApplication.getAppComponent().inject(this)
-        FeatureConfigurator.bind(this)
+        ConfigInjector.bind(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

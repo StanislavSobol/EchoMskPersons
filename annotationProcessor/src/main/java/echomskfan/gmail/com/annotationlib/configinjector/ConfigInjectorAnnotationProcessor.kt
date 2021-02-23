@@ -1,9 +1,8 @@
-package echomskfan.gmail.com.annotationlib.featureconfigurator
+package echomskfan.gmail.com.annotationlib.configinjector
 
 import com.google.auto.service.AutoService
 import echomskfan.gmail.com.annotationlib.AnnotationProcessorException
-import echomskfan.gmail.com.annotations.featureconfigurator.FeatureToggleBoolean
-import echomskfan.gmail.com.annotations.featureconfigurator.FeatureToggleInteger
+import echomskfan.gmail.com.annotations.configinjector.ConfigParam
 import javax.annotation.processing.AbstractProcessor
 import javax.annotation.processing.Processor
 import javax.annotation.processing.RoundEnvironment
@@ -14,12 +13,13 @@ import javax.lang.model.element.TypeElement
 // [http://hannesdorfmann.com/annotation-processing/annotationprocessing101#processing-rounds]
 
 @AutoService(Processor::class)
-class FeatureConfiguratorAnnotationProcessor : AbstractProcessor() {
+class ConfigInjectorAnnotationProcessor : AbstractProcessor() {
 
-    private val fileBuilder = FeatureConfiguratorFileBuilder()
+    private val fileBuilder =
+        ConfigInjectorFileBuilder()
 
     override fun getSupportedAnnotationTypes(): MutableSet<String> {
-        return mutableSetOf(FeatureToggleBoolean::class.java.name, FeatureToggleInteger::class.java.name)
+        return mutableSetOf(ConfigParam::class.java.name)
     }
 
     override fun getSupportedSourceVersion(): SourceVersion = SourceVersion.latest()
@@ -28,22 +28,13 @@ class FeatureConfiguratorAnnotationProcessor : AbstractProcessor() {
         if (roundEnvironment == null) {
             throw AnnotationProcessorException("RoundEnvironment got lost")
         }
-        roundEnvironment.getElementsAnnotatedWith(FeatureToggleBoolean::class.java)?.forEach {
+        roundEnvironment.getElementsAnnotatedWith(ConfigParam::class.java)?.forEach {
             fileBuilder.add(
                 className = it.enclosingElement.toString(),
                 fieldName = it.simpleName.toString().replace("\$annotations", ""),
-                paramName = it.getAnnotation(FeatureToggleBoolean::class.java).param
+                paramName = it.getAnnotation(ConfigParam::class.java).param
             )
         }
-
-        roundEnvironment.getElementsAnnotatedWith(FeatureToggleInteger::class.java)?.forEach {
-            fileBuilder.add(
-                className = it.enclosingElement.toString(),
-                fieldName = it.simpleName.toString().replace("\$annotations", ""),
-                paramName = it.getAnnotation(FeatureToggleInteger::class.java).param
-            )
-        }
-
 
         fileBuilder.save(dirName = processingEnv.options[KAPT_KOTLIN_GENERATED_OPTION_NAME]!!)
         return true

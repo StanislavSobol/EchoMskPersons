@@ -1,8 +1,8 @@
-package echomskfan.gmail.com.annotationlib.featureconfigurator
+package echomskfan.gmail.com.annotationlib.configinjector
 
 import java.io.File
 
-internal class FeatureConfiguratorFileBuilder {
+internal class ConfigInjectorFileBuilder {
 
     private val dataStringBuilder = StringBuilder()
 
@@ -13,19 +13,20 @@ internal class FeatureConfiguratorFileBuilder {
             .append("\n")
     }
 
-    fun addTestSting(testString: String) {
-        dataStringBuilder.append("$testString")
-    }
-
     fun save(dirName: String) {
-        String.format(FILE_BODY, dataStringBuilder.toString().trimEnd()).let { File(dirName, FILE_NAME).writeText(it) }
+        String.format(FILE_BODY, dataStringBuilder.toString().trimEnd()).let {
+            File(
+                dirName,
+                FILE_NAME
+            ).writeText(it)
+        }
     }
 
     private fun String.quote() = "\"" + this + "\""
 
     companion object {
         const val PACKAGE_NAME = "echomskfan.gmail.com"
-        const val OBJECT_NAME = "FeatureConfigurator"
+        const val OBJECT_NAME = "ConfigInjector"
         const val FILE_NAME = "$OBJECT_NAME.kt"
 
         private val FILE_BODY: String = """
@@ -39,7 +40,7 @@ internal class FeatureConfiguratorFileBuilder {
 
             object $OBJECT_NAME {
 
-               private val jsonMap = mutableMapOf<String, Any>()
+                private val jsonMap = mutableMapOf<String, Any>()
                 private val classesFields = mutableMapOf<KClass<*>, MutableSet<AnyData>>()
             
                 fun install(appContext: Context, configJsonName: String) {
