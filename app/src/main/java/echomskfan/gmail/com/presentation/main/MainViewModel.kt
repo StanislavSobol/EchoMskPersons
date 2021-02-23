@@ -5,16 +5,19 @@ import androidx.lifecycle.MutableLiveData
 import echomskfan.gmail.com.FeatureConfigurator
 import echomskfan.gmail.com.annotationlib.FeatureNavigator
 import echomskfan.gmail.com.annotations.featureconfigurator.FeatureToggleBoolean
-import echomskfan.gmail.com.domain.interactor.config.IConfigProvider
+import echomskfan.gmail.com.annotations.featureconfigurator.FeatureToggleInteger
 import echomskfan.gmail.com.domain.interactor.main.IMainInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.presentation.OneShotEvent
 import echomskfan.gmail.com.presentation.debugpanel.DebugPanelFragment
 
-class MainViewModel(private val interactor: IMainInteractor, configProvider: IConfigProvider) : BaseViewModel() {
+class MainViewModel(private val interactor: IMainInteractor) : BaseViewModel() {
 
     @FeatureToggleBoolean("disclaimerEnabled")
-    var isDisclaimerEnabled: Boolean = true
+    var isDisclaimerEnabled = true
+
+    @FeatureToggleInteger("showOnlineStateDelayMSec")
+    var showOnlineStateDelayMSec = 0
 
     private var isFavOn: Boolean = false
     private var firstOnlineFired: Boolean = false
@@ -31,9 +34,9 @@ class MainViewModel(private val interactor: IMainInteractor, configProvider: ICo
     val disclaimerEnabledLiveDate: LiveData<OneShotEvent<Boolean>>
         get() = _disclaimerEnabledLiveDate
 
-    private val _showOnlineStateDelayMSec = MutableLiveData<OneShotEvent<Long>>()
-    val showOnlineStateDelayMSec: LiveData<OneShotEvent<Long>>
-        get() = _showOnlineStateDelayMSec
+    private val _showOnlineStateDelayMSecLiveData = MutableLiveData<OneShotEvent<Long>>()
+    val showOnlineStateDelayMSecLiveData: LiveData<OneShotEvent<Long>>
+        get() = _showOnlineStateDelayMSecLiveData
 
     private val _navigateToSettingLiveDate = MutableLiveData<OneShotEvent<Unit>>()
     val navigateToSettingsLiveDate: LiveData<OneShotEvent<Unit>>
@@ -51,7 +54,7 @@ class MainViewModel(private val interactor: IMainInteractor, configProvider: ICo
         FeatureConfigurator.bind(this)
         loadMenuData()
         _disclaimerEnabledLiveDate.value = OneShotEvent(isDisclaimerEnabled)
-        _showOnlineStateDelayMSec.value = OneShotEvent(configProvider.showOnlineStateDelayMSec)
+        _showOnlineStateDelayMSecLiveData.value = OneShotEvent(showOnlineStateDelayMSec.toLong())
     }
 
     override fun onCleared() {

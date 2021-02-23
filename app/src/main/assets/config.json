@@ -1,14 +1,14 @@
 [
   {
-    "disclaimerEnabled": false
+    "disclaimerEnabled": true
   },
   {
     "showOnlineStateDelayMSec": 2000
   },
   {
-    "showSplashAnimation": false
+    "showSplashAnimation": true
   },
   {
-    "splashDelayMSec": 5000
+    "splashDelayMSec": 1000
   }
 ]

@@ -98,13 +98,9 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideMainViewModelFactory(
-        interactor: IMainInteractor,
-        configProvider: IConfigProvider
-    ): MainViewModelFactory {
-        return MainViewModelFactory(interactor, configProvider)
+    fun provideMainViewModelFactory(interactor: IMainInteractor): MainViewModelFactory {
+        return MainViewModelFactory(interactor)
     }
-
 
     @Singleton
     @Provides

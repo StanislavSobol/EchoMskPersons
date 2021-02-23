@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
             it.getContentIfNotHandled()?.let { online -> showConnectivityState(online) }
         })
 
-        viewModel.showOnlineStateDelayMSec.observe(this, Observer {
+        viewModel.showOnlineStateDelayMSecLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let { delay -> showOnlineStateDelayMSec = delay }
         })
     }

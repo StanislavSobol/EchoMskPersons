@@ -3,7 +3,7 @@ package echomskfan.gmail.com.annotationlib.featureconfigurator
 import com.google.auto.service.AutoService
 import echomskfan.gmail.com.annotationlib.AnnotationProcessorException
 import echomskfan.gmail.com.annotations.featureconfigurator.FeatureToggleBoolean
-import echomskfan.gmail.com.annotations.featureconfigurator.FeatureToggleLong
+import echomskfan.gmail.com.annotations.featureconfigurator.FeatureToggleInteger
 import javax.annotation.processing.AbstractProcessor
 import javax.annotation.processing.Processor
 import javax.annotation.processing.RoundEnvironment
@@ -19,7 +19,7 @@ class FeatureConfiguratorAnnotationProcessor : AbstractProcessor() {
     private val fileBuilder = FeatureConfiguratorFileBuilder()
 
     override fun getSupportedAnnotationTypes(): MutableSet<String> {
-        return mutableSetOf(FeatureToggleBoolean::class.java.name, FeatureToggleLong::class.java.name)
+        return mutableSetOf(FeatureToggleBoolean::class.java.name, FeatureToggleInteger::class.java.name)
     }
 
     override fun getSupportedSourceVersion(): SourceVersion = SourceVersion.latest()
@@ -36,11 +36,11 @@ class FeatureConfiguratorAnnotationProcessor : AbstractProcessor() {
             )
         }
 
-        roundEnvironment.getElementsAnnotatedWith(FeatureToggleLong::class.java)?.forEach {
+        roundEnvironment.getElementsAnnotatedWith(FeatureToggleInteger::class.java)?.forEach {
             fileBuilder.add(
                 className = it.enclosingElement.toString(),
                 fieldName = it.simpleName.toString().replace("\$annotations", ""),
-                paramName = it.getAnnotation(FeatureToggleLong::class.java).param
+                paramName = it.getAnnotation(FeatureToggleInteger::class.java).param
             )
         }
 
