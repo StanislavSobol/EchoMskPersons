@@ -19,7 +19,9 @@ import kotlinx.android.synthetic.main.full_progress_bar_content.*
 import javax.inject.Inject
 
 @ForFeatureNavigator(enabled = true)
-class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycler_view), IFavMenuItemClickListener {
+class CastsFragment :
+    BaseFragment(fragmentType = FragmentType.Child, layoutId = R.layout.fragment_recycler_view),
+    IFavMenuItemClickListener {
 
     @CastsScope
     @Inject
@@ -27,7 +29,7 @@ class CastsFragment : BaseFragment(FragmentType.Child, R.layout.fragment_recycle
 
     private lateinit var viewModel: CastsViewModel
 
-    private val personId: Int?  by lazy { arguments?.getInt(EXTRA_PERSON_ID) }
+    private val personId: Int? by lazy { arguments?.getInt(EXTRA_PERSON_ID) }
 
     private val adapter: CastsAdapter by lazy { CastsAdapter(viewModel) }
 

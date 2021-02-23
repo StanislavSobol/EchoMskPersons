@@ -1,6 +1,5 @@
 package echomskfan.gmail.com.presentation.player
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import echomskfan.gmail.com.BuildConfig
@@ -48,9 +47,6 @@ class PlayerViewModel(
         if (castId == null) {
             castIdIsNull()
         }
-
-        Log.d("SSS", "progressSec = $progressSec")
-
     }
 
     private fun castIdIsNull(): Nothing {
