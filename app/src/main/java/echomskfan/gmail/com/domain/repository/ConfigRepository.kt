@@ -28,9 +28,6 @@ class ConfigRepository(private val appContext: Context) : IConfigRepository {
     override val showOnlineStateDelayMSec: Long
         get() = propertiesDelegate.showOnlineStateDelayMSec
 
-    override val showSplashAnimation
-        get() = propertiesDelegate.showSplashAnimation
-
     override val splashDelayMSec: Long
         get() = propertiesDelegate.splashDelayMSec
 
@@ -44,9 +41,7 @@ class ConfigRepository(private val appContext: Context) : IConfigRepository {
     }
 
     inner class PropertiesDelegate(map: Map<String, Any>) {
-        val disclaimerEnabled: Boolean by map
         val showOnlineStateDelayMSec: Long by map
-        val showSplashAnimation: Boolean by map
         val splashDelayMSec: Long by map
     }
 

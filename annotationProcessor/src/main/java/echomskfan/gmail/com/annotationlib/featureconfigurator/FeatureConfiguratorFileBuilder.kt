@@ -87,6 +87,5 @@ internal class FeatureConfiguratorFileBuilder {
             }
 
             """.trimIndent()
-
     }
 }
