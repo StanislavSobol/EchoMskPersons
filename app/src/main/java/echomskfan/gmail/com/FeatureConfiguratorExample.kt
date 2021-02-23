@@ -5,10 +5,11 @@ import org.json.JSONArray
 import java.nio.charset.Charset
 import kotlin.reflect.KClass
 
+@Deprecated("Only  as an example")
 object FeatureConfiguratorExample {
 
     private val jsonMap = mutableMapOf<String, Any>()
-    private val booleans = mutableMapOf<KClass<*>, BooleanData>()
+    private val classesFields = mutableMapOf<KClass<*>, MutableSet<AnyData>>()
 
     fun install(appContext: Context, configJsonName: String) {
         val jsonString = getConfigFileAsString(appContext, configJsonName)
@@ -27,20 +28,30 @@ object FeatureConfiguratorExample {
     }
 
     fun bind(objectToBind: Any) {
-        booleans[objectToBind::class]?.let {
-            objectToBind::class.java.getDeclaredField(it.fieldName).run {
-                isAccessible = true
-                set(objectToBind, it.fieldValue)
+        classesFields[objectToBind::class]?.forEach {
+            try {
+                objectToBind::class.java.getDeclaredField(it.fieldName).run {
+                    isAccessible = true
+                    set(objectToBind, it.fieldValue)
+                }
+            } catch (e: NoSuchFieldException) {
+                //
             }
         }
     }
 
-    private fun addBoolean(clazz: KClass<*>, paramName: String, fieldName: String) {
-        jsonMap[paramName]?.let { booleans[clazz] = BooleanData(fieldName, it as Boolean) }
+    private fun add(clazz: KClass<*>, fieldName: String, paramName: String) {
+        jsonMap[paramName]?.let {
+            classesFields[clazz]
+                ?.add(AnyData(fieldName, it))
+                ?: run { classesFields[clazz] = mutableSetOf(AnyData(fieldName, it)) }
+        }
     }
 
     private fun fromProcessor() {
-        // addBoolean(MApplication::class, "disclaimerEnabled", "testDisclaimerEnabled")
+//        add(MApplication::class, "isDisclaimerEnabled", "disclaimerEnabled")
+        add(MApplication::class, "isShowSplashAnimation", "showSplashAnimation")
+        add(MApplication::class, "splashDelayMSec", "splashDelayMSec")
     }
 
     private fun getConfigFileAsString(appContext: Context, configJsonName: String): String {
@@ -52,6 +63,5 @@ object FeatureConfiguratorExample {
         return String(buffer, Charset.forName("UTF-8"))
     }
 
-
-    private data class BooleanData(val fieldName: String, val fieldValue: Boolean)
+    private data class AnyData(val fieldName: String, val fieldValue: Any)
 }

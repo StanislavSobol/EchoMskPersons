@@ -6,9 +6,9 @@
     "showOnlineStateDelayMSec": 2000
   },
   {
-    "showSplashAnimation": true
+    "showSplashAnimation": false
   },
   {
-    "splashDelayMSec": 500
+    "splashDelayMSec": 5000
   }
 ]

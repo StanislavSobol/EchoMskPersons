@@ -28,9 +28,6 @@ class ConfigRepository(private val appContext: Context) : IConfigRepository {
     override val showOnlineStateDelayMSec: Long
         get() = propertiesDelegate.showOnlineStateDelayMSec
 
-    override val splashDelayMSec: Long
-        get() = propertiesDelegate.splashDelayMSec
-
     private fun getConfigFileAsString(): String {
         val inputStream = appContext.assets.open(CONFIG_JSON_NAME)
         val size = inputStream.available()
@@ -42,7 +39,6 @@ class ConfigRepository(private val appContext: Context) : IConfigRepository {
 
     inner class PropertiesDelegate(map: Map<String, Any>) {
         val showOnlineStateDelayMSec: Long by map
-        val splashDelayMSec: Long by map
     }
 
     companion object {

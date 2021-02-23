@@ -3,6 +3,7 @@ package echomskfan.gmail.com.annotationlib.featureconfigurator
 import com.google.auto.service.AutoService
 import echomskfan.gmail.com.annotationlib.AnnotationProcessorException
 import echomskfan.gmail.com.annotations.featureconfigurator.FeatureToggleBoolean
+import echomskfan.gmail.com.annotations.featureconfigurator.FeatureToggleLong
 import javax.annotation.processing.AbstractProcessor
 import javax.annotation.processing.Processor
 import javax.annotation.processing.RoundEnvironment
@@ -18,7 +19,7 @@ class FeatureConfiguratorAnnotationProcessor : AbstractProcessor() {
     private val fileBuilder = FeatureConfiguratorFileBuilder()
 
     override fun getSupportedAnnotationTypes(): MutableSet<String> {
-        return mutableSetOf(FeatureToggleBoolean::class.java.name)
+        return mutableSetOf(FeatureToggleBoolean::class.java.name, FeatureToggleLong::class.java.name)
     }
 
     override fun getSupportedSourceVersion(): SourceVersion = SourceVersion.latest()
@@ -28,12 +29,22 @@ class FeatureConfiguratorAnnotationProcessor : AbstractProcessor() {
             throw AnnotationProcessorException("RoundEnvironment got lost")
         }
         roundEnvironment.getElementsAnnotatedWith(FeatureToggleBoolean::class.java)?.forEach {
-            fileBuilder.addBooleanDataFormProcessor(
+            fileBuilder.add(
                 className = it.enclosingElement.toString(),
                 fieldName = it.simpleName.toString().replace("\$annotations", ""),
                 paramName = it.getAnnotation(FeatureToggleBoolean::class.java).param
             )
         }
+
+        roundEnvironment.getElementsAnnotatedWith(FeatureToggleLong::class.java)?.forEach {
+            fileBuilder.add(
+                className = it.enclosingElement.toString(),
+                fieldName = it.simpleName.toString().replace("\$annotations", ""),
+                paramName = it.getAnnotation(FeatureToggleLong::class.java).param
+            )
+        }
+
+
         fileBuilder.save(dirName = processingEnv.options[KAPT_KOTLIN_GENERATED_OPTION_NAME]!!)
         return true
     }

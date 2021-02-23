@@ -5,5 +5,4 @@ package echomskfan.gmail.com.domain.repository
  */
 interface IConfigRepository {
     val showOnlineStateDelayMSec: Long
-    val splashDelayMSec: Long
 }

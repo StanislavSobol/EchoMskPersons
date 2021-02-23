@@ -6,10 +6,11 @@ internal class FeatureConfiguratorFileBuilder {
 
     private val dataStringBuilder = StringBuilder()
 
-    fun addBooleanDataFormProcessor(className: String, fieldName: String, paramName: String) {
+    fun add(className: String, fieldName: String, paramName: String) {
         dataStringBuilder
+            .append("\t\t")
+            .append("add($className::class, ${fieldName.quote()}, ${paramName.quote()})")
             .append("\n")
-            .append("addBoolean($className::class, ${fieldName.quote()}, ${paramName.quote()})")
     }
 
     fun addTestSting(testString: String) {
@@ -17,7 +18,7 @@ internal class FeatureConfiguratorFileBuilder {
     }
 
     fun save(dirName: String) {
-        String.format(FILE_BODY, dataStringBuilder.toString()).let { File(dirName, FILE_NAME).writeText(it) }
+        String.format(FILE_BODY, dataStringBuilder.toString().trimEnd()).let { File(dirName, FILE_NAME).writeText(it) }
     }
 
     private fun String.quote() = "\"" + this + "\""
@@ -38,42 +39,50 @@ internal class FeatureConfiguratorFileBuilder {
 
             object $OBJECT_NAME {
 
-                private val jsonMap = mutableMapOf<String, Any>()
-                private val booleans = mutableMapOf<KClass<*>, BooleanData>()
-
+               private val jsonMap = mutableMapOf<String, Any>()
+                private val classesFields = mutableMapOf<KClass<*>, MutableSet<AnyData>>()
+            
                 fun install(appContext: Context, configJsonName: String) {
                     val jsonString = getConfigFileAsString(appContext, configJsonName)
                     val jsonArray = JSONArray(jsonString)
-
+            
                     val size = jsonArray.length()
-
+            
                     for (i in 0 until size) {
                         val jsonObject = jsonArray.getJSONObject(i)
                         jsonArray.getJSONObject(i).names()?.getString(0)?.let {
                             jsonMap[it] = jsonObject.get(it)
                         }
                     }
-
+            
                     fromProcessor()
                 }
-
+            
                 fun bind(objectToBind: Any) {
-                    booleans[objectToBind::class]?.let {
-                        objectToBind::class.java.getDeclaredField(it.fieldName).run {
-                            isAccessible = true
-                            set(objectToBind, it.fieldValue)
+                    classesFields[objectToBind::class]?.forEach {
+                        try {
+                            objectToBind::class.java.getDeclaredField(it.fieldName).run {
+                                isAccessible = true
+                                set(objectToBind, it.fieldValue)
+                            }
+                        } catch (e: NoSuchFieldException) {
+                            //
                         }
                     }
                 }
-
-                private fun addBoolean(clazz: KClass<*>, fieldName: String, paramName: String) {
-                    jsonMap[paramName]?.let { booleans[clazz] = BooleanData(fieldName, it as Boolean) }
+            
+                private fun add(clazz: KClass<*>, fieldName: String, paramName: String) {
+                    jsonMap[paramName]?.let {
+                        classesFields[clazz]
+                            ?.add(AnyData(fieldName, it))
+                            ?: run { classesFields[clazz] = mutableSetOf(AnyData(fieldName, it)) }
+                    }
                 }
-
+            
                 private fun fromProcessor() {
-                    %s
+            %s
                 }
-
+            
                 private fun getConfigFileAsString(appContext: Context, configJsonName: String): String {
                     val inputStream = appContext.assets.open(configJsonName)
                     val size = inputStream.available()
@@ -82,8 +91,8 @@ internal class FeatureConfiguratorFileBuilder {
                     inputStream.close()
                     return String(buffer, Charset.forName("UTF-8"))
                 }
-
-                private data class BooleanData(val fieldName:String, val fieldValue:Boolean)
+            
+                private data class AnyData(val fieldName: String, val fieldValue: Any)
             }
 
             """.trimIndent()
