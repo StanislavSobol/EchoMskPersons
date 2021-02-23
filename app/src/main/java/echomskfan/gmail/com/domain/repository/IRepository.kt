@@ -1,7 +1,6 @@
 package echomskfan.gmail.com.domain.repository
 
 import androidx.lifecycle.LiveData
-import echomskfan.gmail.com.annotations.apptodo.AppTodoMinor
 import echomskfan.gmail.com.data.db.entity.CastEntity
 import echomskfan.gmail.com.data.db.entity.PersonEntity
 import echomskfan.gmail.com.presentation.player.PlayerItem
@@ -41,6 +40,6 @@ interface IRepository {
 
     fun updatePlayedTime(castId: String, progressSec: Int)
 
-    @AppTodoMinor("IRepository: Move it in a brand new repo ISharedPrefsRepository")
+    // todo maybe to a brand new KAPT shared prefs
     var isFavOn: Boolean
 }

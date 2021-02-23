@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import echomskfan.gmail.com.BuildConfig
-import echomskfan.gmail.com.annotations.apptodo.AppTodoMajor
 import echomskfan.gmail.com.domain.interactor.persons.IPersonsCoInteractor
 import echomskfan.gmail.com.domain.interactor.persons.IPersonsInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
@@ -12,7 +11,6 @@ import echomskfan.gmail.com.presentation.OneShotEvent
 import echomskfan.gmail.com.utils.catchThrowable
 import echomskfan.gmail.com.utils.fromIoToMain
 
-@AppTodoMajor("PersonsViewModel: shown loading in the case when the local data exists")
 class PersonsViewModel(
     private val interactor: IPersonsInteractor,
     private val coInteractor: IPersonsCoInteractor

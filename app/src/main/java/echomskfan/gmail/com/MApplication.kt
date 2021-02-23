@@ -4,11 +4,9 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.widget.Toast
 import androidx.multidex.MultiDexApplication
-import echomskfan.gmail.com.annotations.apptodo.AppTodoMainPackage
 import echomskfan.gmail.com.di.AppComponent
 import echomskfan.gmail.com.di.DaggerAppComponent
 
-@AppTodoMainPackage
 class MApplication : MultiDexApplication() {
 
     private lateinit var daggerAppComponent: AppComponent

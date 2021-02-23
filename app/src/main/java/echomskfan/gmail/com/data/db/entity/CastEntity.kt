@@ -2,11 +2,9 @@ package echomskfan.gmail.com.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import echomskfan.gmail.com.annotations.apptodo.AppTodoMinor
 import echomskfan.gmail.com.utils.toDate
 import java.util.*
 
-@AppTodoMinor("CastEntity: Separate table and columns names from the class and fields names")
 @Entity
 data class CastEntity(
     @PrimaryKey
