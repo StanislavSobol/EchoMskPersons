@@ -23,11 +23,6 @@ class MainViewModel(private val interactor: IMainInteractor) : BaseViewModel() {
     val favOnLiveDate: LiveData<Boolean>
         get() = _favOnLiveDate
 
-    // TODO Do I need it?
-    private val _debugPanelEnabledLiveDate = MutableLiveData<Boolean>()
-    val debugPanelEnabledLiveDate: LiveData<Boolean>
-        get() = _debugPanelEnabledLiveDate
-
     private val _disclaimerEnabledLiveDate = MutableLiveData<OneShotEvent<Boolean>>()
     val disclaimerEnabledLiveDate: LiveData<OneShotEvent<Boolean>>
         get() = _disclaimerEnabledLiveDate
@@ -63,8 +58,6 @@ class MainViewModel(private val interactor: IMainInteractor) : BaseViewModel() {
     fun loadMenuData() {
         isFavOn = interactor.isFavOn
         _favOnLiveDate.value = isFavOn
-
-        _debugPanelEnabledLiveDate.value = true
     }
 
     fun favMenuItemClicked() {

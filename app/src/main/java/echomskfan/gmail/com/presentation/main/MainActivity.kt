@@ -18,9 +18,8 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.corelib.gone
 import com.example.corelib.visible
-import echomskfan.gmail.com.EXTRA_PLAYER_ITEM_CAST_ID
-import echomskfan.gmail.com.MApplication
-import echomskfan.gmail.com.R
+import echomskfan.gmail.com.*
+import echomskfan.gmail.com.annotations.configinjector.ConfigParam
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -45,6 +44,9 @@ class MainActivity : AppCompatActivity() {
             invalidateOptionsMenu()
         }
 
+    @ConfigParam("debugPanelEnabledForDebugBuild")
+    private var debugPanelEnabledForDebugBuild = false
+
     val mainActivityRouter: IMainActivityRouter
         get() = router
 
@@ -53,7 +55,6 @@ class MainActivity : AppCompatActivity() {
     internal lateinit var viewModelFactory: MainViewModelFactory
 
     private var favOn = false
-    private var debugPanelEnabled = false
     private var connectivityBroadcastReceiver: BroadcastReceiver? = null
     private var showOnlineStateDelayMSec = 0L
 
@@ -63,6 +64,7 @@ class MainActivity : AppCompatActivity() {
 
     init {
         MApplication.getAppComponent().inject(this)
+        ConfigInjector.bind(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,11 +80,6 @@ class MainActivity : AppCompatActivity() {
         viewModel.favOnLiveDate.observe(this, Observer { favOn ->
             favMenuItemClickListener?.onFavMenuItemClick(favOn)
             this.favOn = favOn
-            invalidateOptionsMenu()
-        })
-
-        viewModel.debugPanelEnabledLiveDate.observe(this, Observer {
-            this.debugPanelEnabled = it
             invalidateOptionsMenu()
         })
 
@@ -146,7 +143,7 @@ class MainActivity : AppCompatActivity() {
                     it.isVisible = settingsMenuItemVisible
                 }
                 R.id.debugPanelMainMenuItem -> {
-                    it.isVisible = debugPanelEnabled
+                    it.isVisible = BuildConfig.DEBUG && debugPanelEnabledForDebugBuild
                 }
             }
         }

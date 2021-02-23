@@ -10,5 +10,8 @@
   },
   {
     "splashDelayMSec": 1000
+  },
+  {
+    "debugPanelEnabledForDebugBuild": false
   }
 ]
