@@ -13,16 +13,12 @@ import echomskfan.gmail.com.domain.assetextractor.AssetExtractor
 import echomskfan.gmail.com.domain.assetextractor.IAssetExtractor
 import echomskfan.gmail.com.domain.interactor.checknew.CheckNewInteractor
 import echomskfan.gmail.com.domain.interactor.checknew.ICheckNewInteractor
-import echomskfan.gmail.com.domain.interactor.config.ConfigProvider
-import echomskfan.gmail.com.domain.interactor.config.IConfigProvider
 import echomskfan.gmail.com.domain.interactor.main.IMainInteractor
 import echomskfan.gmail.com.domain.interactor.main.MainInteractor
 import echomskfan.gmail.com.domain.interactor.player.IPlayerCoInteractor
 import echomskfan.gmail.com.domain.interactor.player.IPlayerInteractor
 import echomskfan.gmail.com.domain.interactor.player.PlayerCoInteractor
 import echomskfan.gmail.com.domain.interactor.player.PlayerInteractor
-import echomskfan.gmail.com.domain.repository.ConfigRepository
-import echomskfan.gmail.com.domain.repository.IConfigRepository
 import echomskfan.gmail.com.domain.repository.IRepository
 import echomskfan.gmail.com.domain.repository.Repository
 import echomskfan.gmail.com.presentation.main.MainViewModelFactory
@@ -71,29 +67,14 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideConfigRepository(appContext: Context): IConfigRepository {
-        return ConfigRepository(appContext)
-    }
-
-    @Singleton
-    @Provides
     fun provideMainInteractor(appContext: Context, repository: IRepository): IMainInteractor {
         return MainInteractor(appContext, repository)
     }
 
     @Singleton
     @Provides
-    fun provideCheckNewInteractor(
-        appContext: Context,
-        repository: IRepository
-    ): ICheckNewInteractor {
+    fun provideCheckNewInteractor(appContext: Context, repository: IRepository): ICheckNewInteractor {
         return CheckNewInteractor(appContext, repository)
-    }
-
-    @Singleton
-    @Provides
-    fun provideConfigProvider(configRepository: IConfigRepository): IConfigProvider {
-        return ConfigProvider(configRepository)
     }
 
     @Singleton
