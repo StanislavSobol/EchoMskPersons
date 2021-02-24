@@ -1,6 +1,5 @@
 package echomskfan.gmail.com.domain.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import echomskfan.gmail.com.data.db.PersonsDatabase
 import echomskfan.gmail.com.data.db.entity.CastEntity
@@ -150,8 +149,6 @@ class Repository(
     }
 
     override fun getTextUrlByCastId(castId: String): String? {
-        Log.d("SSS", "result = ${castsDao.getById(castId)?.fullTextURL}")
-
         return castsDao.getById(castId)?.fullTextURL
     }
 

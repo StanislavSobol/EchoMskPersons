@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.viewModelScope
 import echomskfan.gmail.com.BuildConfig
+import echomskfan.gmail.com.ConfigInjector
+import echomskfan.gmail.com.annotations.configinjector.ConfigParamBoolean
 import echomskfan.gmail.com.domain.interactor.casts.ICastsCoInteractor
 import echomskfan.gmail.com.domain.interactor.casts.ICastsInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
@@ -19,6 +21,9 @@ class CastsViewModel(
     private val coInteractor: ICastsCoInteractor
 ) : BaseViewModel() {
 
+    @ConfigParamBoolean("clickOnCastToWebEnabled")
+    var clickOnCastToWebEnabled = false
+
     var lastLoadedPageNum: Int = 0
 
     // TODO Why do I need this property instead of using method getCastsLiveDataForPerson with the param
@@ -31,6 +36,10 @@ class CastsViewModel(
     private val _launchChromeTabsLiveData = MutableLiveData<OneShotEvent<String>>()
     val launchChromeTabsLiveData: LiveData<OneShotEvent<String>>
         get() = _launchChromeTabsLiveData
+
+    init {
+        ConfigInjector.inject(this)
+    }
 
     fun loadData() {
         subscribeToTransferCastsFromWebToDb()
@@ -91,15 +100,10 @@ class CastsViewModel(
     }
 
     fun itemClicked(castId: String) {
-        viewModelScope.launch {
-            coInteractor.getTextUrlByCastId(castId)?.let { _launchChromeTabsLiveData.postValue(OneShotEvent(it)) }
-
-//            val builder = CustomTabsIntent.Builder()
-//            val customTabsIntent = builder.build()
-//            customTabsIntent.launchUrl(this, Uri.parse(url))
-
-
-            // Log.d("SSS", "url = $url")
+        if (clickOnCastToWebEnabled) {
+            viewModelScope.launch {
+                coInteractor.getTextUrlByCastId(castId)?.let { _launchChromeTabsLiveData.postValue(OneShotEvent(it)) }
+            }
         }
     }
 }

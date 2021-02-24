@@ -1,6 +1,5 @@
 package echomskfan.gmail.com.domain.interactor.casts
 
-import android.util.Log
 import echomskfan.gmail.com.domain.repository.IRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -18,7 +17,6 @@ class CastsCoInteractor(private val repository: IRepository) : ICastsCoInteracto
     override suspend fun getTextUrlByCastId(castId: String): String? {
         var result: String?
         withContext(Dispatchers.IO) { result = repository.getTextUrlByCastId(castId) }
-        Log.d("SSS", "CastsCoInteractor result  $result")
         return result
     }
 }

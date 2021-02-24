@@ -13,5 +13,8 @@
   },
   {
     "debugPanelEnabledForDebugBuild": false
+  },
+  {
+    "clickOnCastToWebEnabled": true
   }
 ]
