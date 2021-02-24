@@ -44,11 +44,16 @@ internal class ConfigInjectorFileBuilder {
             }
     }
 
-    //    https://stackoverflow.com/questions/28947250/create-a-directory-if-it-does-not-exist-and-then-create-the-files-in-that-direct/28948104
     fun save(dirName: String) {
+        val fullDirName = dirName + "\\" + PACKAGE_NAME.replace(".", "\\")
+        val directorry = File(fullDirName)
+        if (!directorry.exists()) {
+            directorry.mkdirs()
+        }
+
         String.format(
             FILE_BODY, injectorsStringBuilder.toString().trimEnd()
-        ).let { File(dirName, FILE_NAME).writeText(it) }
+        ).let { File(fullDirName, FILE_NAME).writeText(it) }
     }
 
     private fun String.quote() = "\"" + this + "\""
