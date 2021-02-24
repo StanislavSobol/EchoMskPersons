@@ -3,17 +3,18 @@ package echomskfan.gmail.com.presentation.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import echomskfan.gmail.com.ConfigInjector
-import echomskfan.gmail.com.annotations.configinjector.ConfigParam
+import echomskfan.gmail.com.annotations.configinjector.ConfigParamBoolean
+import echomskfan.gmail.com.annotations.configinjector.ConfigParamInteger
 import echomskfan.gmail.com.domain.interactor.main.IMainInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.presentation.OneShotEvent
 
 class MainViewModel(private val interactor: IMainInteractor) : BaseViewModel() {
 
-    @ConfigParam("disclaimerEnabled")
+    @ConfigParamBoolean("disclaimerEnabled")
     var isDisclaimerEnabled = true
 
-    @ConfigParam("showOnlineStateDelayMSec")
+    @ConfigParamInteger("showOnlineStateDelayMSec")
     var showOnlineStateDelayMSec = 0
 
     private var isFavOn: Boolean = false

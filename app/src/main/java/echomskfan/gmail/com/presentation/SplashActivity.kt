@@ -10,7 +10,8 @@ import androidx.navigation.ActivityNavigator
 import echomskfan.gmail.com.ConfigInjector
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
-import echomskfan.gmail.com.annotations.configinjector.ConfigParam
+import echomskfan.gmail.com.annotations.configinjector.ConfigParamBoolean
+import echomskfan.gmail.com.annotations.configinjector.ConfigParamInteger
 import echomskfan.gmail.com.presentation.main.MainActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 
@@ -22,10 +23,10 @@ import kotlinx.android.synthetic.main.activity_splash.*
  */
 class SplashActivity : AppCompatActivity() {
 
-    @ConfigParam("showSplashAnimation")
+    @ConfigParamBoolean("showSplashAnimation")
     var isShowSplashAnimation = true
 
-    @ConfigParam("splashDelayMSec")
+    @ConfigParamInteger("splashDelayMSec")
     var splashDelayMSec = 0
 
     private var realStart = false

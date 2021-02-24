@@ -2,7 +2,8 @@ package echomskfan.gmail.com.annotationlib.configinjector
 
 import com.google.auto.service.AutoService
 import echomskfan.gmail.com.annotationlib.AnnotationProcessorException
-import echomskfan.gmail.com.annotations.configinjector.ConfigParam
+import echomskfan.gmail.com.annotations.configinjector.ConfigParamBoolean
+import echomskfan.gmail.com.annotations.configinjector.ConfigParamInteger
 import javax.annotation.processing.AbstractProcessor
 import javax.annotation.processing.Processor
 import javax.annotation.processing.RoundEnvironment
@@ -19,7 +20,10 @@ class ConfigInjectorAnnotationProcessor : AbstractProcessor() {
         ConfigInjectorFileBuilder()
 
     override fun getSupportedAnnotationTypes(): MutableSet<String> {
-        return mutableSetOf(ConfigParam::class.java.name)
+        return mutableSetOf(
+            ConfigParamBoolean::class.java.name,
+            ConfigParamInteger::class.java.name
+        )
     }
 
     override fun getSupportedSourceVersion(): SourceVersion = SourceVersion.latest()
@@ -28,15 +32,28 @@ class ConfigInjectorAnnotationProcessor : AbstractProcessor() {
         if (roundEnvironment == null) {
             throw AnnotationProcessorException("RoundEnvironment got lost")
         }
-        roundEnvironment.getElementsAnnotatedWith(ConfigParam::class.java)?.forEach {
+        roundEnvironment.getElementsAnnotatedWith(ConfigParamBoolean::class.java)?.forEach {
             fileBuilder.add(
                 className = it.enclosingElement.toString(),
                 fieldName = it.simpleName.toString().replace("\$annotations", ""),
-                paramName = it.getAnnotation(ConfigParam::class.java).param
+                paramName = it.getAnnotation(ConfigParamBoolean::class.java).param,
+                type = ConfigInjectorFileBuilder.Type.BOOLEAN
+            )
+        }
+        roundEnvironment.getElementsAnnotatedWith(ConfigParamInteger::class.java)?.forEach {
+            fileBuilder.add(
+                className = it.enclosingElement.toString(),
+                fieldName = it.simpleName.toString().replace("\$annotations", ""),
+                paramName = it.getAnnotation(ConfigParamInteger::class.java).param,
+                type = ConfigInjectorFileBuilder.Type.INTEGER
             )
         }
 
-        fileBuilder.save(dirName = processingEnv.options[KAPT_KOTLIN_GENERATED_OPTION_NAME]!!)
+        fileBuilder.run {
+            buildInjects()
+            save(dirName = processingEnv.options[KAPT_KOTLIN_GENERATED_OPTION_NAME]!!)
+        }
+
         return true
     }
 

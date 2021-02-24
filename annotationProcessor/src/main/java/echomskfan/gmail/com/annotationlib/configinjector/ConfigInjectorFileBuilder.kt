@@ -4,25 +4,60 @@ import java.io.File
 
 internal class ConfigInjectorFileBuilder {
 
-    private val dataStringBuilder = StringBuilder()
+    private val injectorsStringBuilder = StringBuilder()
+    private val classesFields = mutableMapOf<String, MutableSet<AnyData>>()
 
-    fun add(className: String, fieldName: String, paramName: String) {
-        dataStringBuilder
-            .append("\t\t")
-            .append("add($className::class, ${fieldName.quote()}, ${paramName.quote()})")
-            .append("\n")
+    fun add(className: String, fieldName: String, paramName: String, type: Type) {
+        classesFields[className]
+            ?.add(AnyData(fieldName, paramName, type))
+            ?: run { classesFields[className] = mutableSetOf(AnyData(fieldName, paramName, type)) }
+    }
+
+    fun buildInjects() {
+        classesFields
+            .filter { it.value.isNotEmpty() }
+            .forEach {
+                val data = it.value
+
+                val dataStringBuilder = StringBuilder()
+                data.forEach { dataEntry ->
+                    dataStringBuilder
+                        .append("\t\tobj.${dataEntry.fieldName} = jsonMap[${dataEntry.paramName.quote()}] ")
+                        .append(
+                            when (dataEntry.type) {
+                                Type.BOOLEAN -> "as Boolean"
+                                Type.INTEGER -> "as Int"
+                            }
+                        )
+                        .append("\n")
+                }
+
+                injectorsStringBuilder
+                    .append("\n")
+                    .append("\tfun bind(obj: ${it.key}) {")
+                    .append("\n")
+                    .append(dataStringBuilder.toString())
+                    .append("\t}")
+                    .append("\n")
+
+                data.clear()
+            }
     }
 
     fun save(dirName: String) {
-        String.format(FILE_BODY, dataStringBuilder.toString().trimEnd()).let {
-            File(
-                dirName,
-                FILE_NAME
-            ).writeText(it)
-        }
+        String.format(
+            FILE_BODY, injectorsStringBuilder.toString()
+                .trimEnd()
+        ).let { File(dirName, FILE_NAME).writeText(it) }
     }
 
     private fun String.quote() = "\"" + this + "\""
+
+    enum class Type {
+        BOOLEAN, INTEGER
+    }
+
+    private data class AnyData(val fieldName: String, val paramName: String, val type: Type)
 
     companion object {
         const val PACKAGE_NAME = "echomskfan.gmail.com"
@@ -56,20 +91,6 @@ internal class ConfigInjectorFileBuilder {
                         }
                     }
             
-                    fromProcessor()
-                }
-            
-                fun bind(objectToBind: Any) {
-                    classesFields[objectToBind::class]?.forEach {
-                        try {
-                            objectToBind::class.java.getDeclaredField(it.fieldName).run {
-                                isAccessible = true
-                                set(objectToBind, it.fieldValue)
-                            }
-                        } catch (e: NoSuchFieldException) {
-                            //
-                        }
-                    }
                 }
             
                 private fun add(clazz: KClass<*>, fieldName: String, paramName: String) {
@@ -80,9 +101,7 @@ internal class ConfigInjectorFileBuilder {
                     }
                 }
             
-                private fun fromProcessor() {
-            %s
-                }
+                %s
             
                 private fun getConfigFileAsString(appContext: Context, configJsonName: String): String {
                     val inputStream = appContext.assets.open(configJsonName)

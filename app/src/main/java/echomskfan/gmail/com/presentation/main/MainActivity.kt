@@ -19,7 +19,7 @@ import androidx.navigation.Navigation
 import com.example.corelib.gone
 import com.example.corelib.visible
 import echomskfan.gmail.com.*
-import echomskfan.gmail.com.annotations.configinjector.ConfigParam
+import echomskfan.gmail.com.annotations.configinjector.ConfigParamBoolean
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -44,8 +44,8 @@ class MainActivity : AppCompatActivity() {
             invalidateOptionsMenu()
         }
 
-    @ConfigParam("debugPanelEnabledForDebugBuild")
-    private var debugPanelEnabledForDebugBuild = false
+    @ConfigParamBoolean("debugPanelEnabledForDebugBuild")
+    var debugPanelEnabledForDebugBuild = false
 
     val mainActivityRouter: IMainActivityRouter
         get() = router
