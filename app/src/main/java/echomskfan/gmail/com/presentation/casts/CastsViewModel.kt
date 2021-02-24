@@ -3,6 +3,7 @@ package echomskfan.gmail.com.presentation.casts
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.viewModelScope
 import echomskfan.gmail.com.BuildConfig
 import echomskfan.gmail.com.domain.interactor.casts.ICastsCoInteractor
 import echomskfan.gmail.com.domain.interactor.casts.ICastsInteractor
@@ -10,6 +11,8 @@ import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.presentation.OneShotEvent
 import echomskfan.gmail.com.utils.catchThrowable
 import echomskfan.gmail.com.utils.fromIoToMain
+import kotlinx.coroutines.launch
+
 
 class CastsViewModel(
     private val interactor: ICastsInteractor,
@@ -21,11 +24,13 @@ class CastsViewModel(
     // TODO Why do I need this property instead of using method getCastsLiveDataForPerson with the param
     var personId: Int? = null
 
+    private val _navigateToPlayerFragmentLiveData = MutableLiveData<OneShotEvent<String>>()
     val navigateToPlayerFragmentLiveData: LiveData<OneShotEvent<String>>
         get() = _navigateToPlayerFragmentLiveData
 
-
-    private val _navigateToPlayerFragmentLiveData = MutableLiveData<OneShotEvent<String>>()
+    private val _launchChromeTabsLiveData = MutableLiveData<OneShotEvent<String>>()
+    val launchChromeTabsLiveData: LiveData<OneShotEvent<String>>
+        get() = _launchChromeTabsLiveData
 
     fun loadData() {
         subscribeToTransferCastsFromWebToDb()
@@ -83,5 +88,18 @@ class CastsViewModel(
 
     private fun personIdIsNull(): Nothing {
         throw IllegalStateException("personId must be set")
+    }
+
+    fun itemClicked(castId: String) {
+        viewModelScope.launch {
+            coInteractor.getTextUrlByCastId(castId)?.let { _launchChromeTabsLiveData.postValue(OneShotEvent(it)) }
+
+//            val builder = CustomTabsIntent.Builder()
+//            val customTabsIntent = builder.build()
+//            customTabsIntent.launchUrl(this, Uri.parse(url))
+
+
+            // Log.d("SSS", "url = $url")
+        }
     }
 }

@@ -1,6 +1,8 @@
 package echomskfan.gmail.com.presentation.casts
 
+import android.net.Uri
 import android.os.Bundle
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,9 +19,7 @@ import kotlinx.android.synthetic.main.fragment_recycler_view.*
 import kotlinx.android.synthetic.main.full_progress_bar_content.*
 import javax.inject.Inject
 
-class CastsFragment :
-    BaseFragment(fragmentType = FragmentType.Child, layoutId = R.layout.fragment_recycler_view),
-    IFavMenuItemClickListener {
+class CastsFragment : BaseFragment(fragmentType = FragmentType.Child, layoutId = R.layout.fragment_recycler_view), IFavMenuItemClickListener {
 
     @CastsScope
     @Inject
@@ -53,7 +53,15 @@ class CastsFragment :
         savedInstanceState ?: viewModel.loadData()
 
         viewModel.navigateToPlayerFragmentLiveData.observe(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let { id -> mainActivityRouter?.navigateToPlayerFromCasts(id); }
+            it.getContentIfNotHandled()?.let { id -> mainActivityRouter?.navigateToPlayerFromCasts(id) }
+        })
+
+        viewModel.launchChromeTabsLiveData.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let { url ->
+                val builder = CustomTabsIntent.Builder()
+                val customTabsIntent = builder.build()
+                customTabsIntent.launchUrl(requireContext(), Uri.parse(url))
+            }
         })
 
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())

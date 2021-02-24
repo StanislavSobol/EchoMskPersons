@@ -40,6 +40,8 @@ interface IRepository {
 
     fun updatePlayedTime(castId: String, progressSec: Int)
 
+    fun getTextUrlByCastId(castId: String): String?
+
     // todo maybe to a brand new KAPT shared prefs
     var isFavOn: Boolean
 }

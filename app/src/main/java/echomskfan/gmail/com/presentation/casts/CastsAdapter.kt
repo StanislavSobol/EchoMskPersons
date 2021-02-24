@@ -54,23 +54,23 @@ internal class CastsAdapter(private val viewModel: CastsViewModel) : RecyclerVie
         fun bind(item: ICastsListItemDelegate) {
             if (item is CastListItem) {
                 // Camel style for ids
-                itemView.item_content_type_text_view.text = item.typeSubtype
-                itemView.item_content_date_text_view.text = item.formattedDate
+                itemView.itemContentTypeTextView.text = item.typeSubtype
+                itemView.itemContentDateTextView.text = item.formattedDate
                 itemView.item_content_short_text_view.text = item.shortText
 
                 if (item.mp3Url.isNotEmpty()) {
-                    itemView.item_content_audio_duration_text_view.text =
+                    itemView.itemContentAudioDurationTextView.text =
                         item.mp3Duration.fromSecToAudioDuration()
-                    itemView.item_content_audio_play_image_button.setOnClickListener {
+                    itemView.itemContentAudioPlayImageButton.setOnClickListener {
                         viewModel.playButtonClicked(item)
                     }
                 }
 
-                itemView.item_content_audio_play_image_button.visibleOrGone(item.mp3Url.isNotEmpty())
-                itemView.item_content_audio_duration_text_view.visibleOrGone(item.mp3Url.isNotEmpty())
+                itemView.itemContentAudioPlayImageButton.visibleOrGone(item.mp3Url.isNotEmpty())
+                itemView.itemContentAudioDurationTextView.visibleOrGone(item.mp3Url.isNotEmpty())
                 itemView.itemCastAudioTitleTextView.visibleOrGone(item.mp3Url.isNotEmpty())
 
-                itemView.item_content_favorite_image_view.setImageResource(
+                itemView.itemContentFavoriteImageView.setImageResource(
                     if (item.fav) {
                         R.drawable.ic_baseline_favorite_black_32dp
                     } else {
@@ -78,9 +78,11 @@ internal class CastsAdapter(private val viewModel: CastsViewModel) : RecyclerVie
                     }
                 )
 
-                itemView.item_content_favorite_image_view.setOnClickListener {
+                itemView.itemContentFavoriteImageView.setOnClickListener {
                     viewModel.itemIdFavClicked(item.id)
                 }
+
+                itemView.setOnClickListener { viewModel.itemClicked(item.id) }
             }
         }
     }
