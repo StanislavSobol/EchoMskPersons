@@ -34,7 +34,7 @@ internal class ConfigInjectorFileBuilder {
 
                 injectorsStringBuilder
                     .append("\n")
-                    .append("\tfun bind(obj: ${it.key}) {")
+                    .append("\tfun inject(obj: ${it.key}) {")
                     .append("\n")
                     .append(dataStringBuilder.toString())
                     .append("\t}")
@@ -44,10 +44,10 @@ internal class ConfigInjectorFileBuilder {
             }
     }
 
+    //    https://stackoverflow.com/questions/28947250/create-a-directory-if-it-does-not-exist-and-then-create-the-files-in-that-direct/28948104
     fun save(dirName: String) {
         String.format(
-            FILE_BODY, injectorsStringBuilder.toString()
-                .trimEnd()
+            FILE_BODY, injectorsStringBuilder.toString().trimEnd()
         ).let { File(dirName, FILE_NAME).writeText(it) }
     }
 
@@ -60,25 +60,32 @@ internal class ConfigInjectorFileBuilder {
     private data class AnyData(val fieldName: String, val paramName: String, val type: Type)
 
     companion object {
-        const val PACKAGE_NAME = "echomskfan.gmail.com"
-        const val OBJECT_NAME = "ConfigInjector"
-        const val FILE_NAME = "$OBJECT_NAME.kt"
+        private const val PACKAGE_NAME = "echomskfan.gmail.com"
+        private const val OBJECT_NAME = "ConfigInjector"
+        private const val FILE_NAME = "$OBJECT_NAME.kt"
 
         private val FILE_BODY: String = """
-            
             package $PACKAGE_NAME
 
             import android.content.Context
             import org.json.JSONArray
             import java.nio.charset.Charset
-            import kotlin.reflect.KClass
 
             object $OBJECT_NAME {
 
                 private val jsonMap = mutableMapOf<String, Any>()
-                private val classesFields = mutableMapOf<KClass<*>, MutableSet<AnyData>>()
             
                 fun install(appContext: Context, configJsonName: String) {
+                
+                    fun getConfigFileAsString(appContext: Context, configJsonName: String): String {
+                        val inputStream = appContext.assets.open(configJsonName)
+                        val size = inputStream.available()
+                        val buffer = ByteArray(size)
+                        inputStream.read(buffer)
+                        inputStream.close()
+                        return String(buffer, Charset.forName("UTF-8"))
+                    }
+                
                     val jsonString = getConfigFileAsString(appContext, configJsonName)
                     val jsonArray = JSONArray(jsonString)
             
@@ -90,27 +97,8 @@ internal class ConfigInjectorFileBuilder {
                             jsonMap[it] = jsonObject.get(it)
                         }
                     }
-            
                 }
-            
-                private fun add(clazz: KClass<*>, fieldName: String, paramName: String) {
-                    jsonMap[paramName]?.let {
-                        classesFields[clazz]
-                            ?.add(AnyData(fieldName, it))
-                            ?: run { classesFields[clazz] = mutableSetOf(AnyData(fieldName, it)) }
-                    }
-                }
-            
                 %s
-            
-                private fun getConfigFileAsString(appContext: Context, configJsonName: String): String {
-                    val inputStream = appContext.assets.open(configJsonName)
-                    val size = inputStream.available()
-                    val buffer = ByteArray(size)
-                    inputStream.read(buffer)
-                    inputStream.close()
-                    return String(buffer, Charset.forName("UTF-8"))
-                }
             
                 private data class AnyData(val fieldName: String, val fieldValue: Any)
             }

@@ -33,7 +33,7 @@ class SplashActivity : AppCompatActivity() {
 
     init {
         MApplication.getAppComponent().inject(this)
-        ConfigInjector.bind(this)
+        ConfigInjector.inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

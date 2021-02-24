@@ -45,7 +45,7 @@ class MainViewModel(private val interactor: IMainInteractor) : BaseViewModel() {
         get() = _goesOnlineLiveDate
 
     init {
-        ConfigInjector.bind(this)
+        ConfigInjector.inject(this)
         loadMenuData()
         _disclaimerEnabledLiveDate.value = OneShotEvent(isDisclaimerEnabled)
         _showOnlineStateDelayMSecLiveData.value = OneShotEvent(showOnlineStateDelayMSec.toLong())
