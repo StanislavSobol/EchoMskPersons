@@ -1,8 +1,6 @@
 package echomskfan.gmail.com.presentation.casts
 
-import android.net.Uri
 import android.os.Bundle
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -57,11 +55,7 @@ class CastsFragment : BaseFragment(fragmentType = FragmentType.Child, layoutId =
         })
 
         viewModel.launchChromeTabsLiveData.observe(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let { url ->
-                val builder = CustomTabsIntent.Builder()
-                val customTabsIntent = builder.build()
-                customTabsIntent.launchUrl(requireContext(), Uri.parse(url))
-            }
+            it.getContentIfNotHandled()?.let { url -> CustomTabsHelper(requireContext(), url) }
         })
 
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
