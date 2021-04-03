@@ -54,6 +54,7 @@ abstract class BaseViewModel : ViewModel() {
 
     }
 
+    // TODO Check the threads (Dispatchers.IO)
     fun withProgress(block: suspend () -> Unit) {
         viewModelScope.launch {
             showProgress()

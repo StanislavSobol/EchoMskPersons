@@ -16,5 +16,11 @@
   },
   {
     "clickOnCastToWebEnabled": true
+  },
+  {
+    "checkNewInitialDelayInMin": 15
+  },
+  {
+    "checkNewDurationInMin": 60
   }
 ]

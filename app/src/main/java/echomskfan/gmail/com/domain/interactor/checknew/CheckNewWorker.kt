@@ -1,7 +1,6 @@
 package echomskfan.gmail.com.domain.interactor.checknew
 
 import android.content.Context
-import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import echomskfan.gmail.com.MApplication
@@ -23,7 +22,6 @@ class CheckNewWorker(appContext: Context, workerParams: WorkerParameters) :
     }
 
     override fun doWork(): Result {
-        Log.d("SSS", "CheckNewWorker doWork checkNewInteractor = $checkNewInteractor")
         checkNewInteractor.checkNewCast()
         return Result.success()
     }

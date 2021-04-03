@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.corelib.startIconTapAnimation
 import echomskfan.gmail.com.R
 import kotlinx.android.synthetic.main.item_person.view.*
 
@@ -47,6 +48,7 @@ internal class PersonsAdapter(private val viewModel: PersonsViewModel) :
 
                     personItemInfoImageView.setOnClickListener {
                         viewModel.personItemInfoClicked(item.id)
+                        personItemInfoImageView.startIconTapAnimation()
                     }
 
                     personItemNotificationImageView.setImageResource(
@@ -56,6 +58,7 @@ internal class PersonsAdapter(private val viewModel: PersonsViewModel) :
 
                     personItemNotificationImageView.setOnClickListener {
                         viewModel.personItemNotificationClicked(item.id)
+                        personItemNotificationImageView.startIconTapAnimation()
                     }
 
                     personItemFavImageView.setImageResource(
@@ -65,6 +68,7 @@ internal class PersonsAdapter(private val viewModel: PersonsViewModel) :
 
                     personItemFavImageView.setOnClickListener {
                         viewModel.personItemFavClicked(item.id)
+                        personItemFavImageView.startIconTapAnimation()
                     }
 
                     setOnClickListener { viewModel.personItemClicked(item.id) }

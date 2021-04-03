@@ -1,5 +1,7 @@
 package com.example.corelib
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
@@ -64,4 +66,20 @@ fun View.visibleOrGone(visible: Boolean) {
 
 fun View.visibleOrInvisible(visible: Boolean) {
     this.visibility = if (visible) View.VISIBLE else View.INVISIBLE
+}
+
+fun View.startIconTapAnimation(): AnimatorSet {
+    val thisView = this
+    return AnimatorSet().setDuration(200L)
+        .apply {
+            playSequentially(
+                ObjectAnimator.ofFloat(thisView, View.SCALE_X, 1.2f),
+                ObjectAnimator.ofFloat(thisView, View.SCALE_X, 1.0f)
+            )
+            playSequentially(
+                ObjectAnimator.ofFloat(thisView, View.SCALE_Y, 1.2f),
+                ObjectAnimator.ofFloat(thisView, View.SCALE_Y, 1.0f)
+            )
+            start()
+        }
 }

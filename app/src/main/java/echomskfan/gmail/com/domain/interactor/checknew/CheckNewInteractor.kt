@@ -9,7 +9,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Looper
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import echomskfan.gmail.com.EXTRA_PERSON_ID
@@ -32,10 +31,6 @@ class CheckNewInteractor(private val appContext: Context, private val repository
             val lastWebCast = webCasts.firstOrNull()
             val webDate = lastWebCast?.date
             if (lastWebCast != null && webDate != null && (dbDate == null || webDate.after(dbDate))) {
-
-                Log.d("SSS", "Notification about person = $person")
-                Log.d("SSS", "Notification about lastWebCast = $lastWebCast")
-
                 repository.insertOrUpdateCasts(webCasts)
 
                 // TODO Create routes from every fragment and closed app to the persons' casts list fragment
@@ -67,8 +62,6 @@ class CheckNewInteractor(private val appContext: Context, private val repository
                 return
             }
         }
-
-        Log.d("SSS", "CheckNewInteractor ends")
     }
 
     private fun createNotificationBuilder(): NotificationCompat.Builder {
@@ -88,13 +81,7 @@ class CheckNewInteractor(private val appContext: Context, private val repository
                     description = CHANNEL_DESCRIPTION
                     enableLights(true)
                     lightColor = Color.BLUE
-//                    setSound(null, null)
                 }
-//
-//        fun getNotificationManager(): NotificationManager {
-//            return appContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//        }
-
         NotificationManagerCompat.from(appContext).createNotificationChannel(channel)
     }
 
@@ -106,6 +93,4 @@ class CheckNewInteractor(private val appContext: Context, private val repository
         private val NOTIFICATION_ID = UUID.randomUUID().mostSignificantBits.toInt()
         private val CHANNEL_ID = UUID.randomUUID().toString()
     }
-
-//    data class CastData(private val person: PersonEntity, private val lastCastDate: Date?)
 }
