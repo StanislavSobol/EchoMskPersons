@@ -33,8 +33,7 @@ famous Russian political and public persons (Nevzorov, Navalny, Latynina e.t.c.)
 - Glide
 - Navigation
 - WorkManager
-- JUnit (Mockito, PowerMockito)
-- Espresso
+- Chrome Custom Tabs
 
 ### Gradle flavors
 
