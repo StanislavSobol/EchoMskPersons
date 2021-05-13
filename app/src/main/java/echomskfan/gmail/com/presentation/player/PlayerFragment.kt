@@ -31,13 +31,6 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
     private val resume: Boolean by lazy { arguments?.getBoolean(EXTRA_PLAYER_RESUME) ?: false }
     private val playerBridge: PlayerBridge by lazy { PlayerBridge(this) }
 
-    init {
-        DaggerPlayerComponent.builder()
-            .appComponent(MApplication.getAppComponent())
-            .build()
-            .inject(this)
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -85,6 +78,13 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
     }
 
     override fun isFavMenuItemVisible() = false
+
+    override fun injectDependencies() {
+        DaggerPlayerComponent.builder()
+            .appComponent(MApplication.getAppComponent())
+            .build()
+            .inject(this)
+    }
 
     private fun initViews(playerItem: PlayerItem) {
         playerFragmentPersonTextView?.text = playerItem.personName

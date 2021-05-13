@@ -55,11 +55,15 @@ abstract class BaseFragment(
 
         mainActivity.favMenuItemVisible = isFavMenuItemVisible()
         mainActivity.settingsMenuItemVisible = isSettingsMenuItemVisible()
+
+        injectDependencies()
     }
 
     abstract fun isFavMenuItemVisible(): Boolean
 
     protected open fun isSettingsMenuItemVisible() = true
+
+    protected abstract fun injectDependencies()
 }
 
 enum class FragmentType {

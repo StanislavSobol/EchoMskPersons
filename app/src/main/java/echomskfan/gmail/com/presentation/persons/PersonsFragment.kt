@@ -29,13 +29,6 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
 
     private var favOn: Boolean = false
 
-    init {
-        DaggerPersonsComponent.builder()
-            .appComponent(MApplication.getAppComponent())
-            .build()
-            .inject(this)
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -69,6 +62,13 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
     }
 
     override fun isFavMenuItemVisible() = true
+
+    override fun injectDependencies() {
+        DaggerPersonsComponent.builder()
+            .appComponent(MApplication.getAppComponent())
+            .build()
+            .inject(this)
+    }
 
     override fun onFavMenuItemClick(favOn: Boolean) {
         this.favOn = favOn

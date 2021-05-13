@@ -19,13 +19,6 @@ class SettingsFragment : BaseFragment(FragmentType.None, R.layout.fragment_setti
 
     private val viewModel: SettingsViewModel by lazy { ViewModelProvider(this, viewModelFactory).get(SettingsViewModel::class.java) }
 
-    init {
-        DaggerSettingsComponent.builder()
-            .appComponent(MApplication.getAppComponent())
-            .build()
-            .inject(this)
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel
@@ -38,4 +31,11 @@ class SettingsFragment : BaseFragment(FragmentType.None, R.layout.fragment_setti
     override fun isFavMenuItemVisible() = false
 
     override fun isSettingsMenuItemVisible() = false
+
+    override fun injectDependencies() {
+        DaggerSettingsComponent.builder()
+            .appComponent(MApplication.getAppComponent())
+            .build()
+            .inject(this)
+    }
 }

@@ -22,15 +22,6 @@ class DebugPanelFragment : BaseFragment(FragmentType.None, R.layout.fragment_deb
 
     private var progressDialog: ProgressDialog? = null
 
-    init {
-        DaggerDebugPanelComponent.builder()
-            .appComponent(MApplication.getAppComponent())
-            .build()
-            .inject(this)
-    }
-
-    override fun isFavMenuItemVisible() = false
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -38,6 +29,15 @@ class DebugPanelFragment : BaseFragment(FragmentType.None, R.layout.fragment_deb
 
         deleteLastNevzorovButton.setOnClickListener { viewModel.deleteLastNevzorovCastButtonClicked() }
         workManagerActionButton.setOnClickListener { viewModel.workManagerActionButtonClicked() }
+    }
+
+    override fun isFavMenuItemVisible() = false
+
+    override fun injectDependencies() {
+        DaggerDebugPanelComponent.builder()
+            .appComponent(MApplication.getAppComponent())
+            .build()
+            .inject(this)
     }
 
     // TODO Replace it with CustomButton with progress bar or smth

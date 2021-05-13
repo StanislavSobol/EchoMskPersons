@@ -31,12 +31,6 @@ class CastsFragment : BaseFragment(fragmentType = FragmentType.Child, layoutId =
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        DaggerCastsComponent.builder()
-            .appComponent(MApplication.getAppComponent())
-            .personId(arguments?.getInt(EXTRA_PERSON_ID) ?: run { throw IllegalStateException("personId must not be null") })
-            .build()
-            .inject(this)
-
         subscribeToCastsLiveDataForPerson()
 
         savedInstanceState ?: viewModel.loadData()
@@ -58,6 +52,14 @@ class CastsFragment : BaseFragment(fragmentType = FragmentType.Child, layoutId =
     }
 
     override fun isFavMenuItemVisible() = true
+
+    override fun injectDependencies() {
+        DaggerCastsComponent.builder()
+            .appComponent(MApplication.getAppComponent())
+            .personId(arguments?.getInt(EXTRA_PERSON_ID) ?: run { throw IllegalStateException("personId must not be null") })
+            .build()
+            .inject(this)
+    }
 
     override fun onFavMenuItemClick(favOn: Boolean) {
         this.favOn = favOn

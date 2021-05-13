@@ -22,13 +22,6 @@ class PersonInfoFragment : BaseFragment(FragmentType.Child, R.layout.fragment_pe
 
     private val personId: Int? by lazy { arguments?.getInt(EXTRA_PERSON_ID) }
 
-    init {
-        DaggerPersonInfoComponent.builder()
-            .appComponent(MApplication.getAppComponent())
-            .build()
-            .inject(this)
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -38,6 +31,13 @@ class PersonInfoFragment : BaseFragment(FragmentType.Child, R.layout.fragment_pe
     }
 
     override fun isFavMenuItemVisible() = false
+
+    override fun injectDependencies() {
+        DaggerPersonInfoComponent.builder()
+            .appComponent(MApplication.getAppComponent())
+            .build()
+            .inject(this)
+    }
 
     private fun initViews(personInfoViewEntity: PersonInfoViewEntity?) {
         if (personInfoViewEntity == null) {
