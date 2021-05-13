@@ -2,8 +2,9 @@ package echomskfan.gmail.com.domain.interactor.persons
 
 import echomskfan.gmail.com.domain.repository.IRepository
 import io.reactivex.Completable
+import javax.inject.Inject
 
-class PersonsInteractor(private val repository: IRepository) : IPersonsInteractor {
+class PersonsInteractor @Inject constructor(private val repository: IRepository) : IPersonsInteractor {
 
     override fun getPersonsLiveData() = repository.getPersonsLiveData()
 

@@ -3,14 +3,14 @@ package echomskfan.gmail.com.presentation.persons
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.corelib.visibleOrGone
 import echomskfan.gmail.com.EXTRA_PERSON_ID
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
-import echomskfan.gmail.com.di.persons.DaggerPersonsComponent
-import echomskfan.gmail.com.di.persons.PersonsScope
+import echomskfan.gmail.com.di.DaggerPersonsComponent
+import echomskfan.gmail.com.di.ViewModelFactory
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
 import echomskfan.gmail.com.presentation.main.IFavMenuItemClickListener
@@ -20,11 +20,10 @@ import javax.inject.Inject
 
 class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycler_view), IFavMenuItemClickListener {
 
-    @PersonsScope
     @Inject
-    internal lateinit var viewModelFactory: PersonsViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var viewModel: PersonsViewModel
+    private val viewModel: PersonsViewModel by lazy { ViewModelProvider(this, viewModelFactory).get(PersonsViewModel::class.java) }
 
     private val adapter: PersonsAdapter by lazy { PersonsAdapter(viewModel) }
 
@@ -39,8 +38,6 @@ class PersonsFragment : BaseFragment(FragmentType.Main, R.layout.fragment_recycl
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(PersonsViewModel::class.java)
 
         subscribeToPersonsLiveData()
 

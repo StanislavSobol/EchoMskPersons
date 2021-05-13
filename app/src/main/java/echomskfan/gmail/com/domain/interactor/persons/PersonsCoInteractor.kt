@@ -3,8 +3,9 @@ package echomskfan.gmail.com.domain.interactor.persons
 import echomskfan.gmail.com.domain.repository.IRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class PersonsCoInteractor(private val repository: IRepository) : IPersonsCoInteractor {
+class PersonsCoInteractor @Inject constructor(private val repository: IRepository) : IPersonsCoInteractor {
 
     override suspend fun transferPersonsFromXmlToDb() {
         withContext(Dispatchers.IO) {

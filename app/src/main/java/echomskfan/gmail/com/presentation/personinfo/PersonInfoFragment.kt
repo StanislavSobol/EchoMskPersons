@@ -37,6 +37,8 @@ class PersonInfoFragment : BaseFragment(FragmentType.Child, R.layout.fragment_pe
             .observe(viewLifecycleOwner, Observer { item -> initViews(item) })
     }
 
+    override fun isFavMenuItemVisible() = false
+
     private fun initViews(personInfoViewEntity: PersonInfoViewEntity?) {
         if (personInfoViewEntity == null) {
             throw IllegalStateException("Cannot load the person from DB")
@@ -47,6 +49,4 @@ class PersonInfoFragment : BaseFragment(FragmentType.Child, R.layout.fragment_pe
         personInfoProfessionTextView.text = personInfoViewEntity.profession
         personInfoInfoTextView.text = personInfoViewEntity.info
     }
-
-    override fun isFavMenuItemVisible() = false
 }
