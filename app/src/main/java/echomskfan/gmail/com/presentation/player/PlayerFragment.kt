@@ -3,7 +3,7 @@ package echomskfan.gmail.com.presentation.player
 import android.os.Bundle
 import android.widget.SeekBar
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.example.corelib.gone
 import com.example.corelib.visibleOrGone
 import com.example.corelib.visibleOrInvisible
@@ -11,8 +11,8 @@ import echomskfan.gmail.com.EXTRA_CAST_ID
 import echomskfan.gmail.com.EXTRA_PLAYER_RESUME
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
-import echomskfan.gmail.com.di.player.DaggerPlayerComponent
-import echomskfan.gmail.com.di.player.PlayerScope
+import echomskfan.gmail.com.di.DaggerPlayerComponent
+import echomskfan.gmail.com.di.ViewModelFactory
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
 import echomskfan.gmail.com.utils.fromMilliSecToSec
@@ -22,11 +22,10 @@ import javax.inject.Inject
 
 class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player) {
 
-    @PlayerScope
     @Inject
-    internal lateinit var viewModelFactory: PlayerViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var viewModel: PlayerViewModel
+    private val viewModel: PlayerViewModel by lazy { ViewModelProvider(this, viewModelFactory).get(PlayerViewModel::class.java) }
 
     private val castId: String? by lazy { arguments?.getString(EXTRA_CAST_ID) }
     private val resume: Boolean by lazy { arguments?.getBoolean(EXTRA_PLAYER_RESUME) ?: false }
@@ -42,7 +41,6 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(PlayerViewModel::class.java)
         viewModel.playerItemLiveData.observe(this, Observer {
             it?.let { playerItem ->
                 initViews(playerItem)

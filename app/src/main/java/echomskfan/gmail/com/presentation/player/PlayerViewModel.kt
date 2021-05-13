@@ -8,8 +8,9 @@ import echomskfan.gmail.com.domain.interactor.player.IPlayerInteractor
 import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.utils.catchThrowable
 import echomskfan.gmail.com.utils.fromIoToMain
+import javax.inject.Inject
 
-class PlayerViewModel(
+class PlayerViewModel @Inject constructor(
     private val interactor: IPlayerInteractor,
     private val coInteractor: IPlayerCoInteractor
 ) : BaseViewModel() {
