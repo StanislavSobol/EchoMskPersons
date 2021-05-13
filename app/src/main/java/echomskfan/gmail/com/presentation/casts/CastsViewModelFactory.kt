@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import echomskfan.gmail.com.domain.interactor.casts.ICastsCoInteractor
 import echomskfan.gmail.com.domain.interactor.casts.ICastsInteractor
 
+@Deprecated("kill it")
 class CastsViewModelFactory(private val interactor: ICastsInteractor,
                             private val coInteractor: ICastsCoInteractor) : ViewModelProvider.Factory {
 

@@ -14,9 +14,10 @@ import echomskfan.gmail.com.presentation.OneShotEvent
 import echomskfan.gmail.com.utils.catchThrowable
 import echomskfan.gmail.com.utils.fromIoToMain
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
-class CastsViewModel(
+class CastsViewModel @Inject constructor(
     private val interactor: ICastsInteractor,
     private val coInteractor: ICastsCoInteractor
 ) : BaseViewModel() {

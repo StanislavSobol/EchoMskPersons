@@ -2,13 +2,13 @@ package echomskfan.gmail.com.presentation.casts
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.corelib.visibleOrGone
 import echomskfan.gmail.com.EXTRA_PERSON_ID
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
-import echomskfan.gmail.com.di.casts.CastsScope
+import echomskfan.gmail.com.di.ViewModelFactory
 import echomskfan.gmail.com.di.casts.DaggerCastsComponent
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
@@ -19,11 +19,10 @@ import javax.inject.Inject
 
 class CastsFragment : BaseFragment(fragmentType = FragmentType.Child, layoutId = R.layout.fragment_recycler_view), IFavMenuItemClickListener {
 
-    @CastsScope
     @Inject
-    internal lateinit var viewModelFactory: CastsViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var viewModel: CastsViewModel
+    private val viewModel: CastsViewModel by lazy { ViewModelProvider(this, viewModelFactory).get(CastsViewModel::class.java) }
 
     private val personId: Int? by lazy { arguments?.getInt(EXTRA_PERSON_ID) }
 
@@ -43,7 +42,6 @@ class CastsFragment : BaseFragment(fragmentType = FragmentType.Child, layoutId =
 
         personId ?: run { throw IllegalStateException("personId must not be null") }
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(CastsViewModel::class.java)
         viewModel.personId = personId // TODO Put the Id to Dagger 2 (Provider ?)
 
         subscribeToCastsLiveDataForPerson()
