@@ -8,8 +8,8 @@ import com.example.corelib.visibleOrGone
 import echomskfan.gmail.com.EXTRA_PERSON_ID
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
+import echomskfan.gmail.com.di.DaggerCastsComponent
 import echomskfan.gmail.com.di.ViewModelFactory
-import echomskfan.gmail.com.di.casts.DaggerCastsComponent
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
 import echomskfan.gmail.com.presentation.main.IFavMenuItemClickListener

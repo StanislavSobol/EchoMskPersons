@@ -5,7 +5,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
-import echomskfan.gmail.com.di.debugpanel.DebugPanelScope
 import echomskfan.gmail.com.di.settings.DaggerSettingsComponent
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
@@ -14,7 +13,6 @@ import javax.inject.Inject
 
 class SettingsFragment : BaseFragment(FragmentType.None, R.layout.fragment_settings) {
 
-    @DebugPanelScope
     @Inject
     internal lateinit var viewModelFactory: SettingsViewModelFactory
 

@@ -12,7 +12,7 @@
     "splashDelayMSec": 1000
   },
   {
-    "debugPanelEnabledForDebugBuild": false
+    "debugPanelEnabledForDebugBuild": true
   },
   {
     "clickOnCastToWebEnabled": true

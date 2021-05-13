@@ -1,12 +1,10 @@
-package echomskfan.gmail.com.di.casts
+package echomskfan.gmail.com.di
 
 import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Component
 import dagger.Module
 import dagger.multibindings.IntoMap
-import echomskfan.gmail.com.di.AppComponent
-import echomskfan.gmail.com.di.ViewModelKey
 import echomskfan.gmail.com.domain.interactor.casts.CastsCoInteractor
 import echomskfan.gmail.com.domain.interactor.casts.CastsInteractor
 import echomskfan.gmail.com.domain.interactor.casts.ICastsCoInteractor

@@ -6,11 +6,11 @@ import echomskfan.gmail.com.presentation.BaseViewModel
 import echomskfan.gmail.com.utils.fromIoToMain
 import io.reactivex.Completable
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class DebugPanelViewModel(
+class DebugPanelViewModel @Inject constructor(
     private val debugPanelInteractor: IDebugPanelInteractor,
     private val checkNewInteractor: ICheckNewInteractor
-
 ) : BaseViewModel() {
 
     fun deleteLastNevzorovCastButtonClicked() {

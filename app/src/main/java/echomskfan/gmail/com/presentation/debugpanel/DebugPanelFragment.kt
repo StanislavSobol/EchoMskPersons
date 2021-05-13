@@ -3,11 +3,11 @@ package echomskfan.gmail.com.presentation.debugpanel
 import android.app.ProgressDialog
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
-import echomskfan.gmail.com.di.debugpanel.DaggerDebugPanelComponent
-import echomskfan.gmail.com.di.debugpanel.DebugPanelScope
+import echomskfan.gmail.com.di.DaggerDebugPanelComponent
+import echomskfan.gmail.com.di.ViewModelFactory
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
 import kotlinx.android.synthetic.main.fragment_debug_panel.*
@@ -15,11 +15,11 @@ import javax.inject.Inject
 
 class DebugPanelFragment : BaseFragment(FragmentType.None, R.layout.fragment_debug_panel) {
 
-    @DebugPanelScope
     @Inject
-    internal lateinit var viewModelFactory: DebugPanelViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var viewModel: DebugPanelViewModel
+    private val viewModel: DebugPanelViewModel by lazy { ViewModelProvider(this, viewModelFactory).get(DebugPanelViewModel::class.java) }
+
     private var progressDialog: ProgressDialog? = null
 
     init {
@@ -33,9 +33,6 @@ class DebugPanelFragment : BaseFragment(FragmentType.None, R.layout.fragment_deb
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        viewModel =
-            ViewModelProviders.of(this, viewModelFactory).get(DebugPanelViewModel::class.java)
 
         viewModel.showProgressLiveData.observe(viewLifecycleOwner, Observer { showProgress(it) })
 
