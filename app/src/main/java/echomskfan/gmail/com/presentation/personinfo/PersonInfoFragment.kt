@@ -2,12 +2,12 @@ package echomskfan.gmail.com.presentation.personinfo
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import echomskfan.gmail.com.EXTRA_PERSON_ID
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
-import echomskfan.gmail.com.di.personinfo.DaggerPersonInfoComponent
-import echomskfan.gmail.com.di.persons.PersonsScope
+import echomskfan.gmail.com.di.DaggerPersonInfoComponent
+import echomskfan.gmail.com.di.ViewModelFactory
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
 import kotlinx.android.synthetic.main.fragment_person_info.*
@@ -15,11 +15,10 @@ import javax.inject.Inject
 
 class PersonInfoFragment : BaseFragment(FragmentType.Child, R.layout.fragment_person_info) {
 
-    @PersonsScope
     @Inject
-    internal lateinit var viewModelFactory: PersonInfoViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var viewModel: PersonInfoViewModel
+    private val viewModel: PersonInfoViewModel by lazy { ViewModelProvider(this, viewModelFactory).get(PersonInfoViewModel::class.java) }
 
     private val personId: Int? by lazy { arguments?.getInt(EXTRA_PERSON_ID) }
 
@@ -34,9 +33,6 @@ class PersonInfoFragment : BaseFragment(FragmentType.Child, R.layout.fragment_pe
         super.onActivityCreated(savedInstanceState)
 
         personId ?: run { throw IllegalStateException("personId must not be null") }
-
-        viewModel =
-            ViewModelProviders.of(this, viewModelFactory).get(PersonInfoViewModel::class.java)
         viewModel.getPersonLiveData(personId!!)
             .observe(viewLifecycleOwner, Observer { item -> initViews(item) })
     }
