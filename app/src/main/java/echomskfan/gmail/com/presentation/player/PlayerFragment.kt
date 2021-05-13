@@ -12,7 +12,7 @@ import echomskfan.gmail.com.EXTRA_PLAYER_RESUME
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
 import echomskfan.gmail.com.di.DaggerPlayerComponent
-import echomskfan.gmail.com.di.ViewModelFactory
+import echomskfan.gmail.com.di.core.ViewModelFactory
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
 import echomskfan.gmail.com.utils.fromMilliSecToSec

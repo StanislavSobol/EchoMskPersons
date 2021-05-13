@@ -1,4 +1,4 @@
-package echomskfan.gmail.com.di
+package echomskfan.gmail.com.di.core
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

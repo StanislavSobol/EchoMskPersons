@@ -7,7 +7,7 @@ import echomskfan.gmail.com.EXTRA_PERSON_ID
 import echomskfan.gmail.com.MApplication
 import echomskfan.gmail.com.R
 import echomskfan.gmail.com.di.DaggerPersonInfoComponent
-import echomskfan.gmail.com.di.ViewModelFactory
+import echomskfan.gmail.com.di.core.ViewModelFactory
 import echomskfan.gmail.com.presentation.BaseFragment
 import echomskfan.gmail.com.presentation.FragmentType
 import kotlinx.android.synthetic.main.fragment_person_info.*

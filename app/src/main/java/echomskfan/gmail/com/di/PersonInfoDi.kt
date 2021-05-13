@@ -5,6 +5,8 @@ import dagger.Binds
 import dagger.Component
 import dagger.Module
 import dagger.multibindings.IntoMap
+import echomskfan.gmail.com.di.core.AppComponent
+import echomskfan.gmail.com.di.core.ViewModelKey
 import echomskfan.gmail.com.domain.interactor.personinfo.IPersonInfoInteractor
 import echomskfan.gmail.com.domain.interactor.personinfo.PersonInfoInteractor
 import echomskfan.gmail.com.presentation.personinfo.PersonInfoFragment
