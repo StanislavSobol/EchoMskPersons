@@ -19,16 +19,14 @@ import javax.inject.Inject
 
 class CastsViewModel @Inject constructor(
     private val interactor: ICastsInteractor,
-    private val coInteractor: ICastsCoInteractor
+    private val coInteractor: ICastsCoInteractor,
+    private val personId: Int
 ) : BaseViewModel() {
 
     @ConfigParamBoolean("clickOnCastToWebEnabled")
     var clickOnCastToWebEnabled = false
 
     var lastLoadedPageNum: Int = 0
-
-    // TODO Why do I need this property instead of using method getCastsLiveDataForPerson with the param
-    var personId: Int? = null
 
     private val _navigateToPlayerFragmentLiveData = MutableLiveData<OneShotEvent<String>>()
     val navigateToPlayerFragmentLiveData: LiveData<OneShotEvent<String>>
@@ -47,10 +45,6 @@ class CastsViewModel @Inject constructor(
     }
 
     fun getCastsLiveDataForPerson(): LiveData<List<CastListItem>> {
-        if (personId == null) {
-            personIdIsNull()
-        }
-
         return Transformations.map(interactor.getCastsLiveDataForPerson(personId!!)) { list ->
             CastListItem.from(list)
         }

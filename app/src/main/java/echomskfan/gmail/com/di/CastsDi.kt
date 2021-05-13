@@ -2,6 +2,7 @@ package echomskfan.gmail.com.di
 
 import androidx.lifecycle.ViewModel
 import dagger.Binds
+import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -25,7 +26,19 @@ annotation class CastsScope
     dependencies = [(AppComponent::class)]
 )
 interface CastsComponent {
+
     fun inject(castsFragment: CastsFragment)
+
+    @Component.Builder
+    interface Builder {
+
+        fun appComponent(appComponent: AppComponent): Builder
+
+        @BindsInstance
+        fun personId(personId: Int): Builder
+
+        fun build(): CastsComponent
+    }
 }
 
 @Module

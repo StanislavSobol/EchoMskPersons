@@ -24,25 +24,18 @@ class CastsFragment : BaseFragment(fragmentType = FragmentType.Child, layoutId =
 
     private val viewModel: CastsViewModel by lazy { ViewModelProvider(this, viewModelFactory).get(CastsViewModel::class.java) }
 
-    private val personId: Int? by lazy { arguments?.getInt(EXTRA_PERSON_ID) }
-
     private val adapter: CastsAdapter by lazy { CastsAdapter(viewModel) }
 
     private var favOn: Boolean = false
 
-    init {
-        DaggerCastsComponent.builder()
-            .appComponent(MApplication.getAppComponent())
-            .build()
-            .inject(this)
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        personId ?: run { throw IllegalStateException("personId must not be null") }
-
-        viewModel.personId = personId // TODO Put the Id to Dagger 2 (Provider ?)
+        DaggerCastsComponent.builder()
+            .appComponent(MApplication.getAppComponent())
+            .personId(arguments?.getInt(EXTRA_PERSON_ID) ?: run { throw IllegalStateException("personId must not be null") })
+            .build()
+            .inject(this)
 
         subscribeToCastsLiveDataForPerson()
 
