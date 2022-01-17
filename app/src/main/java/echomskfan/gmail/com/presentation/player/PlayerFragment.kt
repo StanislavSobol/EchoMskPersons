@@ -31,6 +31,7 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
     private val resume: Boolean by lazy { arguments?.getBoolean(EXTRA_PLAYER_RESUME) ?: false }
     private val playerBridge: PlayerBridge by lazy { PlayerBridge(this) }
 
+    // TODO onViewCreated
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -45,6 +46,7 @@ class PlayerFragment : BaseFragment(FragmentType.None, R.layout.fragment_player)
             }
         })
 
+        // TODO savedInstanceState == null to init in viewModels
         if (savedInstanceState == null) {
             showProgress(true)
             // TODO Provide castId via constructor of the viewModel

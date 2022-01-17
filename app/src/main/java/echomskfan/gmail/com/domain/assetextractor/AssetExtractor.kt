@@ -1,6 +1,7 @@
 package echomskfan.gmail.com.domain.assetextractor
 
 import android.content.Context
+import androidx.annotation.VisibleForTesting
 import echomskfan.gmail.com.data.db.entity.PersonEntity
 import org.json.JSONArray
 import java.nio.charset.Charset
@@ -37,19 +38,21 @@ class AssetExtractor(private val appContext: Context) : IAssetExtractor {
         return getString("$PERSON_CASTS_PREFIX$personId$PERSON_CASTS_SEPARATOR$pageNum$HTML_EXT")
     }
 
-    private fun getString(assetName: String): String {
+    @VisibleForTesting
+    internal fun getString(assetName: String): String {
+        // TODO .use
         val inputStream = appContext.assets.open(assetName)
         val size = inputStream.available()
         val buffer = ByteArray(size)
         inputStream.read(buffer)
-        inputStream.close()
+        //    inputStream.close()
         return String(buffer, Charset.forName("UTF-8"))
     }
 
-    companion object {
-        private const val PERSONS_JSON_NAME: String = "persons.json"
-        private const val PERSON_CASTS_PREFIX: String = "person_page_"
-        private const val PERSON_CASTS_SEPARATOR: String = "_"
-        private const val HTML_EXT: String = ".html"
+    private companion object {
+        const val PERSONS_JSON_NAME: String = "persons.json"
+        const val PERSON_CASTS_PREFIX: String = "person_page_"
+        const val PERSON_CASTS_SEPARATOR: String = "_"
+        const val HTML_EXT: String = ".html"
     }
 }

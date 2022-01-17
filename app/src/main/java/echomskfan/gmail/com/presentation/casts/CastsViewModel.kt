@@ -1,5 +1,6 @@
 package echomskfan.gmail.com.presentation.casts
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -37,7 +38,11 @@ class CastsViewModel @Inject constructor(
         get() = _launchChromeTabsLiveData
 
     init {
-        ConfigInjector.inject(this)
+        try {
+            ConfigInjector.inject(this)
+        } catch (ignoreForTests: Exception) {
+
+        }
     }
 
     fun loadData() {
@@ -70,35 +75,30 @@ class CastsViewModel @Inject constructor(
         subscribeToTransferCastsFromWebToDb()
     }
 
-    private fun subscribeToTransferCastsFromWebToDb() {
-        if (loading) {
-            return
-        }
-
-        val id = personId ?: personIdIsNull()
-
-        val pageNum = lastLoadedPageNum + 1
-
-        if (BuildConfig.COROUTINES) {
-            withProgress { coInteractor.transferCastsFromWebToDb(id, pageNum) }
-        } else {
-            interactor.transferCastsFromWebToDb(id, pageNum)
-                .fromIoToMain()
-                .withProgressOnFirstPage(pageNum)
-                .subscribe({}, { catchThrowable(it) })
-                .unsubscribeOnClear()
-        }
-    }
-
-    private fun personIdIsNull(): Nothing {
-        throw IllegalStateException("personId must be set")
-    }
-
     fun itemClicked(castId: String) {
         if (clickOnCastToWebEnabled) {
             viewModelScope.launch {
                 coInteractor.getTextUrlByCastId(castId)?.let { _launchChromeTabsLiveData.postValue(OneShotEvent(it)) }
             }
+        }
+    }
+
+    @VisibleForTesting
+    internal fun subscribeToTransferCastsFromWebToDb() {
+        if (loading) {
+            return
+        }
+
+        val pageNum = lastLoadedPageNum + 1
+
+        if (BuildConfig.COROUTINES) {
+            withProgress { coInteractor.transferCastsFromWebToDb(personId, pageNum) }
+        } else {
+            interactor.transferCastsFromWebToDb(personId, pageNum)
+                .fromIoToMain()
+                .withProgressOnFirstPage(pageNum)
+                .subscribe({}, { catchThrowable(it) })
+                .unsubscribeOnClear()
         }
     }
 }

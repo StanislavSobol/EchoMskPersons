@@ -24,6 +24,7 @@ abstract class PersonsDatabase : RoomDatabase() {
 
         private var instance: PersonsDatabase? = null
 
+        // TODO Test flavor
         @VisibleForTesting
         fun getTestInstance(appContext: Context): PersonsDatabase {
             if (instance == null) {

@@ -5,7 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class CastsCoInteractor @Inject constructor(private val repository: IRepository) : ICastsCoInteractor {
+open class CastsCoInteractor @Inject constructor(private val repository: IRepository) : ICastsCoInteractor {
 
     override suspend fun transferCastsFromWebToDb(personId: Int, pageNum: Int) {
         withContext(Dispatchers.IO) { repository.transferCastsFromWebToDb(personId, pageNum) }
